@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Survey Answers</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<header>
+  <h1>Your Survey Results</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="profile.html">Your Profile</a>
+    <a href="tips.html">Tips & Info</a>
+    <a href="survey.html">Survey</a>
+    <a href="results.html">Survey Answers</a>
+    <a href="products.html">Products</a>
+  </nav>
+</header>
+
+<main id="resultsBox">
+  <div class="card">
+    <h2>Hello, <span id="who">Guest</span>!</h2>
+    <p>Your skin type looks like: <b><span id="skinType">—</span></b></p>
+  </div>
+
+  <div class="card grid two">
+    <div>
+      <h3>Morning (AM) Routine</h3>
+      <ul id="amRoutine"></ul>
+    </div>
+    <div>
+      <h3>Night (PM) Routine</h3>
+      <ul id="pmRoutine"></ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Tips & Suggestions</h3>
+    <ul id="suggestions"></ul>
+  </div>
+
+  <div class="card">
+    <h3>Look for products tagged with:</h3>
+    <p id="shopTags">—</p>
+    <a href="products.html"><button>Browse Products</button></a>
+  </div>
+</main>
+
+<footer>© 2025 Skincare Website</footer>
+<script src="script.js"></script>
+</body>
+</html>

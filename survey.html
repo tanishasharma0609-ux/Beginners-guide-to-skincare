@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Skincare Survey</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<header>
+  <h1>Skincare Survey</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="profile.html">Your Profile</a>
+    <a href="tips.html">Tips & Info</a>
+    <a href="survey.html">Survey</a>
+    <a href="results.html">Survey Answers</a>
+    <a href="products.html">Products</a>
+  </nav>
+</header>
+
+<main>
+  <div class="card">
+    <form id="surveyForm">
+      <div class="grid two">
+        <div>
+          <label>1) How often does your skin feel dry/tight?</label>
+          <select name="dryness" required>
+            <option value="">-- choose --</option>
+            <option value="rarely">Rarely</option>
+            <option value="sometimes">Sometimes</option>
+            <option value="often">Often</option>
+          </select>
+        </div>
+        <div>
+          <label>2) Do you experience oiliness or shine?</label>
+          <select name="oiliness" required>
+            <option value="">-- choose --</option>
+            <option value="no">No</option>
+            <option value="sometimes">Sometimes</option>
+            <option value="yes">Yes</option>
+          </select>
+        </div>
+        <div>
+          <label>3) Do you have acne/breakouts?</label>
+          <select name="acne" required>
+            <option value="">-- choose --</option>
+            <option value="never">Never</option>
+            <option value="sometimes">Sometimes</option>
+            <option value="frequent">Frequent</option>
+          </select>
+        </div>
+        <div>
+          <label>4) Time in the sun?</label>
+          <select name="sun" required>
+            <option value="">-- choose --</option>
+            <option value="rarely">Rarely</option>
+            <option value="sometimes">Sometimes</option>
+            <option value="often">Often</option>
+          </select>
+        </div>
+        <div>
+          <label>5) Is your T-zone (forehead/nose) more oily?</label>
+          <select name="tzone" required>
+            <option value="">-- choose --</option>
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
+        </div>
+        <div>
+          <label>6) Do you get redness/itching easily?</label>
+          <select name="redness" required>
+            <option value="">-- choose --</option>
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
+        </div>
+        <div>
+          <label>7) Sensitive to fragrance?</label>
+          <select name="fragrance" required>
+            <option value="">-- choose --</option>
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
+        </div>
+        <div>
+          <label>8) Pores size?</label>
+          <select name="pores" required>
+            <option value="">-- choose --</option>
+            <option value="small">Small</option>
+            <option value="medium">Medium</option>
+            <option value="large">Large</option>
+          </select>
+        </div>
+        <div>
+          <label>9) Do you see flaking?</label>
+          <select name="flaking" required>
+            <option value="">-- choose --</option>
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
+        </div>
+        <div>
+          <label>10) Current routine level?</label>
+          <select name="routine" required>
+            <option value="">-- choose --</option>
+            <option value="none">None</option>
+            <option value="basic">Basic (cleanser+moisturizer+sunscreen)</option>
+            <option value="advanced">Advanced (actives/serums)</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit">Submit Survey</button>
+    </form>
+  </div>
+</main>
+
+<footer>© 2025 Skincare Website</footer>
+<script src="script.js"></script>
+</body>
+</html>

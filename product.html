@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Products</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<header>
+  <h1>Recommended Products</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="profile.html">Your Profile</a>
+    <a href="tips.html">Tips & Info</a>
+    <a href="survey.html">Survey</a>
+    <a href="results.html">Survey Answers</a>
+    <a href="products.html">Products</a>
+  </nav>
+</header>
+
+<main>
+  <div class="card">
+    <label for="filterType">Filter by skin type:</label>
+    <select id="filterType">
+      <option value="all">All</option>
+      <option value="dry">Dry</option>
+      <option value="oily">Oily</option>
+      <option value="normal">Normal</option>
+      <option value="sensitive">Sensitive</option>
+      <option value="acne">Acne-prone</option>
+      <option value="combo">Combination</option>
+    </select>
+  </div>
+
+  <section class="product-list">
+    <div class="product-card" data-types="all,normal,dry">
+      <img src="images/cleanser.jpg" alt="Gentle Cleanser">
+      <h3>Gentle Cleanser</h3>
+      <p>Non-stripping daily cleanser.</p>
+      <p class="price">₹299</p>
+    </div>
+
+    <div class="product-card" data-types="dry,normal,sensitive">
+      <img src="images/moisturizer.jpg" alt="Hydrating Moisturizer">
+      <h3>Hydrating Moisturizer</h3>
+      <p>Ceramides + HA for dry skin.</p>
+      <p class="price">₹399</p>
+    </div>
+
+    <div class="product-card" data-types="all,dry,oily,normal,combo,sensitive,acne">
+      <img src="images/sunscreen.jpg" alt="Sunscreen SPF 50">
+      <h3>Broad Spectrum Sunscreen SPF 50</h3>
+      <p>Lightweight, no white cast.</p>
+      <p class="price">₹549</p>
+    </div>
+
+    <div class="product-card" data-types="oily,acne,combo">
+      <img src="images/toner.jpg" alt="BHA Toner">
+      <h3>BHA Toner (Salicylic)</h3>
+      <p>Helps with pores & blackheads.</p>
+      <p class="price">₹499</p>
+    </div>
+
+    <div class="product-card" data-types="sensitive,normal,dry">
+      <img src="images/serum.jpg" alt="Soothing Serum">
+      <h3>Soothing Serum</h3>
+      <p>Centella + Panthenol.</p>
+      <p class="price">₹699</p>
+    </div>
+  </section>
+</main>
+
+<footer>© 2025 Skincare Website</footer>
+<script src="script.js"></script>
+</body>
+</html>

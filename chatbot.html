@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beginner's Guide to Skincare</title>
+
+  <!-- CSS inside HTML -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    header {
+      background-color: #ffccd5;
+      padding: 15px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    nav {
+      background-color: #ffe5ec;
+      display: flex;
+      justify-content: center;
+      padding: 10px;
+    }
+
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      color: #e75480;
+    }
+
+    section {
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 10px;
+      box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+    }
+
+    button {
+      padding: 8px 15px;
+      background-color: #e75480;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #c94f73;
+    }
+
+    footer {
+      background-color: #ffccd5;
+      text-align: center;
+      padding: 10px;
+      margin-top: 20px;
+    }
+
+    /* Survey dropdown style */
+    #surveyForm select {
+      padding: 5px;
+      margin: 5px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Beginner's Guide to Skincare</h1>
+    <p>Simple & Safe Tips for Healthy Skin</p>
+  </header>
+
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#tips">Tips</a>
+    <a href="#quiz">Skin Type Quiz</a>
+    <a href="#survey">Survey</a>
+    <a href="#products">Products</a>
+  </nav>
+
+  <section id="home">
+    <div class="card">
+      <h2>Welcome</h2>
+      <p>This website is for beginners who want to learn about skincare in a simple way. Explore step-by-step routines, discover your skin type, and find safe product suggestions.</p>
+    </div>
+  </section>
+
+  <section id="tips">
+    <div class="card">
+      <h2>Basic Skincare Tips</h2>
+      <ul>
+        <li>Wash your face twice a day with a gentle cleanser.</li>
+        <li>Use sunscreen daily to protect from UV damage.</li>
+        <li>Moisturize to keep your skin hydrated.</li>
+        <li>Avoid harsh products and always patch-test new items.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <div class="card">
+      <h2>Find Your Skin Type</h2>
+      <form id="quizForm">
+        <label>How does your skin feel after washing?</label><br>
+        <input type="radio" name="q1" value="Dry"> Dry & tight<br>
+        <input type="radio" name="q1" value="Oily"> Oily & shiny<br>
+        <input type="radio" name="q1" value="Normal"> Comfortable<br><br>
+
+        <label>Do you often get pimples?</label><br>
+        <input type="radio" name="q2" value="Yes"> Yes<br>
+        <input type="radio" name="q2" value="Sometimes"> Sometimes<br>
+        <input type="radio" name="q2" value="No"> Rarely<br><br>
+
+        <button type="button" onclick="checkSkinType()">Submit</button>
+      </form>
+      <p id="result"></p>
+    </div>
+  </section>
+
+  <section id="survey">
+    <div class="card">
+      <h2>Skin Survey</h2>
+      <p>Answer a few quick questions about your skin, and we’ll give you some suggestions:</p>
+
+      <form id="surveyForm">
+        <label>1. How often does your skin feel dry or tight?</label><br>
+        <select name="dryness">
+          <option value="rarely">Rarely</option>
+          <option value="sometimes">Sometimes</option>
+          <option value="often">Often</option>
+        </select><br><br>
+
+        <label>2. Do you experience oiliness or shine?</label><br>
+        <select name="oiliness">
+          <option value="no">No</option>
+          <option value="sometimes">Sometimes</option>
+          <option value="yes">Yes, very often</option>
+        </select><br><br>
+
+        <label>3. Do you have acne or breakouts?</label><br>
+        <select name="acne">
+          <option value="never">Never</option>
+          <option value="sometimes">Sometimes</option>
+          <option value="frequent">Frequent</option>
+        </select><br><br>
+
+        <label>4. Do you spend a lot of time in the sun?</label><br>
+        <select name="sun">
+          <option value="rarely">Rarely</option>
+          <option value="sometimes">Sometimes</option>
+          <option value="often">Often</option>
+        </select><br><br>
+
+        <button type="button" onclick="submitSurvey()">Submit Survey</button>
+      </form>
+
+      <p id="surveyResult"></p>
+    </div>
+  </section>
+
+  <section id="products">
+    <div class="card">
+      <h2>Recommended Products</h2>
+      <ul>
+        <li>Gentle Cleanser</li>
+        <li>Moisturizer (for all skin types)</li>
+        <li>Broad Spectrum Sunscreen</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Beginner's Guide to Skincare</p>
+  </footer>
+
+  <!-- JavaScript inside HTML -->
+  <script>
+    function checkSkinType() {
+      let q1 = document.querySelector('input[name="q1"]:checked');
+      let q2 = document.querySelector('input[name="q2"]:checked');
+      let result = document.getElementById("result");
+
+      if (!q1 || !q2) {
+        result.innerHTML = "⚠ Please answer all questions!";
+        result.style.color = "red";
+        return;
+      }
+
+      if (q1.value === "Dry") {
+        result.innerHTML = "💧 Your skin type seems to be: <b>Dry</b>. Use hydrating products.";
+      } else if (q1.value === "Oily" || q2.value === "Yes") {
+        result.innerHTML = "✨ Your skin type seems to be: <b>Oily/Acne-prone</b>. Use oil-free products.";
+      } else {
+        result.innerHTML = "😊 Your skin type seems to be: <b>Normal</b>. Maintain a balanced routine.";
+      }
+
+      result.style.color = "green";
+    }
+
+    function submitSurvey() {
+      let dryness = document.querySelector('select[name="dryness"]').value;
+      let oiliness = document.querySelector('select[name="oiliness"]').value;
+      let acne = document.querySelector('select[name="acne"]').value;
+      let sun = document.querySelector('select[name="sun"]').value;
+
+      let result = document.getElementById("surveyResult");
+
+      if (dryness === "often") {
+        result.innerHTML = "💧 Your skin seems <b>Dry</b>. Use a hydrating moisturizer.";
+      } else if (oiliness === "yes" || acne === "frequent") {
+        result.innerHTML = "✨ Your skin seems <b>Oily / Acne-prone</b>. Use oil-free products.";
+      } else if (sun === "often") {
+        result.innerHTML = "☀ You spend time in the sun. Always use <b>sunscreen</b> daily!";
+      } else {
+        result.innerHTML = "😊 Your skin seems <b>Normal</b>. Maintain a balanced skincare routine.";
+      }
+
+      result.style.color = "green";
+    }
+  </script>
+</body>
+</html>
