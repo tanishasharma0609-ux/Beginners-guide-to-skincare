@@ -193,7 +193,7 @@ function renderResults() {
 function initProductFilter() {
   const select = document.getElementById('filterType');
   if (!select) return;
-  const cards = Array.from(document.querySelectorAll('product-card'));
+  const cards = Array.from(document.querySelectorAll('.product-card'));
   select.addEventListener('change', () => {
     const val = select.value;
     cards.forEach(c => {
@@ -215,3 +215,4 @@ document.addEventListener('DOMContentLoaded', () => {
   if (sf) sf.addEventListener('submit', submitSurvey);
 
 });
+
