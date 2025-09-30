@@ -192,6 +192,8 @@ function renderResults() {
 /* ---------- PRODUCTS FILTER (optional) ---------- */
 function initProductFilter() {
   const select = document.getElementById('filterType');
+  console.log("Filter Value:",val);
+  console.log("Product Types:",types);
   if (!select) return;
   const cards = Array.from(document.querySelectorAll('.product-card'));
   select.addEventListener('change', () => {
@@ -215,4 +217,5 @@ document.addEventListener('DOMContentLoaded', () => {
   if (sf) sf.addEventListener('submit', submitSurvey);
 
 });
+
 
