@@ -1,4 +1,21 @@
 /* Highlight active nav link */
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAKIz9s410M8-Ycu0fibPm0S1iJXEG-5ko",
+  authDomain: "studio-4130330890-84f62.firebaseapp.com",
+  projectId: "studio-4130330890-84f62",
+  storageBucket: "studio-4130330890-84f62.firebasestorage.app",
+  messagingSenderId: "96173266847",
+  appId: "1:96173266847:web:26cfea51521f6865c50faa"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 (function highlightActive() {
   const path = location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('nav a').forEach(a => {
@@ -16,15 +33,26 @@ function saveProfile(e) {
     gender: document.getElementById('p_gender').value,
     city: document.getElementById('p_city').value.trim(),
   };
-  localStorage.setItem('profile', JSON.stringify(profile));
-  alert('Profile saved!');
+  // Assuming you already initialized Firebase and have database from it
+const userId = "user1"; // you can use a dynamic ID if using Firebase Auth
+set(ref(database, 'profiles/' + userId), profile)
+  .then(() => alert('Profile saved!'))
+  .catch(error => console.error(error));
 }
 
 function loadProfile() {
-  const raw = localStorage.getItem('profile');
-  if (!raw) return;
-  try {
-    const p = JSON.parse(raw);
+  const userId = "user1"; // same as above
+get(ref(database, 'profiles/' + userId))
+  .then(snapshot => {
+    if (snapshot.exists()) {
+      const p = snapshot.val();
+      document.getElementById('p_name').value = p.name || '';
+      document.getElementById('p_age').value = p.age || '';
+      document.getElementById('p_gender').value = p.gender || 'prefer-not';
+      document.getElementById('p_city').value = p.city || '';
+    }
+  })
+  .catch(error => console.error(error));
     if (document.getElementById('p_name')) {
       document.getElementById('p_name').value = p.name || '';
       document.getElementById('p_age').value = p.age || '';
@@ -221,6 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (sf) sf.addEventListener('submit', submitSurvey);
 
 });
+
 
 
 
