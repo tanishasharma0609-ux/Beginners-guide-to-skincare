@@ -57,6 +57,10 @@ async function saveProfile() {
         alert("Error saving profile. Please check the console (F12) for details.");
     }
 }
+document.getElementById("savebutton").addEventListener("click",(event) => {
+  event.preventDefault(); //prevent page reload
+  saveProfile();
+});
 
 function loadProfile() {
   const userId = "user1"; // same as above
@@ -267,6 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (sf) sf.addEventListener('submit', submitSurvey);
 
 });
+
 
 
 
