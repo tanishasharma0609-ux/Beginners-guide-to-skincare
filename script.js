@@ -1,5 +1,6 @@
 /* Highlight active nav link */
 // Import the functions you need from the SDKs you need
+import { getFirestore,collection,addDoc } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -13,9 +14,10 @@ const firebaseConfig = {
   messagingSenderId: "96173266847",
   appId: "1:96173266847:web:26cfea51521f6865c50faa"
 };
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 (function highlightActive() {
   const path = location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('nav a').forEach(a => {
@@ -25,19 +27,35 @@ const app = initializeApp(firebaseConfig);
 })();
 
 /* ---------- PROFILE ---------- */
-function saveProfile(e) {
-  e.preventDefault();
-  const profile = {
-    name: document.getElementById('p_name').value.trim(),
-    age: Number(document.getElementById('p_age').value || 0),
-    gender: document.getElementById('p_gender').value,
-    city: document.getElementById('p_city').value.trim(),
-  };
-  // Assuming you already initialized Firebase and have database from it
-const userId = "user1"; // you can use a dynamic ID if using Firebase Auth
-set(ref(database, 'profiles/' + userId), profile)
-  .then(() => alert('Profile saved!'))
-  .catch(error => console.error(error));
+async function saveProfile() {
+    // 1. Get the values from the form fields
+    const name = document.getElementById('p_name').value;
+    const age = document.getElementById('p_age').value;
+    const gender = document.getElementById('p_gender').value;
+    const city = document.getElementById('p_city').value;
+
+    // 2. Create the data object to save
+    const profileData = {
+        name: name,
+        age: age,
+        gender: gender,
+        city: city,
+        // Add any other form fields you have here
+    };
+
+    // 3. Use addDoc to save the data to the 'users' collection
+    try {
+        const docRef = await addDoc(collection(db, "users"), profileData);
+        
+        // Log a success message and show an alert
+        console.log("Profile saved successfully. Document ID: ", docRef.id);
+        alert("Success! Your profile has been saved.");
+
+    } catch (e) {
+        // If there's an error (e.g., rules, connection issue), log it.
+        console.error("Error adding document: ", e);
+        alert("Error saving profile. Please check the console (F12) for details.");
+    }
 }
 
 function loadProfile() {
@@ -249,6 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (sf) sf.addEventListener('submit', submitSurvey);
 
 });
+
 
 
 
