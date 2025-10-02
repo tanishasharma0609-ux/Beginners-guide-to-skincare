@@ -27,41 +27,35 @@ const db = getFirestore(app);
 })();
 
 /* ---------- PROFILE ---------- */
-async function saveProfile() {
-    // 1. Get the values from the form fields
-    const name = document.getElementById('p_name').value;
-    const age = document.getElementById('p_age').value;
-    const gender = document.getElementById('p_gender').value;
-    const city = document.getElementById('p_city').value;
+async function saveProfile(profileData) {
+  try {
+    const docRef = await addDoc(collection(db, "profiles"), profileData);
+    console.log("Profile saved with ID:", docRef.id);
+  } catch (error) {
+    console.error("Error saving profile:", error);
+  }
+}
 
-    // 2. Create the data object to save
+// Automatically attach to a form with inputs: name, age, gender, city
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.querySelector("form"); // gets the first form on your page
+  if (!form) return; // exit if no form found
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault(); // prevent page reload
+
+    const formData = new FormData(form);
+
     const profileData = {
-        name: name,
-        age: age,
-        gender: gender,
-        city: city,
-        // Add any other form fields you have here
+      name: formData.get("name") || "",
+      age: Number(formData.get("age")) || 0,
+      gender: formData.get("gender") || "",
+      city: formData.get("city") || ""
     };
 
-    // 3. Use addDoc to save the data to the 'users' collection
-    try {
-        const docRef = await addDoc(collection(db, "users"), profileData);
-        
-        // Log a success message and show an alert
-        console.log("Profile saved successfully. Document ID: ", docRef.id);
-        alert("Success! Your profile has been saved.");
-
-    } catch (e) {
-        // If there's an error (e.g., rules, connection issue), log it.
-        console.error("Error adding document: ", e);
-        alert("Error saving profile. Please check the console (F12) for details.");
-    }
-}
-document.getElementById("savebutton").addEventListener("click",(event) => {
-  event.preventDefault(); //prevent page reload
-  saveProfile();
+    saveProfile(profileData);
+  });
 });
-
 function loadProfile() {
   const userId = "user1"; // same as above
 get(ref(database, 'profiles/' + userId))
@@ -271,6 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (sf) sf.addEventListener('submit', submitSurvey);
 
 });
+
 
 
 
