@@ -1,5 +1,6 @@
 /* Highlight active nav link */
 // Import the functions you need from the SDKs you need
+console.log("script loaded!");
 import { getFirestore,collection,addDoc } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -58,6 +59,7 @@ async function saveProfile() {
     }
 }
 document.getElementById("savebutton").addEventListener("click",(event) => {
+  console.log("Button clicked!");
   event.preventDefault(); //prevent page reload
   saveProfile();
 });
@@ -271,6 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (sf) sf.addEventListener('submit', submitSurvey);
 
 });
+
 
 
 
