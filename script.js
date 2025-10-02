@@ -191,18 +191,22 @@ function renderResults() {
 
 /* ---------- PRODUCTS FILTER (optional) ---------- */
 function initProductFilter() {
-  const select = document.getElementById('filterType');
-  console.log("Filter Value:",val);
-  console.log("Product Types:",types);
-  if (!select) return;
-  const cards = Array.from(document.querySelectorAll('.product-card'));
-  select.addEventListener('change', () => {
-    const val = select.value;
-    cards.forEach(c => {
-      const types = (c.dataset.types || '').split(',');
-      c.style.display = (val === 'all' || types.includes(val)) ? '' : 'none';
+    const select = document.getElementById('filterType');
+    const cards = Array.from(document.querySelectorAll('.product-card')); // Select product cards
+
+    select.addEventListener('change', (event) => {
+        const val = event.target.value; // Get selected filter value
+
+        cards.forEach((card) => {
+            const types = card.dataset.types.split(','); // Get product types from data attribute
+
+            if (val === 'all' || types.includes(val)) {
+                card.style.display = ''; // Show card if it matches filter
+            } else {
+                card.style.display = 'none'; // Hide card if it doesn't match
+            }
+        });
     });
-  });
 }
 
 /* Auto-run on page load where needed */
@@ -217,5 +221,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (sf) sf.addEventListener('submit', submitSurvey);
 
 });
+
 
 
