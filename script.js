@@ -196,7 +196,7 @@ function initProductFilter() {
 
     select.addEventListener('change', (event) => {
         const val = event.target.value; // Get selected filter value
-
+        const proudctType = document.getElementById("skinType").value;
         cards.forEach((card) => {
             const types = card.dataset.types.split(','); // Get product types from data attribute
 
@@ -221,6 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (sf) sf.addEventListener('submit', submitSurvey);
 
 });
+
 
 
 
