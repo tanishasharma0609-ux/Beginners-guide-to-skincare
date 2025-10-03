@@ -1,7 +1,8 @@
 /* Highlight active nav link */
 // Import the functions you need from the SDKs you need
-import { getFirestore,collection,addDoc,setDoc,doc,getDoc } from "firebase/firestore";
-import { initializeApp } from "firebase/app";
+// NEW, CORRECTED IMPORTS (Use these full URLs in script.js)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getFirestore, collection, addDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
   apiKey: "AIzaSyAKIz9s410M8-Ycu0fibPm0S1iJXEG-5ko",
@@ -271,6 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (sf) sf.addEventListener('submit', submitSurvey);
 
 });
+
 
 
 
