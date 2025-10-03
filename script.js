@@ -1,3 +1,5 @@
+console.log("✅ script.js loaded correctly");
+
 /* Highlight active nav link */
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -263,6 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (sf) sf.addEventListener('submit', submitSurvey);
 
 });
+
 
 
 
