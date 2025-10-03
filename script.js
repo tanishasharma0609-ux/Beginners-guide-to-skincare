@@ -27,21 +27,29 @@ const db = getFirestore(app);
 })();
 
 /* ---------- PROFILE ---------- */
-async function saveProfile(profileData) {
+// Your original Firebase function remains correct for saving data:
+async function saveProfile(dataToSave) {
   try {
-    const docRef = await addDoc(collection(db, "profiles"), profileData);
+    // Assuming 'db' and 'collection' are correctly defined elsewhere in your scripts
+    const docRef = await addDoc(collection(db, "profiles"), dataToSave);
     console.log("Profile saved with ID:", docRef.id);
+    alert("Profile saved successfully!"); // Provide feedback to the user
   } catch (error) {
     console.error("Error saving profile:", error);
+    alert("Error saving profile. Check console for details.");
   }
 }
 
-// Automatically attach to a form with inputs: name, age, gender, city
+// FIX: Attach logic to the button click event
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.querySelector("form"); // gets the first form on your page
-  if (!form) return; // exit if no form found
+  const form = document.querySelector("form");
+  const saveButton = document.getElementById('savebutton');
 
- document.getElementById('savebutton').addEventListener('click',saveProfile);
+  if (!form || !saveButton) return;
+
+  // This function runs ONLY when the button is clicked.
+  saveButton.addEventListener('click', () => {
+    // 1. Gather the data from the form
     const formData = new FormData(form);
 
     const profileData = {
@@ -50,7 +58,8 @@ document.addEventListener("DOMContentLoaded", () => {
       gender: formData.get("gender") || "",
       city: formData.get("city") || ""
     };
-
+    
+    // 2. Pass the gathered data to your Firebase function
     saveProfile(profileData);
   });
 });
@@ -263,6 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (sf) sf.addEventListener('submit', submitSurvey);
 
 });
+
 
 
 
