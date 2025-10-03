@@ -1,5 +1,3 @@
-console.log("✅ script.js loaded correctly");
-
 /* ---------------- FIREBASE INIT ---------------- */
 const firebaseConfig = {
   apiKey: "AIzaSyAKIz9s410M8-Ycu0fibPm0S1iJXEG-5ko",
@@ -10,25 +8,16 @@ const firebaseConfig = {
   appId: "1:96173266847:web:26cfea51521f6865c50faa"
 };
 
-// Initialize Firebase (compat)
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-/* ---------------- NAV HIGHLIGHT ---------------- */
-(function highlightActive() {
-  const path = location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('nav a').forEach(a => {
-    const href = a.getAttribute('href');
-    if ((path === '' && href === 'index.html') || href === path) {
-      a.classList.add('active');
-    }
-  });
-})();
-
-/* ---------------- PROFILE ---------------- */
+/* ---------------- SAVE PROFILE ---------------- */
 async function saveProfile(profileData) {
   try {
-    // Add document to Firestore
+    // Add timestamp for ordering later
+    profileData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+
+    // Save to Firestore
     const docRef = await db.collection("profiles").add(profileData);
     console.log("Profile saved with ID:", docRef.id);
 
@@ -42,22 +31,57 @@ async function saveProfile(profileData) {
   }
 }
 
-
+/* ---------------- LOAD PROFILE ---------------- */
 async function loadProfile() {
   try {
-    // Example: load last saved from localStorage (no user auth yet)
-    const local = localStorage.getItem("profile");
-    if (local) {
-      const p = JSON.parse(local);
-      document.getElementById('p_name').value = p.name || '';
-      document.getElementById('p_age').value = p.age || '';
-      document.getElementById('p_gender').value = p.gender || 'prefer-not';
-      document.getElementById('p_city').value = p.city || '';
+    let profileData = null;
+
+    // Try fetching latest profile from Firestore
+    const snapshot = await db.collection("profiles")
+                             .orderBy("createdAt", "desc")
+                             .limit(1)
+                             .get();
+
+    if (!snapshot.empty) {
+      profileData = snapshot.docs[0].data();
+      // Update localStorage
+      localStorage.setItem("profile", JSON.stringify(profileData));
+    } else {
+      // fallback to localStorage
+      const local = localStorage.getItem("profile");
+      if (local) profileData = JSON.parse(local);
+    }
+
+    // Fill the form
+    if (profileData) {
+      document.getElementById('p_name').value = profileData.name || '';
+      document.getElementById('p_age').value = profileData.age || '';
+      document.getElementById('p_gender').value = profileData.gender || 'prefer-not';
+      document.getElementById('p_city').value = profileData.city || '';
     }
   } catch (error) {
     console.error("Error loading profile:", error);
   }
 }
+
+/* ---------------- INIT ---------------- */
+document.addEventListener('DOMContentLoaded', () => {
+  loadProfile();
+
+  const saveButton = document.getElementById("savebutton");
+  if (saveButton) {
+    saveButton.addEventListener("click", () => {
+      const profileData = {
+        name: document.getElementById("p_name").value,
+        age: Number(document.getElementById("p_age").value),
+        gender: document.getElementById("p_gender").value,
+        city: document.getElementById("p_city").value,
+      };
+      saveProfile(profileData);
+    });
+  }
+});
+
 
 /* ---------------- SURVEY ---------------- */
 function computeSkinType(answers) {
@@ -234,5 +258,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const sf = document.getElementById('surveyForm');
   if (sf) sf.addEventListener('submit', submitSurvey);
 });
+
 
 
