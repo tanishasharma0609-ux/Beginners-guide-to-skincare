@@ -61,6 +61,36 @@ button {
 }
 button:hover { background: #c94f73; }
 
+.profile-card {
+  background: #ffe0f0;       /* soft pink */
+  border: 2px solid #ff99cc; /* slightly darker pink border */
+  border-radius: 15px;
+  padding: 20px;
+  width: 300px;
+  margin: 20px auto;
+  box-shadow: 0 4px 8px rgba(255, 153, 204, 0.3);
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  text-align: center;
+  color: #d63384;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.profile-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(255, 153, 204, 0.5);
+}
+
+.profile-card h2 {
+  margin-bottom: 15px;
+  color: #ff3399;
+}
+
+.profile-card p {
+  font-size: 1.1em;
+  margin: 8px 0;
+}
+
+
 /* Products */
 .product-list { display: grid; gap: 16px; grid-template-columns: repeat(3, minmax(0,1fr)); }
 .product-card {
@@ -75,4 +105,5 @@ button:hover { background: #c94f73; }
 footer {
   background: var(--brand-2); padding: 10px; text-align: center; margin-top: 20px;
   border-top: 1px solid #f1b8c4;
+
 }
