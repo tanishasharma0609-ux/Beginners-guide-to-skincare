@@ -30,39 +30,73 @@ async function saveProfile(profileData) {
     alert("❌ Error saving profile. Check console for details.");
   }
 }
+/* ---------------- SAVE + LOAD PROFILE ---------------- */
+async function saveProfile(profileData) {
+  try {
+    profileData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
 
-/* ---------------- LOAD PROFILE ---------------- */
+    // Save to Firestore
+    const docRef = await db.collection("profiles").add(profileData);
+    console.log("Profile saved with ID:", docRef.id);
+
+    // Save locally
+    localStorage.setItem("profile", JSON.stringify(profileData));
+
+    // Show profile
+    showProfile(profileData);
+
+    alert("✅ Profile saved successfully!");
+  } catch (error) {
+    console.error("Error saving profile:", error);
+    alert("❌ Error saving profile. Check console for details.");
+  }
+}
+
+function showProfile(profileData) {
+  // Populate display
+  document.getElementById('dispName').textContent = profileData.name || '';
+  document.getElementById('dispAge').textContent = profileData.age || '';
+  document.getElementById('dispGender').textContent = profileData.gender || '';
+  document.getElementById('dispCity').textContent = profileData.city || '';
+
+  // Show display, hide form
+  document.getElementById('profileForm').style.display = 'none';
+  document.getElementById('profileDisplay').style.display = 'block';
+}
+
 async function loadProfile() {
   try {
     let profileData = null;
 
-    // Try fetching latest profile from Firestore
-    const snapshot = await db.collection("profiles")
-                             .orderBy("createdAt", "desc")
-                             .limit(1)
-                             .get();
+    const local = localStorage.getItem("profile");
+    if (local) profileData = JSON.parse(local);
 
-    if (!snapshot.empty) {
-      profileData = snapshot.docs[0].data();
-      // Update localStorage
-      localStorage.setItem("profile", JSON.stringify(profileData));
-    } else {
-      // fallback to localStorage
-      const local = localStorage.getItem("profile");
-      if (local) profileData = JSON.parse(local);
-    }
-
-    // Fill the form
     if (profileData) {
-      document.getElementById('p_name').value = profileData.name || '';
-      document.getElementById('p_age').value = profileData.age || '';
-      document.getElementById('p_gender').value = profileData.gender || 'prefer-not';
-      document.getElementById('p_city').value = profileData.city || '';
+      showProfile(profileData);
     }
   } catch (error) {
     console.error("Error loading profile:", error);
   }
 }
+
+/* ---------------- INIT ---------------- */
+document.addEventListener('DOMContentLoaded', () => {
+  loadProfile();
+
+  const saveButton = document.getElementById("savebutton");
+  if (saveButton) {
+    saveButton.addEventListener("click", () => {
+      const profileData = {
+        name: document.getElementById("p_name").value,
+        age: Number(document.getElementById("p_age").value),
+        gender: document.getElementById("p_gender").value,
+        city: document.getElementById("p_city").value,
+      };
+      saveProfile(profileData);
+    });
+  }
+});
+
 
 /* ---------------- INIT ---------------- */
 document.addEventListener('DOMContentLoaded', () => {
@@ -258,6 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const sf = document.getElementById('surveyForm');
   if (sf) sf.addEventListener('submit', submitSurvey);
 });
+
 
 
 
