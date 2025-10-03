@@ -1,6 +1,6 @@
 /* Highlight active nav link */
 // Import the functions you need from the SDKs you need
-import { getFirestore,collection,addDoc } from "firebase/firestore";
+import { getFirestore,collection,addDoc,setDoc } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -265,6 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (sf) sf.addEventListener('submit', submitSurvey);
 
 });
+
 
 
 
