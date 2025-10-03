@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector("form"); // gets the first form on your page
   if (!form) return; // exit if no form found
 
- document.getElementById('savebutton').addEventListerner('click',saveProfile);
+ document.getElementById('savebutton').addEventListener('click',saveProfile);
     const formData = new FormData(form);
 
     const profileData = {
@@ -263,6 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (sf) sf.addEventListener('submit', submitSurvey);
 
 });
+
 
 
 
