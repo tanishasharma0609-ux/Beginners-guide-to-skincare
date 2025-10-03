@@ -1,10 +1,7 @@
 /* Highlight active nav link */
-// Import the functions you need from the SDKs you need
-// NEW, CORRECTED IMPORTS (Use these full URLs in script.js)
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getFirestore, collection, addDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
+const firebaseConfig= {
   apiKey: "AIzaSyAKIz9s410M8-Ycu0fibPm0S1iJXEG-5ko",
   authDomain: "studio-4130330890-84f62.firebaseapp.com",
   projectId: "studio-4130330890-84f62",
@@ -13,8 +10,8 @@ import { getFirestore, collection, addDoc, setDoc } from "https://www.gstatic.co
   appId: "1:96173266847:web:26cfea51521f6865c50faa"
 };
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const app = firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
 (function highlightActive() {
   const path = location.pathname.split('/').pop() || 'index.html';
@@ -272,6 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (sf) sf.addEventListener('submit', submitSurvey);
 
 });
+
 
 
 
