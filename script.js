@@ -28,16 +28,20 @@ const db = firebase.firestore();
 /* ---------------- PROFILE ---------------- */
 async function saveProfile(profileData) {
   try {
+    // Add document to Firestore
     const docRef = await db.collection("profiles").add(profileData);
     console.log("Profile saved with ID:", docRef.id);
-    alert("✅ Profile saved successfully!");
-    // also save locally
+
+    // Save locally
     localStorage.setItem("profile", JSON.stringify(profileData));
+
+    alert("✅ Profile saved successfully!");
   } catch (error) {
     console.error("Error saving profile:", error);
     alert("❌ Error saving profile. Check console for details.");
   }
 }
+
 
 async function loadProfile() {
   try {
@@ -230,4 +234,5 @@ document.addEventListener('DOMContentLoaded', () => {
   const sf = document.getElementById('surveyForm');
   if (sf) sf.addEventListener('submit', submitSurvey);
 });
+
 
