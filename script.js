@@ -1,12 +1,9 @@
 /* Highlight active nav link */
 // Import the functions you need from the SDKs you need
-import { getFirestore,collection,addDoc,setDoc } from "firebase/firestore";
+import { getFirestore,collection,addDoc,setDoc,doc,getDoc } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
   apiKey: "AIzaSyAKIz9s410M8-Ycu0fibPm0S1iJXEG-5ko",
   authDomain: "studio-4130330890-84f62.firebaseapp.com",
   projectId: "studio-4130330890-84f62",
@@ -63,30 +60,32 @@ document.addEventListener("DOMContentLoaded", () => {
     saveProfile(profileData);
   });
 });
-function loadProfile() {
-  const userId = "user1"; // same as above
-get(ref(database, 'profiles/' + userId))
-  .then(snapshot => {
-    if (snapshot.exists()) {
-      const p = snapshot.val();
-      document.getElementById('p_name').value = p.name || '';
-      document.getElementById('p_age').value = p.age || '';
-      document.getElementById('p_gender').value = p.gender || 'prefer-not';
-      document.getElementById('p_city').value = p.city || '';
-    }
-  })
-  .catch(error => console.error(error));
-    if (document.getElementById('p_name')) {
-      document.getElementById('p_name').value = p.name || '';
-      document.getElementById('p_age').value = p.age || '';
-      document.getElementById('p_gender').value = p.gender || 'prefer-not';
-      document.getElementById('p_city').value = p.city || '';
-    }
-    const where = document.getElementById('profileSummary');
-    if (where) where.textContent = p.name ? ${p.name} (${p.age}) – ${p.city} : 'No profile yet.';
-  } catch {}
-}
+     // NEW Firestore-based Load Function
+async function loadProfile() {
+    try {
+        // You need a way to determine the current user's document ID.
+        // For simplicity, we'll assume a fixed ID for now, but in a real app,
+        // this should come from Firebase Authentication (e.g., auth.currentUser.uid).
+        const userId = "user_static_id"; // CHANGE THIS IN A REAL APP
 
+        // Get the document from Firestore
+        const docRef = doc(db, "profiles", userId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            const p = docSnap.data();
+            // Update the form fields with loaded data
+            document.getElementById('p_name').value = p.name || '';
+            document.getElementById('p_age').value = p.age || '';
+            document.getElementById('p_gender').value = p.gender || 'prefer-not';
+            document.getElementById('p_city').value = p.city || '';
+        } else {
+            console.log("No profile document found for this user!");
+        }
+    } catch (error) {
+        console.error("Error loading profile:", error);
+    }
+}
 /* ---------- SURVEY ---------- */
 /* simple rules to detect type */
 function computeSkinType(answers) {
@@ -272,6 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (sf) sf.addEventListener('submit', submitSurvey);
 
 });
+
 
 
 
