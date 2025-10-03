@@ -23,41 +23,35 @@ const db = firebase.firestore();
 
 /* ---------- PROFILE ---------- */
 // Your original Firebase function remains correct for saving data:
-async function saveProfile(dataToSave) {
+// Save profile to Firestore (compat API)
+async function saveProfile(profileData) {
   try {
-    // Assuming 'db' and 'collection' are correctly defined elsewhere in your scripts
-    const docRef = await addDoc(collection(db, "profiles"), dataToSave);
+    const docRef = await db.collection("profiles").add(profileData);
     console.log("Profile saved with ID:", docRef.id);
-    alert("Profile saved successfully!"); // Provide feedback to the user
+    alert("✅ Profile saved successfully!");
   } catch (error) {
     console.error("Error saving profile:", error);
-    alert("Error saving profile. Check console for details.");
+    alert("❌ Error saving profile. Check console for details.");
   }
 }
 
-// FIX: Attach logic to the button click event
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.querySelector("form");
-  const saveButton = document.getElementById('savebutton');
+  const saveButton = document.getElementById("savebutton");
 
-  if (!form || !saveButton) return;
+  if (!saveButton) return;
 
-  // This function runs ONLY when the button is clicked.
-  saveButton.addEventListener('click', () => {
-    // 1. Gather the data from the form
-    const formData = new FormData(form);
-
+  saveButton.addEventListener("click", () => {
     const profileData = {
-      name: formData.get("name") || "",
-      age: Number(formData.get("age")) || 0,
-      gender: formData.get("gender") || "",
-      city: formData.get("city") || ""
+      name: document.getElementById("p_name").value,
+      age: Number(document.getElementById("p_age").value),
+      gender: document.getElementById("p_gender").value,
+      city: document.getElementById("p_city").value,
     };
-    
-    // 2. Pass the gathered data to your Firebase function
+
     saveProfile(profileData);
   });
 });
+
      // NEW Firestore-based Load Function
 async function loadProfile() {
     try {
@@ -269,6 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (sf) sf.addEventListener('submit', submitSurvey);
 
 });
+
 
 
 
