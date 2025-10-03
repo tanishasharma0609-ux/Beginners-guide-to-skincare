@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector("form"); // gets the first form on your page
   if (!form) return; // exit if no form found
 
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("button", (e) => {
     e.preventDefault(); // prevent page reload
 
     const formData = new FormData(form);
@@ -265,6 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (sf) sf.addEventListener('submit', submitSurvey);
 
 });
+
 
 
 
