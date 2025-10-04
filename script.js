@@ -22,17 +22,25 @@ async function saveProfile(profileData) {
     alert("✅ Profile saved successfully!");
   } catch (error) {
     console.error("Error saving profile:", error);
-    alert("❌ Error saving profile. Check console for details.");
+    alert("❌ Error saving profile. Check console.");
   }
 }
 
 function showProfile(profileData) {
-  document.getElementById('dispName')?.textContent = profileData.name || '';
-  document.getElementById('dispAge')?.textContent = profileData.age || '';
-  document.getElementById('dispGender')?.textContent = profileData.gender || '';
-  document.getElementById('dispCity')?.textContent = profileData.city || '';
-  document.getElementById('profileForm')?.style.display = 'none';
-  document.getElementById('profileDisplay')?.style.display = 'block';
+  const dispName = document.getElementById('dispName');
+  const dispAge = document.getElementById('dispAge');
+  const dispGender = document.getElementById('dispGender');
+  const dispCity = document.getElementById('dispCity');
+  const profileForm = document.getElementById('profileForm');
+  const profileDisplay = document.getElementById('profileDisplay');
+
+  if (dispName) dispName.textContent = profileData.name || '';
+  if (dispAge) dispAge.textContent = profileData.age || '';
+  if (dispGender) dispGender.textContent = profileData.gender || '';
+  if (dispCity) dispCity.textContent = profileData.city || '';
+
+  if (profileForm) profileForm.style.display = 'none';
+  if (profileDisplay) profileDisplay.style.display = 'block';
 }
 
 function loadProfile() {
@@ -57,6 +65,7 @@ function computeSkinType(answers) {
   if (answers.flaking === 'yes') score.dry += 1;
   if (answers.routine === 'basic') score.normal += 1;
   if (answers.routine === 'advanced') score.normal += 2;
+
   return Object.entries(score).sort((a,b)=>b[1]-a[1])[0][0];
 }
 
@@ -129,15 +138,19 @@ async function submitSurvey(e) {
 function renderResults() {
   const raw = localStorage.getItem('survey');
   if (!raw) return;
-  const survey = JSON.parse(raw);
-  const profile = JSON.parse(localStorage.getItem('profile') || '{}');
 
-  document.getElementById('who')?.textContent = profile?.name || 'Guest';
+  const survey = JSON.parse(raw);
+  const profile = JSON.parse(localStorage.getItem('profile') || "{}");
+
+  const whoEl = document.getElementById('who');
+  if (whoEl) whoEl.textContent = profile.name || 'Guest';
 
   const typeMap = { dry: 'Dry', oily: 'Oily', normal: 'Normal', sensitive: 'Sensitive', acne: 'Acne-prone', combo: 'Combination' };
-  document.getElementById('skinType')?.textContent = typeMap[survey.skinType] || survey.skinType;
+  const skinTypeEl = document.getElementById('skinType');
+  if (skinTypeEl) skinTypeEl.textContent = typeMap[survey.skinType] || survey.skinType;
 
-  document.getElementById('suggestions')?.innerHTML = survey.suggestions.map(s => `<li>${s}</li>`).join('');
+  const suggEl = document.getElementById('suggestions');
+  if (suggEl) suggEl.innerHTML = survey.suggestions.map(s => `<li>${s}</li>`).join('');
 }
 
 /* ---------------- INIT ---------------- */
@@ -145,16 +158,20 @@ document.addEventListener('DOMContentLoaded', () => {
   loadProfile();
   renderResults();
 
-  document.getElementById('savebutton')?.addEventListener('click', () => {
-    const profileData = {
-      name: document.getElementById('p_name').value,
-      age: Number(document.getElementById('p_age').value),
-      gender: document.getElementById('p_gender').value,
-      city: document.getElementById('p_city').value
-    };
-    saveProfile(profileData);
-  });
+  const saveButton = document.getElementById('savebutton');
+  if (saveButton) {
+    saveButton.addEventListener('click', () => {
+      const profileData = {
+        name: document.getElementById('p_name').value,
+        age: Number(document.getElementById('p_age').value),
+        gender: document.getElementById('p_gender').value,
+        city: document.getElementById('p_city').value
+      };
+      saveProfile(profileData);
+    });
+  }
 
-  document.getElementById('surveyForm')?.addEventListener('submit', submitSurvey);
+  const surveyForm = document.getElementById('surveyForm');
+  if (surveyForm) surveyForm.addEventListener('submit', submitSurvey);
 });
 
