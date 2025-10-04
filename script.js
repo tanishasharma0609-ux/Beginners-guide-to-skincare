@@ -7,14 +7,25 @@ const firebaseConfig = {
   messagingSenderId: "96173266847",
   appId: "1:96173266847:web:26cfea51521f6865c50faa"
 };
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-/* ---------------- PROFILE FUNCTIONS ---------------- */
-function loadProfile() {
-  const profileData = JSON.parse(localStorage.getItem("profile") || "null");
-  if (!profileData) return;
+/* ---------------- PROFILE SAVE/LOAD ---------------- */
+async function saveProfile(profileData) {
+  try {
+    profileData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+    const docRef = await db.collection("profiles").add(profileData);
+    console.log("Profile saved with ID:", docRef.id);
+    localStorage.setItem("profile", JSON.stringify(profileData));
+    showProfile(profileData);
+    alert("✅ Profile saved successfully!");
+  } catch (error) {
+    console.error("Error saving profile:", error);
+    alert("❌ Error saving profile. Check console.");
+  }
+}
+
+function showProfile(profileData) {
   const dispName = document.getElementById('dispName');
   const dispAge = document.getElementById('dispAge');
   const dispGender = document.getElementById('dispGender');
@@ -26,13 +37,20 @@ function loadProfile() {
   if (dispAge) dispAge.textContent = profileData.age || '';
   if (dispGender) dispGender.textContent = profileData.gender || '';
   if (dispCity) dispCity.textContent = profileData.city || '';
+
   if (profileForm) profileForm.style.display = 'none';
   if (profileDisplay) profileDisplay.style.display = 'block';
 }
 
-/* ---------------- SKIN TYPE LOGIC ---------------- */
+function loadProfile() {
+  const profileData = JSON.parse(localStorage.getItem("profile") || "null");
+  if (profileData) showProfile(profileData);
+}
+
+/* ---------------- SKIN TYPE COMPUTATION ---------------- */
 function computeSkinType(answers) {
   let score = { dry:0, oily:0, normal:0, sensitive:0, acne:0, combo:0 };
+
   if (answers.dryness === 'often') score.dry += 2;
   if (answers.dryness === 'sometimes') score.dry += 1;
   if (answers.oiliness === 'yes') score.oily += 2;
@@ -51,10 +69,10 @@ function computeSkinType(answers) {
   return Object.entries(score).sort((a,b)=>b[1]-a[1])[0][0];
 }
 
-/* ---------------- FETCH SUGGESTIONS ---------------- */
-async function getSuggestionsFromFirestore(skinType) {
+/* ---------------- FETCH SUGGESTIONS FROM FIRESTORE ---------------- */
+async function getSuggestions(skinType) {
   try {
-    const doc = await db.collection('Surveys').doc(skinType).get();
+    const doc = await db.collection("Surveys").doc(skinType).get();
     const common = [
       "Patch-test new products.",
       "Use sunscreen (SPF 30+) every morning.",
@@ -63,10 +81,8 @@ async function getSuggestionsFromFirestore(skinType) {
     if (doc.exists) {
       const specific = doc.data().suggestions || [];
       return [...common, ...specific];
-    } else {
-      console.warn(`No suggestions found for ${skinType}. Using common only.`);
-      return common;
     }
+    return common;
   } catch (err) {
     console.error("Error fetching suggestions:", err);
     return [
@@ -77,10 +93,9 @@ async function getSuggestionsFromFirestore(skinType) {
   }
 }
 
-/* ---------------- SUBMIT SURVEY ---------------- */
+/* ---------------- SURVEY SUBMISSION ---------------- */
 async function submitSurvey(e) {
-  e.preventDefault(); // prevent page reload
-
+  e.preventDefault();
   const get = id => document.querySelector(`[name="${id}"]`)?.value || '';
   const answers = {
     dryness: get('dryness'),
@@ -96,27 +111,24 @@ async function submitSurvey(e) {
   };
 
   if (Object.values(answers).some(v => !v)) {
-    alert('Please answer all questions.');
+    alert("Please answer all questions.");
     return;
   }
 
   const skinType = computeSkinType(answers);
-  const suggestions = await getSuggestionsFromFirestore(skinType);
+  const suggestions = await getSuggestions(skinType);
 
-  const surveySubmission = {
-    at: Date.now(),
-    answers,
-    skinType,
-    suggestions
-  };
+  const surveyData = { answers, skinType, suggestions, createdAt: firebase.firestore.FieldValue.serverTimestamp() };
 
   try {
-    await db.collection('surveySubmissions').add(surveySubmission); // store in new collection
-    localStorage.setItem('survey', JSON.stringify(surveySubmission));
-    location.href = 'results.html';
-  } catch (err) {
-    console.error('Error saving survey:', err);
-    alert('Error saving survey. Check console.');
+    // Save responses in a separate collection to not overwrite skinType docs
+    await db.collection("SurveyResponses").add(surveyData);
+    localStorage.setItem("survey", JSON.stringify(surveyData));
+    alert("✅ Survey submitted!");
+    location.href = "results.html";
+  } catch(err) {
+    console.error("Error saving survey:", err);
+    alert("❌ Error saving survey. Check console.");
   }
 }
 
@@ -144,6 +156,20 @@ document.addEventListener('DOMContentLoaded', () => {
   loadProfile();
   renderResults();
 
+  const saveButton = document.getElementById('savebutton');
+  if (saveButton) {
+    saveButton.addEventListener('click', () => {
+      const profileData = {
+        name: document.getElementById('p_name').value,
+        age: Number(document.getElementById('p_age').value),
+        gender: document.getElementById('p_gender').value,
+        city: document.getElementById('p_city').value
+      };
+      saveProfile(profileData);
+    });
+  }
+
   const surveyForm = document.getElementById('surveyForm');
   if (surveyForm) surveyForm.addEventListener('submit', submitSurvey);
 });
+
