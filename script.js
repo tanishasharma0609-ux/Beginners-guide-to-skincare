@@ -15,7 +15,6 @@ async function saveProfile(profileData) {
   try {
     profileData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
     const docRef = await db.collection("profiles").add(profileData);
-    console.log("Profile saved with ID:", docRef.id);
     localStorage.setItem("profile", JSON.stringify(profileData));
     showProfile(profileData);
     alert("✅ Profile saved successfully!");
@@ -66,22 +65,18 @@ function computeSkinType(answers) {
   if (answers.routine === 'basic') score.normal += 1;
   if (answers.routine === 'advanced') score.normal += 2;
 
-  // Return the highest scoring skin type
   return Object.entries(score).sort((a,b)=>b[1]-a[1])[0][0];
 }
 
-/* ---------------- FETCH SUGGESTIONS FROM FIRESTORE ---------------- */
+/* ---------------- FETCH SUGGESTIONS FROM SURVEYS ---------------- */
 async function getSuggestions(skinType) {
   try {
-    // Ensure exact match with your Firestore document IDs
     const doc = await db.collection("Surveys").doc(skinType).get();
-
     const common = [
       "Patch-test new products.",
       "Use sunscreen (SPF 30+) every morning.",
       "Gentle, non-stripping cleanser."
     ];
-
     if (doc.exists) {
       const specific = doc.data().suggestions || [];
       return [...common, ...specific];
@@ -102,6 +97,7 @@ async function getSuggestions(skinType) {
 /* ---------------- SURVEY SUBMISSION ---------------- */
 async function submitSurvey(e) {
   e.preventDefault();
+
   const get = id => document.querySelector(`[name="${id}"]`)?.value || '';
   const answers = {
     dryness: get('dryness'),
@@ -122,13 +118,15 @@ async function submitSurvey(e) {
   }
 
   const skinType = computeSkinType(answers);
-  const suggestions = await getSuggestions(skinType);
-
-  const surveyData = { answers, skinType, suggestions, createdAt: firebase.firestore.FieldValue.serverTimestamp() };
 
   try {
+    // Save survey responses without suggestions
+    const surveyData = { answers, skinType, createdAt: firebase.firestore.FieldValue.serverTimestamp() };
     await db.collection("SurveyResponses").add(surveyData);
-    localStorage.setItem("survey", JSON.stringify(surveyData));
+
+    // Save skin type in local storage so results page knows which one to fetch
+    localStorage.setItem("surveySkinType", skinType);
+
     alert("✅ Survey submitted!");
     location.href = "results.html";
   } catch(err) {
@@ -138,22 +136,25 @@ async function submitSurvey(e) {
 }
 
 /* ---------------- RESULTS PAGE ---------------- */
-function renderResults() {
-  const raw = localStorage.getItem('survey');
-  if (!raw) return;
+async function renderResults() {
+  const skinType = localStorage.getItem("surveySkinType") || null;
+  if (!skinType) return;
 
-  const survey = JSON.parse(raw);
   const profile = JSON.parse(localStorage.getItem('profile') || "{}");
 
+  // Fetch personalized suggestions from Surveys collection
+  const suggestions = await getSuggestions(skinType);
+
+  // Update DOM
   const whoEl = document.getElementById('who');
   if (whoEl) whoEl.textContent = profile.name || 'Guest';
 
-  const typeMap = { dry: 'Dry', oily: 'Oily', normal: 'Normal', sensitive: 'Sensitive', acne: 'Acne-prone', combo: 'Combination' };
+  const typeMap = { dry: 'Dry', oily: 'Oily', normal: 'Normal', sensitive: 'Sensitive', "acne-prone": 'Acne-prone', combo: 'Combination' };
   const skinTypeEl = document.getElementById('skinType');
-  if (skinTypeEl) skinTypeEl.textContent = typeMap[survey.skinType] || survey.skinType;
+  if (skinTypeEl) skinTypeEl.textContent = typeMap[skinType] || skinType;
 
   const suggEl = document.getElementById('suggestions');
-  if (suggEl) suggEl.innerHTML = survey.suggestions.map(s => `<li>${s}</li>`).join('');
+  if (suggEl) suggEl.innerHTML = suggestions.map(s => `<li>${s}</li>`).join('');
 }
 
 /* ---------------- INIT ---------------- */
@@ -161,7 +162,6 @@ document.addEventListener('DOMContentLoaded', () => {
   loadProfile();
   renderResults();
 
-  // Save Profile button
   const saveButton = document.getElementById('savebutton');
   if (saveButton) {
     saveButton.addEventListener('click', () => {
@@ -175,19 +175,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Survey form submission
   const surveyForm = document.getElementById('surveyForm');
-  if (surveyForm) {
-    surveyForm.addEventListener('submit', submitSurvey);
-  }
+  if (surveyForm) surveyForm.addEventListener('submit', submitSurvey);
 
-  // Browse Products button
   const browseBtn = document.getElementById('browseProductsBtn');
   if (browseBtn) {
     browseBtn.addEventListener('click', () => {
-      window.location.href = 'product.html'; // match your actual file name
+      window.location.href = 'product.html';
     });
   }
 });
-
-
