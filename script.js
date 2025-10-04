@@ -175,9 +175,13 @@ function suggestionsFor(type) {
   return [...common, ...(map[type] || [])];
 }
 
-function submitSurvey(e) {
+async function submitSurvey(e) {
   if (e) e.preventDefault();
+
+  // Helper to get value by name
   const get = id => document.querySelector(`[name="${id}"]`)?.value || '';
+
+  // Collect all answers
   const answers = {
     dryness: get('dryness'),
     oiliness: get('oiliness'),
@@ -191,18 +195,40 @@ function submitSurvey(e) {
     routine: get('routine'),
   };
 
+  // Validate all answers are filled
   if (Object.values(answers).some(v => !v)) {
     alert('Please answer all questions.');
     return;
   }
 
+  // Compute skin type and suggestions
   const skinType = computeSkinType(answers);
   const sugg = suggestionsFor(skinType);
 
-  const survey = { at: Date.now(), answers, skinType, suggestions: sugg };
-  localStorage.setItem('survey', JSON.stringify(survey));
-  location.href = 'results.html';
+  // Build survey object
+  const survey = {
+    answers,
+    skinType,
+    suggestions: sugg,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+
+  try {
+    // Save to Firestore (collection: "survey")
+    const docRef = await db.collection("survey").add(survey);
+    console.log("Survey saved with ID:", docRef.id);
+
+    // Optionally save locally
+    localStorage.setItem('survey', JSON.stringify(survey));
+
+    // Redirect to results page
+    location.href = 'results.html';
+  } catch (error) {
+    console.error("Error saving survey:", error);
+    alert("❌ Error saving survey. Check console for details.");
+  }
 }
+
 
 /* ---------------- RESULTS RENDER ---------------- */
 function renderResults() {
@@ -292,6 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const sf = document.getElementById('surveyForm');
   if (sf) sf.addEventListener('submit', submitSurvey);
 });
+
 
 
 
