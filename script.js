@@ -49,14 +49,14 @@ function loadProfile() {
 
 /* ---------------- SKIN TYPE COMPUTATION ---------------- */
 function computeSkinType(answers) {
-  let score = { dry:0, oily:0, normal:0, sensitive:0, acne:0, combo:0 };
+  let score = { dry:0, oily:0, normal:0, sensitive:0, "acne-prone":0, combo:0 };
 
   if (answers.dryness === 'often') score.dry += 2;
   if (answers.dryness === 'sometimes') score.dry += 1;
   if (answers.oiliness === 'yes') score.oily += 2;
   if (answers.oiliness === 'sometimes') score.oily += 1;
-  if (answers.acne === 'frequent') score.acne += 2;
-  if (answers.acne === 'sometimes') score.acne += 1;
+  if (answers.acne === 'frequent') score["acne-prone"] += 2;
+  if (answers.acne === 'sometimes') score["acne-prone"] += 1;
   if (answers.sun === 'often') score.sensitive += 1;
   if (answers.tzone === 'yes') score.combo += 2;
   if (answers.redness === 'yes') score.sensitive += 2;
@@ -66,25 +66,28 @@ function computeSkinType(answers) {
   if (answers.routine === 'basic') score.normal += 1;
   if (answers.routine === 'advanced') score.normal += 2;
 
+  // Return the highest scoring skin type
   return Object.entries(score).sort((a,b)=>b[1]-a[1])[0][0];
 }
 
 /* ---------------- FETCH SUGGESTIONS FROM FIRESTORE ---------------- */
 async function getSuggestions(skinType) {
   try {
-    // Query the Surveys collection for the document with this skin type
+    // Ensure exact match with your Firestore document IDs
     const doc = await db.collection("Surveys").doc(skinType).get();
 
+    const common = [
+      "Patch-test new products.",
+      "Use sunscreen (SPF 30+) every morning.",
+      "Gentle, non-stripping cleanser."
+    ];
+
     if (doc.exists) {
-      // Get the suggestions array from that document
-      return doc.data().suggestions || [];
+      const specific = doc.data().suggestions || [];
+      return [...common, ...specific];
     } else {
-      console.warn(`No suggestions found for ${skinType}, returning default tips.`);
-      return [
-        "Patch-test new products.",
-        "Use sunscreen (SPF 30+) every morning.",
-        "Gentle, non-stripping cleanser."
-      ];
+      console.warn(`No document found for skin type: ${skinType}`);
+      return common;
     }
   } catch (err) {
     console.error("Error fetching suggestions:", err);
@@ -95,7 +98,6 @@ async function getSuggestions(skinType) {
     ];
   }
 }
-
 
 /* ---------------- SURVEY SUBMISSION ---------------- */
 async function submitSurvey(e) {
@@ -187,4 +189,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
 
