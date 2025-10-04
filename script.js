@@ -326,9 +326,11 @@ function renderResults() {
 
 /* ---------------- INIT ---------------- */
 document.addEventListener('DOMContentLoaded', () => {
+  // Load profile and survey results
   loadProfile();
   renderResults();
 
+  // Save Profile button
   const saveButton = document.getElementById('savebutton');
   if (saveButton) {
     saveButton.addEventListener('click', () => {
@@ -342,19 +344,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Survey form submission
   const surveyForm = document.getElementById('surveyForm');
-  if (surveyForm) surveyForm.addEventListener('submit', submitSurvey);
+  if (surveyForm) {
+    surveyForm.addEventListener('submit', submitSurvey);
+  }
 
+  // Browse Products button
   const browseBtn = document.getElementById('browseProductsBtn');
-if (browseBtn) {
-  browseBtn.addEventListener('click', () => {
-    window.location.href = 'product.html';
-  });
-}
-
-
-
-
-
-
+  if (browseBtn) {
+    browseBtn.addEventListener('click', () => {
+      window.location.href = 'product.html'; // make sure this matches your actual file name
+    });
+  }
+});
 
