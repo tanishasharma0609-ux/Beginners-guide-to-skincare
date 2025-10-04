@@ -72,17 +72,20 @@ function computeSkinType(answers) {
 /* ---------------- FETCH SUGGESTIONS FROM FIRESTORE ---------------- */
 async function getSuggestions(skinType) {
   try {
+    // Query the Surveys collection for the document with this skin type
     const doc = await db.collection("Surveys").doc(skinType).get();
-    const common = [
-      "Patch-test new products.",
-      "Use sunscreen (SPF 30+) every morning.",
-      "Gentle, non-stripping cleanser."
-    ];
+
     if (doc.exists) {
-      const specific = doc.data().suggestions || [];
-      return [...common, ...specific];
+      // Get the suggestions array from that document
+      return doc.data().suggestions || [];
+    } else {
+      console.warn(`No suggestions found for ${skinType}, returning default tips.`);
+      return [
+        "Patch-test new products.",
+        "Use sunscreen (SPF 30+) every morning.",
+        "Gentle, non-stripping cleanser."
+      ];
     }
-    return common;
   } catch (err) {
     console.error("Error fetching suggestions:", err);
     return [
@@ -92,6 +95,7 @@ async function getSuggestions(skinType) {
     ];
   }
 }
+
 
 /* ---------------- SURVEY SUBMISSION ---------------- */
 async function submitSurvey(e) {
@@ -183,3 +187,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
