@@ -15,6 +15,7 @@ async function saveProfile(profileData) {
   try {
     profileData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
     const docRef = await db.collection("profiles").add(profileData);
+    console.log("Profile saved with ID:", docRef.id);
     localStorage.setItem("profile", JSON.stringify(profileData));
     showProfile(profileData);
     alert("✅ Profile saved successfully!");
@@ -48,14 +49,14 @@ function loadProfile() {
 
 /* ---------------- SKIN TYPE COMPUTATION ---------------- */
 function computeSkinType(answers) {
-  let score = { dry:0, oily:0, normal:0, sensitive:0, "acne-prone":0, combo:0 };
+  let score = { dry:0, oily:0, normal:0, sensitive:0, acne:0, combo:0 };
 
   if (answers.dryness === 'often') score.dry += 2;
   if (answers.dryness === 'sometimes') score.dry += 1;
   if (answers.oiliness === 'yes') score.oily += 2;
   if (answers.oiliness === 'sometimes') score.oily += 1;
-  if (answers.acne === 'frequent') score["acne-prone"] += 2;
-  if (answers.acne === 'sometimes') score["acne-prone"] += 1;
+  if (answers.acne === 'frequent') score.acne += 2;
+  if (answers.acne === 'sometimes') score.acne += 1;
   if (answers.sun === 'often') score.sensitive += 1;
   if (answers.tzone === 'yes') score.combo += 2;
   if (answers.redness === 'yes') score.sensitive += 2;
@@ -65,10 +66,15 @@ function computeSkinType(answers) {
   if (answers.routine === 'basic') score.normal += 1;
   if (answers.routine === 'advanced') score.normal += 2;
 
-  return Object.entries(score).sort((a,b)=>b[1]-a[1])[0][0];
+  let skinType = Object.entries(score).sort((a,b)=>b[1]-a[1])[0][0];
+
+  // Map to Firestore document IDs
+  if (skinType === "combo") return "combination";
+  if (skinType === "acne") return "acne-prone";
+  return skinType;
 }
 
-/* ---------------- FETCH SUGGESTIONS FROM SURVEYS ---------------- */
+/* ---------------- FETCH SUGGESTIONS FROM FIRESTORE ---------------- */
 async function getSuggestions(skinType) {
   try {
     const doc = await db.collection("Surveys").doc(skinType).get();
@@ -80,10 +86,8 @@ async function getSuggestions(skinType) {
     if (doc.exists) {
       const specific = doc.data().suggestions || [];
       return [...common, ...specific];
-    } else {
-      console.warn(`No document found for skin type: ${skinType}`);
-      return common;
     }
+    return common;
   } catch (err) {
     console.error("Error fetching suggestions:", err);
     return [
@@ -97,7 +101,6 @@ async function getSuggestions(skinType) {
 /* ---------------- SURVEY SUBMISSION ---------------- */
 async function submitSurvey(e) {
   e.preventDefault();
-
   const get = id => document.querySelector(`[name="${id}"]`)?.value || '';
   const answers = {
     dryness: get('dryness'),
@@ -118,15 +121,13 @@ async function submitSurvey(e) {
   }
 
   const skinType = computeSkinType(answers);
+  const suggestions = await getSuggestions(skinType);
+
+  const surveyData = { answers, skinType, suggestions, createdAt: firebase.firestore.FieldValue.serverTimestamp() };
 
   try {
-    // Save survey responses without suggestions
-    const surveyData = { answers, skinType, createdAt: firebase.firestore.FieldValue.serverTimestamp() };
     await db.collection("SurveyResponses").add(surveyData);
-
-    // Save skin type in local storage so results page knows which one to fetch
-    localStorage.setItem("surveySkinType", skinType);
-
+    localStorage.setItem("survey", JSON.stringify(surveyData));
     alert("✅ Survey submitted!");
     location.href = "results.html";
   } catch(err) {
@@ -137,24 +138,19 @@ async function submitSurvey(e) {
 
 /* ---------------- RESULTS PAGE ---------------- */
 async function renderResults() {
-  const skinType = localStorage.getItem("surveySkinType") || null;
-  if (!skinType) return;
+  // Load the last survey from localStorage
+  const raw = localStorage.getItem('survey');
+  if (!raw) return;
 
+  const survey = JSON.parse(raw);
   const profile = JSON.parse(localStorage.getItem('profile') || "{}");
 
-  // Fetch personalized suggestions from Surveys collection
-  const suggestions = await getSuggestions(skinType);
+  document.getElementById('who').textContent = profile.name || 'Guest';
 
-  // Update DOM
-  const whoEl = document.getElementById('who');
-  if (whoEl) whoEl.textContent = profile.name || 'Guest';
+  const typeMap = { dry: 'Dry', oily: 'Oily', normal: 'Normal', sensitive: 'Sensitive', 'acne-prone': 'Acne-prone', combination: 'Combination' };
+  document.getElementById('skinType').textContent = typeMap[survey.skinType] || survey.skinType;
 
-  const typeMap = { dry: 'Dry', oily: 'Oily', normal: 'Normal', sensitive: 'Sensitive', "acne-prone": 'Acne-prone', combo: 'Combination' };
-  const skinTypeEl = document.getElementById('skinType');
-  if (skinTypeEl) skinTypeEl.textContent = typeMap[skinType] || skinType;
-
-  const suggEl = document.getElementById('suggestions');
-  if (suggEl) suggEl.innerHTML = suggestions.map(s => `<li>${s}</li>`).join('');
+  document.getElementById('suggestions').innerHTML = survey.suggestions.map(s => `<li>${s}</li>`).join('');
 }
 
 /* ---------------- INIT ---------------- */
@@ -162,6 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadProfile();
   renderResults();
 
+  // Save Profile button
   const saveButton = document.getElementById('savebutton');
   if (saveButton) {
     saveButton.addEventListener('click', () => {
@@ -175,9 +172,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Survey form submission
   const surveyForm = document.getElementById('surveyForm');
-  if (surveyForm) surveyForm.addEventListener('submit', submitSurvey);
+  if (surveyForm) {
+    surveyForm.addEventListener('submit', submitSurvey);
+  }
 
+  // Browse Products button
   const browseBtn = document.getElementById('browseProductsBtn');
   if (browseBtn) {
     browseBtn.addEventListener('click', () => {
