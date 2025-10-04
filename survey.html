@@ -23,6 +23,7 @@
   <div class="card">
     <form id="surveyForm">
       <div class="grid two">
+        <!-- 1) Dryness -->
         <div>
           <label>1) How often does your skin feel dry/tight?</label>
           <select name="dryness" required>
@@ -32,6 +33,7 @@
             <option value="often">Often</option>
           </select>
         </div>
+        <!-- 2) Oiliness -->
         <div>
           <label>2) Do you experience oiliness or shine?</label>
           <select name="oiliness" required>
@@ -41,6 +43,7 @@
             <option value="yes">Yes</option>
           </select>
         </div>
+        <!-- 3) Acne -->
         <div>
           <label>3) Do you have acne/breakouts?</label>
           <select name="acne" required>
@@ -50,6 +53,7 @@
             <option value="frequent">Frequent</option>
           </select>
         </div>
+        <!-- 4) Sun exposure -->
         <div>
           <label>4) Time in the sun?</label>
           <select name="sun" required>
@@ -59,6 +63,7 @@
             <option value="often">Often</option>
           </select>
         </div>
+        <!-- 5) T-zone oiliness -->
         <div>
           <label>5) Is your T-zone (forehead/nose) more oily?</label>
           <select name="tzone" required>
@@ -67,6 +72,7 @@
             <option value="yes">Yes</option>
           </select>
         </div>
+        <!-- 6) Redness -->
         <div>
           <label>6) Do you get redness/itching easily?</label>
           <select name="redness" required>
@@ -75,6 +81,7 @@
             <option value="yes">Yes</option>
           </select>
         </div>
+        <!-- 7) Fragrance sensitivity -->
         <div>
           <label>7) Sensitive to fragrance?</label>
           <select name="fragrance" required>
@@ -83,6 +90,7 @@
             <option value="yes">Yes</option>
           </select>
         </div>
+        <!-- 8) Pore size -->
         <div>
           <label>8) Pores size?</label>
           <select name="pores" required>
@@ -92,6 +100,7 @@
             <option value="large">Large</option>
           </select>
         </div>
+        <!-- 9) Flaking -->
         <div>
           <label>9) Do you see flaking?</label>
           <select name="flaking" required>
@@ -100,12 +109,13 @@
             <option value="yes">Yes</option>
           </select>
         </div>
+        <!-- 10) Routine -->
         <div>
           <label>10) Current routine level?</label>
           <select name="routine" required>
             <option value="">-- choose --</option>
             <option value="none">None</option>
-            <option value="basic">Basic (cleanser+moisturizer+sunscreen)</option>
+            <option value="basic">Basic (cleanser + moisturizer + sunscreen)</option>
             <option value="advanced">Advanced (actives/serums)</option>
           </select>
         </div>
@@ -117,6 +127,12 @@
 </main>
 
 <footer>© 2025 Skincare Website</footer>
+
+<!-- ---------------- FIREBASE SDK ---------------- -->
+<script src="https://www.gstatic.com/firebasejs/8.17.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.17.0/firebase-firestore.js"></script>
+
+<!-- Your script -->
 <script src="script.js"></script>
 </body>
 </html>
