@@ -27,10 +27,10 @@ async function saveProfile(profileData) {
 }
 
 function showProfile(profileData) {
-  document.getElementById('dispName').textContent = profileData.name || '';
-  document.getElementById('dispAge').textContent = profileData.age || '';
-  document.getElementById('dispGender').textContent = profileData.gender || '';
-  document.getElementById('dispCity').textContent = profileData.city || '';
+  document.getElementById('dispName')?.textContent = profileData.name || '';
+  document.getElementById('dispAge')?.textContent = profileData.age || '';
+  document.getElementById('dispGender')?.textContent = profileData.gender || '';
+  document.getElementById('dispCity')?.textContent = profileData.city || '';
   document.getElementById('profileForm')?.style.display = 'none';
   document.getElementById('profileDisplay')?.style.display = 'block';
 }
@@ -40,7 +40,7 @@ function loadProfile() {
   if (profileData) showProfile(profileData);
 }
 
-/* ---------------- SURVEY ---------------- */
+/* ---------------- SURVEY LOGIC ---------------- */
 function computeSkinType(answers) {
   let score = { dry:0, oily:0, normal:0, sensitive:0, acne:0, combo:0 };
   if (answers.dryness === 'often') score.dry += 2;
@@ -57,47 +57,39 @@ function computeSkinType(answers) {
   if (answers.flaking === 'yes') score.dry += 1;
   if (answers.routine === 'basic') score.normal += 1;
   if (answers.routine === 'advanced') score.normal += 2;
-
   return Object.entries(score).sort((a,b)=>b[1]-a[1])[0][0];
 }
 
-function suggestionsFor(type) {
-  const common = [
-    "Patch-test new products.",
-    "Use sunscreen (SPF 30+) every morning.",
-    "Gentle, non-stripping cleanser."
-  ];
-  const map = {
-    dry: [
-      "Use hydrating cleanser and thick moisturizer (ceramides).",
-      "Add hyaluronic acid serum; avoid hot water."
-    ],
-    oily: [
-      "Oil-free moisturizer, gel sunscreen.",
-      "Use BHA (salicylic acid) 2–3x/week."
-    ],
-    normal: [
-      "Balanced routine: cleanser → moisturizer → sunscreen.",
-      "Weekly gentle exfoliation."
-    ],
-    sensitive: [
-      "Fragrance-free products; avoid alcohol-heavy toners.",
-      "Use soothing ingredients (centella, panthenol)."
-    ],
-    acne: [
-      "Use BHA or adapalene (OTC) as tolerated.",
-      "Avoid heavy oils; wash pillowcases often."
-    ],
-    combo: [
-      "Moisturize dry areas; use oil-control on T-zone.",
-      "Light gel moisturizer AM; richer cream on dry spots PM."
-    ]
-  };
-  return [...common, ...(map[type] || [])];
+/* ---------------- FETCH SUGGESTIONS FROM FIRESTORE ---------------- */
+async function getSuggestionsFromFirestore(skinType) {
+  try {
+    const doc = await db.collection('suggestions').doc(skinType).get();
+    const common = [
+      "Patch-test new products.",
+      "Use sunscreen (SPF 30+) every morning.",
+      "Gentle, non-stripping cleanser."
+    ];
+    if (doc.exists) {
+      const list = doc.data().list || [];
+      return [...common, ...list];
+    } else {
+      console.warn(`No suggestions found for ${skinType}`);
+      return common;
+    }
+  } catch (err) {
+    console.error("Error fetching suggestions:", err);
+    return [
+      "Patch-test new products.",
+      "Use sunscreen (SPF 30+) every morning.",
+      "Gentle, non-stripping cleanser."
+    ];
+  }
 }
 
+/* ---------------- SURVEY SUBMISSION ---------------- */
 async function submitSurvey(e) {
   e.preventDefault();
+
   const get = id => document.querySelector(`[name="${id}"]`)?.value || '';
   const answers = {
     dryness: get('dryness'),
@@ -118,12 +110,12 @@ async function submitSurvey(e) {
   }
 
   const skinType = computeSkinType(answers);
-  const suggestions = suggestionsFor(skinType);
+  const suggestions = await getSuggestionsFromFirestore(skinType);
 
   const survey = { at: Date.now(), answers, skinType, suggestions };
 
   try {
-    const docRef = await db.collection('surveys').add(survey); // ✅ collection name fixed
+    const docRef = await db.collection('surveys').add(survey);
     console.log('Survey saved with ID:', docRef.id);
     localStorage.setItem('survey', JSON.stringify(survey));
     location.href = 'results.html';
@@ -153,8 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadProfile();
   renderResults();
 
-  const saveButton = document.getElementById('savebutton');
-  saveButton?.addEventListener('click', () => {
+  document.getElementById('savebutton')?.addEventListener('click', () => {
     const profileData = {
       name: document.getElementById('p_name').value,
       age: Number(document.getElementById('p_age').value),
@@ -166,3 +157,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('surveyForm')?.addEventListener('submit', submitSurvey);
 });
+
