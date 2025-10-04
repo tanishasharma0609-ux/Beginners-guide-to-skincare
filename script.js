@@ -70,23 +70,32 @@ function computeSkinType(answers) {
 }
 
 /* ---------------- FETCH SUGGESTIONS FROM FIRESTORE ---------------- */
+/* ---------------- FETCH SUGGESTIONS FROM FIRESTORE ---------------- */
 async function getSuggestionsFromFirestore(skinType) {
   try {
-    const doc = await db.collection('suggestions').doc(skinType).get();
+    // 1. FIX: Changed collection name from 'suggestions' to 'surveys'
+    const doc = await db.collection('surveys').doc(skinType).get();
+    
+    // Common suggestions to include regardless of skin type
     const common = [
       "Patch-test new products.",
       "Use sunscreen (SPF 30+) every morning.",
       "Gentle, non-stripping cleanser."
     ];
+    
     if (doc.exists) {
-      const list = doc.data().list || [];
-      return [...common, ...list];
+      // 2. FIX: Changed expected field name from 'list' to 'suggestions'
+      // The doc.data().suggestions field is confirmed to be an array in your DB.
+      const specificSuggestions = doc.data().suggestions || []; 
+      
+      return [...common, ...specificSuggestions];
     } else {
-      console.warn(`No suggestions found for ${skinType}`);
+      console.warn(`No specific suggestions found for ${skinType}. Using common list only.`);
       return common;
     }
   } catch (err) {
     console.error("Error fetching suggestions:", err);
+    // Fallback in case of a complete failure
     return [
       "Patch-test new products.",
       "Use sunscreen (SPF 30+) every morning.",
@@ -94,7 +103,6 @@ async function getSuggestionsFromFirestore(skinType) {
     ];
   }
 }
-
 /* ---------------- SURVEY SUBMISSION ---------------- */
 async function submitSurvey(e) {
   e.preventDefault();
@@ -174,4 +182,5 @@ document.addEventListener('DOMContentLoaded', () => {
   const surveyForm = document.getElementById('surveyForm');
   if (surveyForm) surveyForm.addEventListener('submit', submitSurvey);
 });
+
 
