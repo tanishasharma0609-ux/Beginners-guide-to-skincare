@@ -11,22 +11,10 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-/* ---------------- PROFILE SAVE/LOAD ---------------- */
-async function saveProfile(profileData) {
-  try {
-    profileData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-    const docRef = await db.collection("profiles").add(profileData);
-    console.log("Profile saved with ID:", docRef.id);
-    localStorage.setItem("profile", JSON.stringify(profileData));
-    showProfile(profileData);
-    alert("✅ Profile saved successfully!");
-  } catch (error) {
-    console.error("Error saving profile:", error);
-    alert("❌ Error saving profile. Check console.");
-  }
-}
-
-function showProfile(profileData) {
+/* ---------------- PROFILE FUNCTIONS ---------------- */
+function loadProfile() {
+  const profileData = JSON.parse(localStorage.getItem("profile") || "null");
+  if (!profileData) return;
   const dispName = document.getElementById('dispName');
   const dispAge = document.getElementById('dispAge');
   const dispGender = document.getElementById('dispGender');
@@ -38,17 +26,11 @@ function showProfile(profileData) {
   if (dispAge) dispAge.textContent = profileData.age || '';
   if (dispGender) dispGender.textContent = profileData.gender || '';
   if (dispCity) dispCity.textContent = profileData.city || '';
-
   if (profileForm) profileForm.style.display = 'none';
   if (profileDisplay) profileDisplay.style.display = 'block';
 }
 
-function loadProfile() {
-  const profileData = JSON.parse(localStorage.getItem("profile") || "null");
-  if (profileData) showProfile(profileData);
-}
-
-/* ---------------- SURVEY LOGIC ---------------- */
+/* ---------------- SKIN TYPE LOGIC ---------------- */
 function computeSkinType(answers) {
   let score = { dry:0, oily:0, normal:0, sensitive:0, acne:0, combo:0 };
   if (answers.dryness === 'often') score.dry += 2;
@@ -69,33 +51,24 @@ function computeSkinType(answers) {
   return Object.entries(score).sort((a,b)=>b[1]-a[1])[0][0];
 }
 
-/* ---------------- FETCH SUGGESTIONS FROM FIRESTORE ---------------- */
-/* ---------------- FETCH SUGGESTIONS FROM FIRESTORE ---------------- */
+/* ---------------- FETCH SUGGESTIONS ---------------- */
 async function getSuggestionsFromFirestore(skinType) {
   try {
-    // 1. FIX: Changed collection name from 'suggestions' to 'surveys'
-    const doc = await db.collection('surveys').doc(skinType).get();
-    
-    // Common suggestions to include regardless of skin type
+    const doc = await db.collection('Surveys').doc(skinType).get();
     const common = [
       "Patch-test new products.",
       "Use sunscreen (SPF 30+) every morning.",
       "Gentle, non-stripping cleanser."
     ];
-    
     if (doc.exists) {
-      // 2. FIX: Changed expected field name from 'list' to 'suggestions'
-      // The doc.data().suggestions field is confirmed to be an array in your DB.
-      const specificSuggestions = doc.data().suggestions || []; 
-      
-      return [...common, ...specificSuggestions];
+      const specific = doc.data().suggestions || [];
+      return [...common, ...specific];
     } else {
-      console.warn(`No specific suggestions found for ${skinType}. Using common list only.`);
+      console.warn(`No suggestions found for ${skinType}. Using common only.`);
       return common;
     }
   } catch (err) {
     console.error("Error fetching suggestions:", err);
-    // Fallback in case of a complete failure
     return [
       "Patch-test new products.",
       "Use sunscreen (SPF 30+) every morning.",
@@ -103,9 +76,10 @@ async function getSuggestionsFromFirestore(skinType) {
     ];
   }
 }
-/* ---------------- SURVEY SUBMISSION ---------------- */
+
+/* ---------------- SUBMIT SURVEY ---------------- */
 async function submitSurvey(e) {
-  e.preventDefault();
+  e.preventDefault(); // prevent page reload
 
   const get = id => document.querySelector(`[name="${id}"]`)?.value || '';
   const answers = {
@@ -129,12 +103,16 @@ async function submitSurvey(e) {
   const skinType = computeSkinType(answers);
   const suggestions = await getSuggestionsFromFirestore(skinType);
 
-  const survey = { at: Date.now(), answers, skinType, suggestions };
+  const surveySubmission = {
+    at: Date.now(),
+    answers,
+    skinType,
+    suggestions
+  };
 
   try {
-    const docRef = await db.collection('surveys').add(survey);
-    console.log('Survey saved with ID:', docRef.id);
-    localStorage.setItem('survey', JSON.stringify(survey));
+    await db.collection('surveySubmissions').add(surveySubmission); // store in new collection
+    localStorage.setItem('survey', JSON.stringify(surveySubmission));
     location.href = 'results.html';
   } catch (err) {
     console.error('Error saving survey:', err);
@@ -166,21 +144,6 @@ document.addEventListener('DOMContentLoaded', () => {
   loadProfile();
   renderResults();
 
-  const saveButton = document.getElementById('savebutton');
-  if (saveButton) {
-    saveButton.addEventListener('click', () => {
-      const profileData = {
-        name: document.getElementById('p_name').value,
-        age: Number(document.getElementById('p_age').value),
-        gender: document.getElementById('p_gender').value,
-        city: document.getElementById('p_city').value
-      };
-      saveProfile(profileData);
-    });
-  }
-
   const surveyForm = document.getElementById('surveyForm');
   if (surveyForm) surveyForm.addEventListener('submit', submitSurvey);
 });
-
-
