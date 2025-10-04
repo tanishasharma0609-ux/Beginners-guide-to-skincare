@@ -348,7 +348,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const browseBtn = document.getElementById('browseProductsBtn');
 if (browseBtn) {
   browseBtn.addEventListener('click', () => {
-    window.location.href = 'products.html';
+    window.location.href = 'product.html';
   });
 }
 
@@ -356,5 +356,6 @@ if (browseBtn) {
 
 
 });
+
 
 
