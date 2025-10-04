@@ -173,7 +173,7 @@ async function submitSurvey(e) {
   try {
     if (!db) throw new Error('Firestore not initialized (firebase undefined).');
 
-    const docRef = await db.collection('survey').add(survey);
+    const docRef = await db.collection('surveys').add(survey);
     console.log('Survey saved with ID:', docRef.id);
 
     // store locally for results page fallback
@@ -276,4 +276,5 @@ document.addEventListener('DOMContentLoaded', function () {
     renderResults();
   }
 });
+
 
