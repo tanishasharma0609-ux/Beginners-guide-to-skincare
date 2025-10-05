@@ -137,6 +137,9 @@ async function submitSurvey(e) {
 
 /* ---------------- RESULTS PAGE ---------------- */
 async function renderResults() {
+  // Only run if elements exist on this page
+  if (!document.getElementById('who')) return;
+
   const raw = localStorage.getItem('survey');
   if (!raw) return;
   const survey = JSON.parse(raw);
@@ -144,7 +147,14 @@ async function renderResults() {
 
   document.getElementById('who').textContent = profile.name || 'Guest';
 
-  const typeMap = { dry: 'Dry', oily: 'Oily', normal: 'Normal', sensitive: 'Sensitive', 'acne-prone': 'Acne-prone', combination: 'Combination' };
+  const typeMap = {
+    dry: 'Dry',
+    oily: 'Oily',
+    normal: 'Normal',
+    sensitive: 'Sensitive',
+    'acne-prone': 'Acne-prone',
+    combination: 'Combination'
+  };
   document.getElementById('skinType').textContent = typeMap[survey.skinType] || survey.skinType;
 
   document.getElementById('suggestions').innerHTML = survey.suggestions.map(s => `<li>${s}</li>`).join('');
@@ -156,21 +166,16 @@ const defaultProducts = [
   { name: "Hydrating Moisturizer", description: "Ceramides + HA for dry skin", price: 399, types: ["dry","normal","sensitive"], image: "moisturizer.jpg" },
   { name: "Broad Spectrum Sunscreen SPF 50", description: "Lightweight, no white cast", price: 549, types: ["all","dry","oily","normal","combo","sensitive","acne"], image: "sunscreen.jpg" },
   { name: "BHA Toner (Salicylic)", description: "Helps with pores & blackheads", price: 499, types: ["oily","acne","combo"], image: "toner.jpg" },
-  { name: "Soothing Serum", description: "Centella + Panthenol", price: 699, types: ["sensitive","normal","dry"], image: "soothingserum.jpg" }
+  { name: "Soothing Serum", description: "Centella + Panthenol", price: 699, types: ["sensitive","normal","dry"], image: "serum.jpg" }
 ];
 
-/* ---------------- INIT PRODUCTS (only once) ---------------- */
 async function initProducts() {
   const snapshot = await db.collection("Products").get();
   if (snapshot.empty) {
     console.log("Creating default Products collection...");
     for (const p of defaultProducts) {
-      try {
-        await db.collection("Products").add(p);
-        console.log("Added:", p.name);
-      } catch (err) {
-        console.error("Error adding:", p.name, err);
-      }
+      try { await db.collection("Products").add(p); } 
+      catch(err) { console.error("Error adding product:", p.name, err); }
     }
   }
 }
@@ -182,13 +187,8 @@ async function loadProducts() {
 
   container.innerHTML = "";
   const snapshot = await db.collection("Products").get();
-  const addedNames = new Set();
-
   snapshot.forEach(doc => {
     const p = doc.data();
-    if (addedNames.has(p.name)) return; // prevent duplicates
-    addedNames.add(p.name);
-
     const card = document.createElement("div");
     card.classList.add("product-card");
     card.dataset.types = p.types.join(",");
@@ -238,9 +238,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (surveyForm) surveyForm.addEventListener('submit', submitSurvey);
 
   const browseBtn = document.getElementById('browseProductsBtn');
-  if (browseBtn) browseBtn.addEventListener('click', () => {
-    window.location.href = 'product.html';
-  });
+  if (browseBtn) browseBtn.addEventListener('click', () => { window.location.href = 'product.html'; });
 
   await initProducts();
   await loadProducts();
