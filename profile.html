@@ -3,87 +3,88 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Your Profile</title>
+  <title>Your Profile - Beginner's Guide to Skin Care</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>Your Profile</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="profile.html">Your Profile</a>
-      <a href="tips.html">Tips & Info</a>
-      <a href="survey.html">Survey</a>
-      <a href="results.html">Survey Answers</a>
-      <a href="product.html">Products</a>
-    </nav>
-  </header>
+<header>
+  <h1>Your Profile</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="profile.html" class="active">Your Profile</a>
+    <a href="tips.html">Tips & Info</a>
+    <a href="survey.html">Survey</a>
+    <a href="results.html">Survey Answers</a>
+    <a href="product.html">Products</a>
+  </nav>
+</header>
 
-  <main>
-    <div class="card">
-      <!-- Profile Form -->
-      <form id="profileForm">
-        <h2>👤 Create / Update Profile</h2>
-        <div class="grid two">
-          <div>
-            <label for="p_name">Name:</label>
-            <input id="p_name" type="text" placeholder="Your name" required />
-          </div>
-
-          <div>
-            <label for="p_age">Age:</label>
-            <input id="p_age" type="number" min="1" max="120" placeholder="18" required />
-          </div>
-
-          <div>
-            <label for="p_gender">Gender:</label>
-            <select id="p_gender" required>
-              <option value="">Select</option>
-              <option>Female</option>
-              <option>Male</option>
-              <option>Other</option>
-              <option>Prefer not to say</option>
-            </select>
-          </div>
-
-          <div>
-            <label for="p_city">City:</label>
-            <input id="p_city" type="text" placeholder="Your city" />
-          </div>
+<main>
+  <!-- Profile Form Card -->
+  <div class="card">
+    <form id="profileForm">
+      <h2>👤 Create / Update Profile</h2>
+      <div class="grid two">
+        <div>
+          <label for="p_name">Name:</label>
+          <input id="p_name" type="text" placeholder="Your name" required />
         </div>
 
-        <button type="button" id="savebutton">💾 Save Profile</button>
-      </form>
+        <div>
+          <label for="p_age">Age:</label>
+          <input id="p_age" type="number" min="1" max="120" placeholder="18" required />
+        </div>
 
-      <!-- Profile Display -->
-      <div id="profileDisplay" class="profile-card" style="display:none;">
-        <h2>✨ Your Saved Profile ✨</h2>
-        <p><strong>Name:</strong> <span id="dispName"></span></p>
-        <p><strong>Age:</strong> <span id="dispAge"></span></p>
-        <p><strong>Gender:</strong> <span id="dispGender"></span></p>
-        <p><strong>City:</strong> <span id="dispCity"></span></p>
+        <div>
+          <label for="p_gender">Gender:</label>
+          <select id="p_gender" required>
+            <option value="">Select</option>
+            <option>Female</option>
+            <option>Male</option>
+            <option>Other</option>
+            <option>Prefer not to say</option>
+          </select>
+        </div>
 
-        <button onclick="location.href='survey.html'">🧴 Take Skincare Survey</button>
+        <div>
+          <label for="p_city">City:</label>
+          <input id="p_city" type="text" placeholder="Your city" />
+        </div>
       </div>
-    </div>
-  </main>
 
-  <footer>© 2025 Skincare Website</footer>
+      <button type="button" id="savebutton">💾 Save Profile</button>
+    </form>
+  </div>
 
-  <!-- ✅ Firebase SDKs (v9.23.0) -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <!-- Display Saved Profile -->
+  <div id="profileDisplay" class="profile-card" style="display:none;">
+    <h2>✨ Your Saved Profile ✨</h2>
+    <p><strong>Name:</strong> <span id="dispName"></span></p>
+    <p><strong>Age:</strong> <span id="dispAge"></span></p>
+    <p><strong>Gender:</strong> <span id="dispGender"></span></p>
+    <p><strong>City:</strong> <span id="dispCity"></span></p>
 
-  <!-- ✅ Main Script -->
-  <script src="script.js"></script>
+    <button onclick="location.href='survey.html'">🧴 Take Skincare Survey</button>
+  </div>
+</main>
 
-  <!-- ✅ Auto-load saved profile -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      if (typeof loadProfile === "function") {
-        loadProfile();
-      }
-    });
-  </script>
+<footer>© 2025 Beginner's Guide to Skin Care</footer>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="script.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    if (typeof loadProfile === "function") loadProfile();
+    // Animate cards
+    const cards = document.querySelectorAll('.card, .profile-card');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.2 });
+    cards.forEach(card => observer.observe(card));
+  });
+</script>
 </body>
 </html>
