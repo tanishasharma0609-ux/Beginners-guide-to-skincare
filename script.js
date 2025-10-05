@@ -74,7 +74,7 @@ function computeSkinType(answers) {
   return skinType;
 }
 
-/* ---------------- FETCH SUGGESTIONS FROM FIRESTORE ---------------- */
+/* ---------------- FETCH SUGGESTIONS ---------------- */
 async function getSuggestions(skinType) {
   try {
     const doc = await db.collection("Surveys").doc(skinType).get();
@@ -138,10 +138,8 @@ async function submitSurvey(e) {
 
 /* ---------------- RESULTS PAGE ---------------- */
 async function renderResults() {
-  // Load the last survey from localStorage
   const raw = localStorage.getItem('survey');
   if (!raw) return;
-
   const survey = JSON.parse(raw);
   const profile = JSON.parse(localStorage.getItem('profile') || "{}");
 
@@ -153,8 +151,95 @@ async function renderResults() {
   document.getElementById('suggestions').innerHTML = survey.suggestions.map(s => `<li>${s}</li>`).join('');
 }
 
+/* ---------------- DEFAULT PRODUCTS ---------------- */
+const defaultProducts = [
+  {
+    name: "Gentle Cleanser",
+    description: "Non-stripping daily cleanser",
+    price: 299,
+    types: ["all","normal","dry"],
+    image: "cleanser.jpg"
+  },
+  {
+    name: "Hydrating Moisturizer",
+    description: "Ceramides + HA for dry skin",
+    price: 399,
+    types: ["dry","normal","sensitive"],
+    image: "moisturizer.jpg"
+  },
+  {
+    name: "Broad Spectrum Sunscreen SPF 50",
+    description: "Lightweight, no white cast",
+    price: 549,
+    types: ["all","dry","oily","normal","combo","sensitive","acne"],
+    image: "sunscreen.jpg"
+  },
+  {
+    name: "BHA Toner (Salicylic)",
+    description: "Helps with pores & blackheads",
+    price: 499,
+    types: ["oily","acne","combo"],
+    image: "toner.jpg"
+  },
+  {
+    name: "Soothing Serum",
+    description: "Centella + Panthenol",
+    price: 699,
+    types: ["sensitive","normal","dry"],
+    image: "serum.jpg"
+  }
+];
+
+/* ---------------- INIT PRODUCTS COLLECTION ---------------- */
+async function initProducts() {
+  const snapshot = await db.collection("Products").get();
+  if (snapshot.empty) {
+    console.log("Creating default Products collection...");
+    defaultProducts.forEach(async (p) => {
+      await db.collection("Products").add(p);
+      console.log("Added product:", p.name);
+    });
+  }
+}
+
+/* ---------------- LOAD PRODUCTS ---------------- */
+async function loadProducts() {
+  const container = document.querySelector(".product-list");
+  if (!container) return;
+
+  container.innerHTML = "";
+  const snapshot = await db.collection("Products").get();
+  snapshot.forEach(doc => {
+    const p = doc.data();
+    const card = document.createElement("div");
+    card.classList.add("product-card");
+    card.dataset.types = p.types.join(",");
+    card.innerHTML = `
+      <img src="images/${p.image}" alt="${p.name}">
+      <h3>${p.name}</h3>
+      <p>${p.description}</p>
+      <p class="price">₹${p.price}</p>
+    `;
+    container.appendChild(card);
+  });
+
+  applyFilter(); // initial filter
+}
+
+/* ---------------- FILTER PRODUCTS ---------------- */
+function applyFilter() {
+  const filterSelect = document.getElementById("filterType");
+  if (!filterSelect) return;
+  const selected = filterSelect.value;
+
+  document.querySelectorAll(".product-card").forEach(card => {
+    const types = card.dataset.types.split(",");
+    card.style.display = selected === "all" || types.includes(selected) ? "block" : "none";
+  });
+}
+
 /* ---------------- INIT ---------------- */
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   loadProfile();
   renderResults();
 
@@ -185,4 +270,11 @@ document.addEventListener('DOMContentLoaded', () => {
       window.location.href = 'product.html';
     });
   }
+
+  // Products page: init and load
+  await initProducts();
+  await loadProducts();
+
+  const filterSelect = document.getElementById("filterType");
+  if (filterSelect) filterSelect.addEventListener("change", applyFilter);
 });
