@@ -15,36 +15,41 @@
     <a href="tips.html">Tips & Info</a>
     <a href="survey.html">Survey</a>
     <a href="results.html">Survey Answers</a>
-    <a href="product.html">Products</a>
+    <a href="products.html">Products</a>
   </nav>
 </header>
 
 <main>
-  <!-- HERO SECTION -->
-  <section class="hero card">
-    <img src="images/skincare.jpeg" alt="Beautiful Skin" class="hero-image">
+  <div class="hero-section">
+    <img src="images/skincare.jpeg" alt="Skin Care" class="hero-image"/>
     <div class="hero-text">
-      <h2>Healthy Skin, Happy You</h2>
-      <p>"GOOD SKINCARE IS SELF-CARE"</p>
-      <button onclick="location.href='survey.html'">Take Your Skin Survey</button>
+      <h2>Invest in Your Skin, It's Going to Represent You Forever</h2>
+      <p>Learn, explore, and take care of your skin with our beginner-friendly guide.</p>
+      <button onclick="location.href='profile.html'">Create Your Profile</button>
     </div>
-  </section>
+  </div>
 
-  <!-- INTRO SECTION -->
-  <section class="intro card">
-    <h2>Welcome!</h2>
-    <p>Explore simple, beginner-friendly skincare tips, discover recommended products, and learn how to take care of your skin daily.</p>
-  </section>
-
-  <!-- QUOTES SECTION -->
-  <section class="quotes card">
-    <h2>Skinspiration</h2>
-    <div class="quote">"Your skin tells your story. Treat it well."</div>
-    <div class="quote">"Consistency beats perfection in skincare."</div>
-    <div class="quote">"Glow is the essence of confidence."</div>
-  </section>
+  <div class="card quotes">
+    <p class="quote">"Healthy skin is a reflection of overall wellness."</p>
+    <p class="quote">"Consistency over time brings results in skincare."</p>
+    <p class="quote">"Your skin deserves daily love and care."</p>
+  </div>
 </main>
 
 <footer>© 2025 Beginner's Guide to Skin Care</footer>
+
+<script>
+  // Animate cards on scroll
+  const cards = document.querySelectorAll('.card');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.2 });
+  cards.forEach(card => observer.observe(card));
+</script>
+
 </body>
 </html>
