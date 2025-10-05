@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Survey Results</title>
+  <title>Your Profile</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-    <h1>Survey Results</h1>
+    <h1>Your Profile</h1>
     <nav>
       <a href="index.html">Home</a>
       <a href="profile.html">Your Profile</a>
@@ -21,15 +21,37 @@
 
   <main>
     <div class="card">
-      <p>Hello, <span id="who">Guest</span>!</p>
-      <p>Your skin type is: <span id="skinType">Unknown</span></p>
+      <!-- Profile form -->
+      <form id="profileForm">
+        <label>Name:</label>
+        <input type="text" id="p_name" placeholder="Enter your name" required />
 
-      <h3>Personalized Suggestions:</h3>
-      <ul id="suggestions"></ul>
+        <label>Age:</label>
+        <input type="number" id="p_age" placeholder="Enter your age" required />
 
-      <div class="buttons">
-        <button onclick="location.href='survey.html'">Retake Survey</button>
-        <button id="browseProductsBtn">Browse Products</button>
+        <label>Gender:</label>
+        <select id="p_gender" required>
+          <option value="">Select</option>
+          <option value="Female">Female</option>
+          <option value="Male">Male</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <label>City:</label>
+        <input type="text" id="p_city" placeholder="Enter your city" required />
+
+        <button type="button" id="savebutton">Save Profile</button>
+      </form>
+
+      <!-- Profile display -->
+      <div id="profileDisplay" style="display: none;">
+        <h3>Saved Profile</h3>
+        <p><strong>Name:</strong> <span id="dispName"></span></p>
+        <p><strong>Age:</strong> <span id="dispAge"></span></p>
+        <p><strong>Gender:</strong> <span id="dispGender"></span></p>
+        <p><strong>City:</strong> <span id="dispCity"></span></p>
+
+        <button onclick="location.href='survey.html'">Take Survey</button>
       </div>
     </div>
   </main>
@@ -40,23 +62,14 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
-  <!-- ✅ Your main JS -->
+  <!-- ✅ Main Script -->
   <script src="script.js"></script>
 
-  <!-- ✅ Initialize rendering & button -->
+  <!-- ✅ Initialize profile loading -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // Render survey results
-      if (typeof renderResults === "function") {
-        renderResults();
-      }
-
-      // Browse Products button
-      const browseBtn = document.getElementById("browseProductsBtn");
-      if (browseBtn) {
-        browseBtn.addEventListener("click", () => {
-          window.location.href = "product.html";
-        });
+      if (typeof loadProfile === "function") {
+        loadProfile();
       }
     });
   </script>
