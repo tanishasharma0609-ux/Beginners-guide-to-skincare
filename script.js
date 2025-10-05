@@ -180,31 +180,35 @@ async function initProducts() {
   }
 }
 
-/* ---------------- LOAD PRODUCTS ---------------- */
+// ---------------- LOAD PRODUCTS ----------------
 async function loadProducts() {
   const container = document.querySelector(".product-list");
   if (!container) return;
-  container.innerHTML = ""; // Clear duplicates
 
-  const snapshot = await db.collection("Products").get();
-  snapshot.forEach(doc => {
-    const p = doc.data();
-    const card = document.createElement("div");
-    card.classList.add("product-card");
-    card.dataset.types = p.types.join(",");
-    card.innerHTML = `
-      <img src="images/${p.image}" alt="${p.name}">
-      <h3>${p.name}</h3>
-      <p>${p.description}</p>
-      <p class="price">₹${p.price}</p>
-    `;
-    container.appendChild(card);
-  });
-
-  applyFilter(); // Apply initial filter
+  container.innerHTML = ""; // clear before rendering
+  try {
+    const snapshot = await db.collection("Products").get();
+    snapshot.forEach(doc => {
+      const p = doc.data();
+      const card = document.createElement("div");
+      card.classList.add("product-card");
+      card.dataset.types = p.types.join(",");
+      card.innerHTML = `
+        <img src="images/${p.image}" alt="${p.name}">
+        <h3>${p.name}</h3>
+        <p>${p.description}</p>
+        <p class="price">₹${p.price}</p>
+      `;
+      container.appendChild(card);
+    });
+    applyFilter();
+  } catch (err) {
+    console.error("Error loading products:", err);
+    container.innerHTML = "<p>Failed to load products. Check console.</p>";
+  }
 }
 
-/* ---------------- FILTER PRODUCTS ---------------- */
+// ---------------- FILTER PRODUCTS ----------------
 function applyFilter() {
   const filterSelect = document.getElementById("filterType");
   if (!filterSelect) return;
@@ -215,6 +219,14 @@ function applyFilter() {
     card.style.display = selected === "all" || types.includes(selected) ? "block" : "none";
   });
 }
+
+// ---------------- INIT ----------------
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadProducts();
+
+  const filterSelect = document.getElementById("filterType");
+  if (filterSelect) filterSelect.addEventListener("change", applyFilter);
+});
 
 /* ---------------- INIT ---------------- */
 document.addEventListener("DOMContentLoaded", async () => {
@@ -264,6 +276,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const filterSelect = document.getElementById("filterType");
   if (filterSelect) filterSelect.addEventListener("change", applyFilter);
 });
+
 
 
 
