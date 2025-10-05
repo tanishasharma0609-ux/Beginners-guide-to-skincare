@@ -1,45 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Skincare Guide – Home</title>
+  <title>Skincare Hub</title>
   <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header>
-    <h1>Beginner’s Guide to Skincare</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="profile.html">Your Profile</a>
-      <a href="tips.html">Tips & Info</a>
-      <a href="survey.html">Survey</a>
-      <a href="results.html">Survey Answers</a>
-      <a href="product.html">Products</a>
-    </nav>
-  </header>
+<header>
+  <h1>✨ Skincare Hub ✨</h1>
+  <nav>
+    <a href="index.html" class="active">Home</a>
+    <a href="profile.html">Your Profile</a>
+    <a href="tips.html">Tips & Info</a>
+    <a href="survey.html">Survey</a>
+    <a href="results.html">Survey Answers</a>
+    <a href="product.html">Products</a>
+  </nav>
+</header>
 
-  <main>
-    <div class="card grid two">
-      <div>
-        <h2>Welcome 👋</h2>
-        <p>This website helps beginners understand their skin, take a quick survey, and get simple routines & product suggestions.</p>
-        <p id="profileSummary" class="card">No profile yet.</p>
-        <a href="profile.html"><button>Create your profile</button></a>
-      </div>
-      <div>
-        <img src="images/skincare.jpeg" alt="Skincare" style="width:100%;border-radius:12px;">
-      </div>
+<main>
+  <section class="hero">
+    <img src="images/Skincare.jpeg" alt="Beautiful Skin" class="hero-image">
+    <div class="hero-text">
+      <h2>Healthy Skin, Happy You</h2>
+      <p>"Invest in your skin. It's going to represent you for a lifetime."</p>
+      <button onclick="location.href='survey.html'">Take Your Skin Survey</button>
     </div>
-  </main>
+  </section>
 
-  <footer>© 2025 Skincare Website</footer>
-  <script type="module"
-    src="script.js"></script>
+  <section class="intro card">
+    <h2>Welcome to Skincare Hub</h2>
+    <p>Discover personalized skincare tips, recommended products, and expert advice to keep your skin glowing and healthy.</p>
+  </section>
+
+  <section class="quotes card">
+    <h2>Motivation for Your Skin</h2>
+    <div class="quote">
+      <p>"Your skin tells your story. Treat it well."</p>
+    </div>
+    <div class="quote">
+      <p>"Consistency beats perfection in skincare."</p>
+    </div>
+  </section>
+</main>
+
+<footer>© 2025 Skincare Website</footer>
 </body>
-
 </html>
-
-
-
-
