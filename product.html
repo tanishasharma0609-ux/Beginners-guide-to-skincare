@@ -8,7 +8,7 @@
 </head>
 <body>
 <header>
-  <h1>Products</h1>
+  <h1>Recommended Products</h1>
   <nav>
     <a href="index.html">Home</a>
     <a href="profile.html">Your Profile</a>
@@ -33,77 +33,15 @@
     </select>
   </div>
 
-  <section class="product-list card"></section>
+  <section class="product-list">
+    <!-- Products will be rendered here by script.js -->
+  </section>
 </main>
 
 <footer>© 2025 Beginner's Guide to Skin Care</footer>
 
-<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
-<!-- Product Page Script -->
-<script>
-  // ---------------- FIREBASE INIT ----------------
-  const firebaseConfig = {
-    apiKey: "AIzaSyAKIz9s410M8-Ycu0fibPm0S1iJXEG-5ko",
-    authDomain: "studio-4130330890-84f62.firebaseapp.com",
-    projectId: "studio-4130330890-84f62",
-    storageBucket: "studio-4130330890-84f62.firebasestorage.app",
-    messagingSenderId: "96173266847",
-    appId: "1:96173266847:web:26cfea51521f6865c50faa"
-  };
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-
-  // ---------------- LOAD PRODUCTS ----------------
-  async function loadProducts() {
-    const container = document.querySelector(".product-list");
-    if (!container) return;
-
-    container.innerHTML = "";
-    const snapshot = await db.collection("Products").get();
-
-    if (snapshot.empty) {
-      container.innerHTML = "<p>No products available yet.</p>";
-      return;
-    }
-
-    snapshot.forEach(doc => {
-      const p = doc.data();
-      const card = document.createElement("div");
-      card.classList.add("product-card");
-      card.dataset.types = p.types.join(",");
-      card.innerHTML = `
-        <img src="images/${p.image}" alt="${p.name}" />
-        <h3>${p.name}</h3>
-        <p>${p.description}</p>
-        <p class="price">₹${p.price}</p>
-      `;
-      container.appendChild(card);
-    });
-
-    applyFilter();
-  }
-
-  // ---------------- FILTER PRODUCTS ----------------
-  function applyFilter() {
-    const filterSelect = document.getElementById("filterType");
-    if (!filterSelect) return;
-    const selected = filterSelect.value;
-
-    document.querySelectorAll(".product-card").forEach(card => {
-      const types = card.dataset.types.split(",");
-      card.style.display = selected === "all" || types.includes(selected) ? "block" : "none";
-    });
-  }
-
-  // ---------------- INIT ----------------
-  document.addEventListener("DOMContentLoaded", async () => {
-    await loadProducts();
-    const filterSelect = document.getElementById("filterType");
-    if (filterSelect) filterSelect.addEventListener("change", applyFilter);
-  });
-</script>
+<script src="script.js"></script>
 </body>
 </html>
