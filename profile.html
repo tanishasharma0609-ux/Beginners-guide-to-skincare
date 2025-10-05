@@ -21,51 +21,63 @@
 
   <main>
     <div class="card">
-      <!-- Profile form -->
+      <!-- Profile Form -->
       <form id="profileForm">
-        <label>Name:</label>
-        <input type="text" id="p_name" placeholder="Enter your name" required />
+        <h2>👤 Create / Update Profile</h2>
+        <div class="grid two">
+          <div>
+            <label for="p_name">Name:</label>
+            <input id="p_name" type="text" placeholder="Your name" required />
+          </div>
 
-        <label>Age:</label>
-        <input type="number" id="p_age" placeholder="Enter your age" required />
+          <div>
+            <label for="p_age">Age:</label>
+            <input id="p_age" type="number" min="1" max="120" placeholder="18" required />
+          </div>
 
-        <label>Gender:</label>
-        <select id="p_gender" required>
-          <option value="">Select</option>
-          <option value="Female">Female</option>
-          <option value="Male">Male</option>
-          <option value="Other">Other</option>
-        </select>
+          <div>
+            <label for="p_gender">Gender:</label>
+            <select id="p_gender" required>
+              <option value="">Select</option>
+              <option>Female</option>
+              <option>Male</option>
+              <option>Other</option>
+              <option>Prefer not to say</option>
+            </select>
+          </div>
 
-        <label>City:</label>
-        <input type="text" id="p_city" placeholder="Enter your city" required />
+          <div>
+            <label for="p_city">City:</label>
+            <input id="p_city" type="text" placeholder="Your city" />
+          </div>
+        </div>
 
-        <button type="button" id="savebutton">Save Profile</button>
+        <button type="button" id="savebutton">💾 Save Profile</button>
       </form>
 
-      <!-- Profile display -->
-      <div id="profileDisplay" style="display: none;">
-        <h3>Saved Profile</h3>
+      <!-- Profile Display -->
+      <div id="profileDisplay" class="profile-card" style="display:none;">
+        <h2>✨ Your Saved Profile ✨</h2>
         <p><strong>Name:</strong> <span id="dispName"></span></p>
         <p><strong>Age:</strong> <span id="dispAge"></span></p>
         <p><strong>Gender:</strong> <span id="dispGender"></span></p>
         <p><strong>City:</strong> <span id="dispCity"></span></p>
 
-        <button onclick="location.href='survey.html'">Take Survey</button>
+        <button onclick="location.href='survey.html'">🧴 Take Skincare Survey</button>
       </div>
     </div>
   </main>
 
   <footer>© 2025 Skincare Website</footer>
 
-  <!-- ✅ Firebase SDKs (version 9.23.0) -->
+  <!-- ✅ Firebase SDKs (v9.23.0) -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
   <!-- ✅ Main Script -->
   <script src="script.js"></script>
 
-  <!-- ✅ Initialize profile loading -->
+  <!-- ✅ Auto-load saved profile -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       if (typeof loadProfile === "function") {
