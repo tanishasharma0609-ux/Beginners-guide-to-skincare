@@ -2,77 +2,63 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Your Profile</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Survey Results</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<header>
-  <h1>Your Profile</h1>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="profile.html">Your Profile</a>
-    <a href="tips.html">Tips & Info</a>
-    <a href="survey.html">Survey</a>
-    <a href="results.html">Survey Answers</a>
-    <a href="product.html">Products</a>
-  </nav>
-</header>
+  <header>
+    <h1>Survey Results</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="profile.html">Your Profile</a>
+      <a href="tips.html">Tips & Info</a>
+      <a href="survey.html">Survey</a>
+      <a href="results.html">Survey Answers</a>
+      <a href="product.html">Products</a>
+    </nav>
+  </header>
 
-<main>
-  <div class="card">
-    <form id="profileForm">
-      <div class="grid two">
-        <div>
-          <label for="p_name">Name</label>
-          <input id="p_name" type="text" placeholder="Your name" required />
-        </div>
-        <div>
-          <label for="p_age">Age</label>
-          <input id="p_age" type="number" min="1" max="120" placeholder="18" required />
-        </div>
-        <div>
-          <label for="p_gender">Gender</label>
-          <select id="p_gender">
-            <option value="prefer-not">Prefer not to say</option>
-            <option>Female</option>
-            <option>Male</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div>
-          <label for="p_city">City</label>
-          <input id="p_city" type="text" placeholder="Your city" />
-        </div>
+  <main>
+    <div class="card">
+      <p>Hello, <span id="who">Guest</span>!</p>
+      <p>Your skin type is: <span id="skinType">Unknown</span></p>
+
+      <h3>Personalized Suggestions:</h3>
+      <ul id="suggestions"></ul>
+
+      <div class="buttons">
+        <button onclick="location.href='survey.html'">Retake Survey</button>
+        <button id="browseProductsBtn">Browse Products</button>
       </div>
-      <button type="button"
-        id="savebutton">Save Profile</button>
-    </form>
-  </div>
-  <!-- PROFILE DISPLAY -->
-<div id="profileDisplay" class="profile-card" style="display:none;">
-  <h2>✨ Your Profile ✨</h2>
-  <p><strong>Name:</strong> <span id="dispName"></span></p>
-  <p><strong>Age:</strong> <span id="dispAge"></span></p>
-  <p><strong>Gender:</strong> <span id="dispGender"></span></p>
-  <p><strong>City:</strong> <span id="dispCity"></span></p>
-</div>
+    </div>
+  </main>
 
-</main>
-  
-<footer>© 2025 Skincare Website</footer> 
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <footer>© 2025 Skincare Website</footer>
 
-<script src="script.js"></script> 
+  <!-- ✅ Firebase SDKs (version 9.23.0) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <!-- ✅ Your main JS -->
+  <script src="script.js"></script>
+
+  <!-- ✅ Initialize rendering & button -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Render survey results
+      if (typeof renderResults === "function") {
+        renderResults();
+      }
+
+      // Browse Products button
+      const browseBtn = document.getElementById("browseProductsBtn");
+      if (browseBtn) {
+        browseBtn.addEventListener("click", () => {
+          window.location.href = "product.html";
+        });
+      }
+    });
+  </script>
 </body>
-
 </html>
-
-
-
-
-
-
-
-
