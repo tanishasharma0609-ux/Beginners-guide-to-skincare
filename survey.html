@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Skincare Survey</title>
+  <title>Skincare Survey - Beginner's Guide to Skin Care</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
@@ -13,7 +13,7 @@
     <a href="index.html">Home</a>
     <a href="profile.html">Your Profile</a>
     <a href="tips.html">Tips & Info</a>
-    <a href="survey.html">Survey</a>
+    <a href="survey.html" class="active">Survey</a>
     <a href="results.html">Survey Answers</a>
     <a href="product.html">Products</a>
   </nav>
@@ -22,8 +22,9 @@
 <main>
   <div class="card">
     <form id="surveyForm">
+      <h2>📝 Tell us about your skin</h2>
       <div class="grid two">
-        <!-- Dryness -->
+        <!-- 1) Dryness -->
         <div>
           <label>1) How often does your skin feel dry/tight?</label>
           <select name="dryness" required>
@@ -33,7 +34,8 @@
             <option value="often">Often</option>
           </select>
         </div>
-        <!-- Oiliness -->
+
+        <!-- 2) Oiliness -->
         <div>
           <label>2) Do you experience oiliness or shine?</label>
           <select name="oiliness" required>
@@ -43,7 +45,8 @@
             <option value="yes">Yes</option>
           </select>
         </div>
-        <!-- Acne -->
+
+        <!-- 3) Acne -->
         <div>
           <label>3) Do you have acne/breakouts?</label>
           <select name="acne" required>
@@ -53,7 +56,8 @@
             <option value="frequent">Frequent</option>
           </select>
         </div>
-        <!-- Sun -->
+
+        <!-- 4) Sun Exposure -->
         <div>
           <label>4) Time in the sun?</label>
           <select name="sun" required>
@@ -63,7 +67,8 @@
             <option value="often">Often</option>
           </select>
         </div>
-        <!-- T-zone -->
+
+        <!-- 5) T-zone Oiliness -->
         <div>
           <label>5) Is your T-zone (forehead/nose) more oily?</label>
           <select name="tzone" required>
@@ -72,7 +77,8 @@
             <option value="yes">Yes</option>
           </select>
         </div>
-        <!-- Redness -->
+
+        <!-- 6) Redness -->
         <div>
           <label>6) Do you get redness/itching easily?</label>
           <select name="redness" required>
@@ -81,7 +87,8 @@
             <option value="yes">Yes</option>
           </select>
         </div>
-        <!-- Fragrance -->
+
+        <!-- 7) Fragrance Sensitivity -->
         <div>
           <label>7) Sensitive to fragrance?</label>
           <select name="fragrance" required>
@@ -90,7 +97,8 @@
             <option value="yes">Yes</option>
           </select>
         </div>
-        <!-- Pores -->
+
+        <!-- 8) Pores -->
         <div>
           <label>8) Pores size?</label>
           <select name="pores" required>
@@ -100,7 +108,8 @@
             <option value="large">Large</option>
           </select>
         </div>
-        <!-- Flaking -->
+
+        <!-- 9) Flaking -->
         <div>
           <label>9) Do you see flaking?</label>
           <select name="flaking" required>
@@ -109,7 +118,8 @@
             <option value="yes">Yes</option>
           </select>
         </div>
-        <!-- Routine -->
+
+        <!-- 10) Routine -->
         <div>
           <label>10) Current routine level?</label>
           <select name="routine" required>
@@ -120,22 +130,30 @@
           </select>
         </div>
       </div>
+
       <button type="submit">Submit Survey</button>
     </form>
   </div>
 </main>
 
-<footer>© 2025 Skincare Website</footer>
+<footer>© 2025 Beginner's Guide to Skin Care</footer>
 
-<!-- Firebase SDKs (v8) -->
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script src="script.js"></script>
+
 <script>
-  console.log('typeof firebase =', typeof firebase);
+document.addEventListener("DOMContentLoaded", () => {
+  // Animate cards
+  const cards = document.querySelectorAll('.card');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.2 });
+  cards.forEach(card => observer.observe(card));
+});
 </script>
 </body>
 </html>
-
-
-
