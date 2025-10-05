@@ -1,50 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Products</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skincare Products</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<header>
-  <h1>Recommended Products</h1>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="profile.html">Your Profile</a>
-    <a href="tips.html">Tips & Info</a>
-    <a href="survey.html">Survey</a>
-    <a href="results.html">Survey Answers</a>
-    <a href="product.html">Products</a>
-  </nav>
-</header>
+  <header>
+    <h1>Recommended Products</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="profile.html">Your Profile</a>
+      <a href="tips.html">Tips & Info</a>
+      <a href="survey.html">Survey</a>
+      <a href="results.html">Survey Answers</a>
+      <a href="product.html" class="active">Products</a>
+    </nav>
+  </header>
 
-<main>
-  <div class="card">
-    <label for="filterType">Filter by skin type:</label>
-    <select id="filterType">
-      <option value="all">All</option>
-      <option value="dry">Dry</option>
-      <option value="oily">Oily</option>
-      <option value="normal">Normal</option>
-      <option value="sensitive">Sensitive</option>
-      <option value="acne">Acne-prone</option>
-      <option value="combo">Combination</option>
-    </select>
-  </div>
+  <main>
+    <div class="card">
+      <h2>Browse Products</h2>
 
-  <section class="product-list">
-    <!-- Products will be loaded here dynamically -->
-  </section>
-</main>
+      <!-- Filter -->
+      <div class="filter-bar">
+        <label for="filter">Filter by Type:</label>
+        <select id="filter">
+          <option value="all">All</option>
+          <option value="cleanser">Cleanser</option>
+          <option value="sunscreen">Sunscreen</option>
+          <option value="soothingserum">Soothing Serum</option>
+          <option value="toner">Toner</option>
+          <option value="mosturizer">Moisturizer</option>
+        </select>
+      </div>
 
-<footer>© 2025 Skincare Website</footer>
+      <!-- Products container -->
+      <div id="productList" class="grid three"></div>
+    </div>
+  </main>
 
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <footer>© 2025 Beginner's Guide to Skin Care</footer>
 
-<!-- Script -->
-<script src="script.js"></script>
+  <!-- ✅ Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script>
+    // ✅ Firebase Config (replace with yours)
+    const firebaseConfig = {
+      apiKey: "AIzaSyAKIz9s410M8-Ycu0fibPm0S1iJXEG-5ko",
+      authDomain: "skincare-app-7a3e2.firebaseapp.com",
+      projectId: "skincare-app-7a3e2",
+      storageBucket: "skincare-app-7a3e2.appspot.com",
+      messagingSenderId: "987654321",
+      appId: "1:987654321:web:abcdef123456"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const productList = document.getElementById("productList");
+    const filter = document.getElementById("filter");
+
+    // ✅ Fetch products from Firestore
+    async function fetchProducts() {
+      const snapshot = await db.collection("products").get();
+      const products = snapshot.docs.map(doc => doc.data());
+      renderProducts(products);
+
+      // Add filtering
+      filter.addEventListener("change", () => {
+        const value = filter.value.toLowerCase();
+        const filtered = value === "all"
+          ? products
+          : products.filter(p => p.type.toLowerCase() === value);
+        renderProducts(filtered);
+      });
+    }
+
+    // ✅ Render unique products only once
+    function renderProducts(products) {
+      productList.innerHTML = "";
+      const seen = new Set();
+
+      products.forEach(p => {
+        if (seen.has(p.name)) return; // prevent duplicates
+        seen.add(p.name);
+
+        const imgFile = `${p.type.toLowerCase()}.jpg`;
+        const card = document.createElement("div");
+        card.className = "product-card card";
+        card.innerHTML = `
+          <img src="images/${imgFile}" alt="${p.name}" class="product-image"/>
+          <h3>${p.name}</h3>
+          <p><strong>Type:</strong> ${p.type}</p>
+          <p><strong>Price:</strong> ₹${p.price}</p>
+          <p>${p.desc || ""}</p>
+        `;
+        productList.appendChild(card);
+      });
+    }
+
+    // ✅ Initialize
+    document.addEventListener("DOMContentLoaded", fetchProducts);
+  </script>
 </body>
 </html>
