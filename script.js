@@ -68,7 +68,6 @@ function computeSkinType(answers) {
 
   let skinType = Object.entries(score).sort((a,b)=>b[1]-a[1])[0][0];
 
-  // Map to Firestore document IDs
   if (skinType === "combo") return "combination";
   if (skinType === "acne") return "acne-prone";
   return skinType;
@@ -153,54 +152,24 @@ async function renderResults() {
 
 /* ---------------- DEFAULT PRODUCTS ---------------- */
 const defaultProducts = [
-  {
-    name: "Gentle Cleanser",
-    description: "Non-stripping daily cleanser",
-    price: 299,
-    types: ["all","normal","dry"],
-    image: "cleanser.jpg"
-  },
-  {
-    name: "Hydrating Moisturizer",
-    description: "Ceramides + HA for dry skin",
-    price: 399,
-    types: ["dry","normal","sensitive"],
-    image: "moisturizer.jpg"
-  },
-  {
-    name: "Broad Spectrum Sunscreen SPF 50",
-    description: "Lightweight, no white cast",
-    price: 549,
-    types: ["all","dry","oily","normal","combo","sensitive","acne"],
-    image: "sunscreen.jpg"
-  },
-  {
-    name: "BHA Toner (Salicylic)",
-    description: "Helps with pores & blackheads",
-    price: 499,
-    types: ["oily","acne","combo"],
-    image: "toner.jpg"
-  },
-  {
-    name: "Soothing Serum",
-    description: "Centella + Panthenol",
-    price: 699,
-    types: ["sensitive","normal","dry"],
-    image: "serum.jpg"
-  }
+  { name: "Gentle Cleanser", description: "Non-stripping daily cleanser", price: 299, types: ["all","normal","dry"], image: "cleanser.jpg" },
+  { name: "Hydrating Moisturizer", description: "Ceramides + HA for dry skin", price: 399, types: ["dry","normal","sensitive"], image: "moisturizer.jpg" },
+  { name: "Broad Spectrum Sunscreen SPF 50", description: "Lightweight, no white cast", price: 549, types: ["all","dry","oily","normal","combo","sensitive","acne"], image: "sunscreen.jpg" },
+  { name: "BHA Toner (Salicylic)", description: "Helps with pores & blackheads", price: 499, types: ["oily","acne","combo"], image: "toner.jpg" },
+  { name: "Soothing Serum", description: "Centella + Panthenol", price: 699, types: ["sensitive","normal","dry"], image: "soothingserum.jpg" }
 ];
-//init products collection
+
+/* ---------------- INIT PRODUCTS (only once) ---------------- */
 async function initProducts() {
   const snapshot = await db.collection("Products").get();
   if (snapshot.empty) {
     console.log("Creating default Products collection...");
-
     for (const p of defaultProducts) {
       try {
         await db.collection("Products").add(p);
-        console.log("Added product:", p.name);
-      } catch(err) {
-        console.error("Error adding product:", p.name, err);
+        console.log("Added:", p.name);
+      } catch (err) {
+        console.error("Error adding:", p.name, err);
       }
     }
   }
@@ -213,8 +182,13 @@ async function loadProducts() {
 
   container.innerHTML = "";
   const snapshot = await db.collection("Products").get();
+  const addedNames = new Set();
+
   snapshot.forEach(doc => {
     const p = doc.data();
+    if (addedNames.has(p.name)) return; // prevent duplicates
+    addedNames.add(p.name);
+
     const card = document.createElement("div");
     card.classList.add("product-card");
     card.dataset.types = p.types.join(",");
@@ -227,7 +201,7 @@ async function loadProducts() {
     container.appendChild(card);
   });
 
-  applyFilter(); // initial filter
+  applyFilter();
 }
 
 /* ---------------- FILTER PRODUCTS ---------------- */
@@ -247,7 +221,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   loadProfile();
   renderResults();
 
-  // Save Profile button
   const saveButton = document.getElementById('savebutton');
   if (saveButton) {
     saveButton.addEventListener('click', () => {
@@ -261,25 +234,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // Survey form submission
   const surveyForm = document.getElementById('surveyForm');
-  if (surveyForm) {
-    surveyForm.addEventListener('submit', submitSurvey);
-  }
+  if (surveyForm) surveyForm.addEventListener('submit', submitSurvey);
 
-  // Browse Products button
   const browseBtn = document.getElementById('browseProductsBtn');
-  if (browseBtn) {
-    browseBtn.addEventListener('click', () => {
-      window.location.href = 'product.html';
-    });
-  }
+  if (browseBtn) browseBtn.addEventListener('click', () => {
+    window.location.href = 'product.html';
+  });
 
-  // Products page: init and load
   await initProducts();
   await loadProducts();
 
   const filterSelect = document.getElementById("filterType");
   if (filterSelect) filterSelect.addEventListener("change", applyFilter);
 });
-
