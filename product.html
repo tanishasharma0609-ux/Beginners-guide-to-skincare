@@ -21,28 +21,30 @@
 
   <main>
     <div class="card">
-      <label for="filterType">Filter by skin type:</label>
+      <label for="filterType">Filter by Skin Type:</label>
       <select id="filterType">
         <option value="all">All</option>
         <option value="dry">Dry</option>
         <option value="oily">Oily</option>
         <option value="normal">Normal</option>
-        <option value="sensitive">Sensitive</option>
-        <option value="acne">Acne-prone</option>
         <option value="combo">Combination</option>
+        <option value="sensitive">Sensitive</option>
+        <option value="acne-prone">Acne-prone</option>
       </select>
     </div>
 
-    <div class="product-list grid three"></div>
+    <div class="product-list card">
+      <!-- Products will be loaded here from Firestore -->
+    </div>
   </main>
 
   <footer>© 2025 Beginner's Guide to Skin Care</footer>
 
-  <!-- Firebase -->
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
+  
   <!-- Main Script -->
-  <script src="script.js"></script>
+  <script src="product-script.js"></script>
 </body>
 </html>
