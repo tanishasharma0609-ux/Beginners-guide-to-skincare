@@ -189,16 +189,20 @@ const defaultProducts = [
     image: "serum.jpg"
   }
 ];
-
-/* ---------------- INIT PRODUCTS COLLECTION ---------------- */
+//init products collection
 async function initProducts() {
   const snapshot = await db.collection("Products").get();
   if (snapshot.empty) {
     console.log("Creating default Products collection...");
-    defaultProducts.forEach(async (p) => {
-      await db.collection("Products").add(p);
-      console.log("Added product:", p.name);
-    });
+
+    for (const p of defaultProducts) {
+      try {
+        await db.collection("Products").add(p);
+        console.log("Added product:", p.name);
+      } catch(err) {
+        console.error("Error adding product:", p.name, err);
+      }
+    }
   }
 }
 
@@ -278,3 +282,4 @@ document.addEventListener('DOMContentLoaded', async () => {
   const filterSelect = document.getElementById("filterType");
   if (filterSelect) filterSelect.addEventListener("change", applyFilter);
 });
+
