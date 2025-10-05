@@ -1,50 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Products</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products | GlowCare</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAKIz9s410M8-Ycu0fibPm0S1iJXEG-5ko",
+      authDomain: "skin-survey-app.firebaseapp.com",
+      projectId: "skin-survey-app",
+      storageBucket: "skin-survey-app.appspot.com",
+      messagingSenderId: "1090505826430",
+      appId: "1:1090505826430:web:ef83a7ce1234abcd5678"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      const productList = document.getElementById("product-list");
+      const productFilter = document.getElementById("product-filter");
+
+      let allProducts = [];
+
+      async function loadProducts() {
+        const snapshot = await getDocs(collection(db, "products"));
+        allProducts = snapshot.docs.map(doc => doc.data());
+        renderProducts(allProducts);
+      }
+
+      function renderProducts(products) {
+        productList.innerHTML = "";
+        products.forEach(product => {
+          const card = document.createElement("div");
+          card.className = "product-card";
+          card.innerHTML = `
+            <img src="${product.image}" alt="${product.name}">
+            <h3>${product.name}</h3>
+            <p class="price">₹${product.price}</p>
+            <p>${product.description}</p>
+          `;
+          productList.appendChild(card);
+        });
+      }
+
+      productFilter.addEventListener("change", (e) => {
+        const value = e.target.value;
+        if (value === "all") renderProducts(allProducts);
+        else renderProducts(allProducts.filter(p => p.type === value));
+      });
+
+      loadProducts();
+    });
+  </script>
 </head>
+
 <body>
-<header>
-  <h1>Recommended Products</h1>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="profile.html">Your Profile</a>
-    <a href="tips.html">Tips & Info</a>
-    <a href="survey.html">Survey</a>
-    <a href="results.html">Survey Answers</a>
-    <a href="product.html">Products</a>
-  </nav>
-</header>
+  <header>
+    <h1>Our Products</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="survey.html">Survey</a>
+      <a href="products.html" class="active">Products</a>
+      <a href="tips.html">Skin Tips</a>
+    </nav>
+  </header>
 
-<main>
-  <div class="card">
-    <label for="filterType">Filter by skin type:</label>
-    <select id="filterType">
-      <option value="all">All</option>
-      <option value="dry">Dry</option>
-      <option value="oily">Oily</option>
-      <option value="normal">Normal</option>
-      <option value="sensitive">Sensitive</option>
-      <option value="acne">Acne-prone</option>
-      <option value="combo">Combination</option>
-    </select>
-  </div>
+  <main>
+    <section class="card">
+      <h2>Find Your Perfect Skincare Match</h2>
+      <p>Select a product type to filter:</p>
+      <select id="product-filter">
+        <option value="all">All Products</option>
+        <option value="cleanser">Cleansers</option>
+        <option value="toner">Toners</option>
+        <option value="serum">Serums</option>
+        <option value="moisturizer">Moisturizers</option>
+        <option value="sunscreen">Sunscreens</option>
+      </select>
+    </section>
 
-  <section class="product-list">
-    <!-- Products will be loaded here dynamically -->
-  </section>
-</main>
+    <section id="product-list" class="product-list">
+      <!-- Products will be rendered here -->
+    </section>
+  </main>
 
-<footer>© 2025 Skincare Website</footer>
-
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
-<!-- Script -->
-<script src="script.js"></script>
+  <footer>
+    <p>© 2025 GlowCare — Because Your Skin Deserves the Best 💖</p>
+  </footer>
 </body>
 </html>
