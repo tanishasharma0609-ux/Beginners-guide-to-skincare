@@ -1,98 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Products | GlowCare</title>
-  <link rel="stylesheet" href="style.css">
-
-  <!-- Firebase -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyAKIz9s410M8-Ycu0fibPm0S1iJXEG-5ko",
-      authDomain: "skin-survey-app.firebaseapp.com",
-      projectId: "skin-survey-app",
-      storageBucket: "skin-survey-app.appspot.com",
-      messagingSenderId: "1090505826430",
-      appId: "1:1090505826430:web:ef83a7ce1234abcd5678"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    document.addEventListener("DOMContentLoaded", async () => {
-      const productList = document.getElementById("product-list");
-      const productFilter = document.getElementById("product-filter");
-
-      let allProducts = [];
-
-      async function loadProducts() {
-        const snapshot = await getDocs(collection(db, "products"));
-        allProducts = snapshot.docs.map(doc => doc.data());
-        renderProducts(allProducts);
-      }
-
-      function renderProducts(products) {
-        productList.innerHTML = "";
-        products.forEach(product => {
-          const card = document.createElement("div");
-          card.className = "product-card";
-          card.innerHTML = `
-            <img src="${product.image}" alt="${product.name}">
-            <h3>${product.name}</h3>
-            <p class="price">₹${product.price}</p>
-            <p>${product.description}</p>
-          `;
-          productList.appendChild(card);
-        });
-      }
-
-      productFilter.addEventListener("change", (e) => {
-        const value = e.target.value;
-        if (value === "all") renderProducts(allProducts);
-        else renderProducts(allProducts.filter(p => p.type === value));
-      });
-
-      loadProducts();
-    });
-  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skincare Products</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
   <header>
-    <h1>Our Products</h1>
+    <h1>Recommended Products</h1>
     <nav>
       <a href="index.html">Home</a>
+      <a href="profile.html">Your Profile</a>
+      <a href="tips.html">Tips & Info</a>
       <a href="survey.html">Survey</a>
-      <a href="products.html" class="active">Products</a>
-      <a href="tips.html">Skin Tips</a>
+      <a href="results.html">Survey Answers</a>
+      <a href="product.html" class="active">Products</a>
     </nav>
   </header>
 
   <main>
-    <section class="card">
-      <h2>Find Your Perfect Skincare Match</h2>
-      <p>Select a product type to filter:</p>
-      <select id="product-filter">
-        <option value="all">All Products</option>
-        <option value="cleanser">Cleansers</option>
-        <option value="toner">Toners</option>
-        <option value="serum">Serums</option>
-        <option value="moisturizer">Moisturizers</option>
-        <option value="sunscreen">Sunscreens</option>
-      </select>
-    </section>
+    <div class="card">
+      <h2>Browse Products</h2>
 
-    <section id="product-list" class="product-list">
-      <!-- Products will be rendered here -->
-    </section>
+      <!-- Filter -->
+      <div class="filter-bar">
+        <label for="filter">Filter by Type:</label>
+        <select id="filter">
+          <option value="all">All</option>
+          <option value="cleanser">Cleanser</option>
+          <option value="sunscreen">Sunscreen</option>
+          <option value="soothingserum">Soothing Serum</option>
+          <option value="toner">Toner</option>
+          <option value="mosturizer">Moisturizer</option>
+        </select>
+      </div>
+
+      <!-- Products container -->
+      <div id="productList" class="grid three"></div>
+    </div>
   </main>
 
-  <footer>
-    <p>© 2025 GlowCare — Because Your Skin Deserves the Best 💖</p>
-  </footer>
+  <footer>© 2025 Beginner's Guide to Skin Care</footer>
+
+  <!-- ✅ Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script>
+    // ✅ Firebase Config (replace with yours)
+    const firebaseConfig = {
+      apiKey: "AIzaSyAKIz9s410M8-Ycu0fibPm0S1iJXEG-5ko",
+      authDomain: "skincare-app-7a3e2.firebaseapp.com",
+      projectId: "skincare-app-7a3e2",
+      storageBucket: "skincare-app-7a3e2.appspot.com",
+      messagingSenderId: "987654321",
+      appId: "1:987654321:web:abcdef123456"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const productList = document.getElementById("productList");
+    const filter = document.getElementById("filter");
+
+    // ✅ Fetch products from Firestore
+    async function fetchProducts() {
+      const snapshot = await db.collection("products").get();
+      const products = snapshot.docs.map(doc => doc.data());
+      renderProducts(products);
+
+      // Add filtering
+      filter.addEventListener("change", () => {
+        const value = filter.value.toLowerCase();
+        const filtered = value === "all"
+          ? products
+          : products.filter(p => p.type.toLowerCase() === value);
+        renderProducts(filtered);
+      });
+    }
+
+    // ✅ Render unique products only once
+    function renderProducts(products) {
+      productList.innerHTML = "";
+      const seen = new Set();
+
+      products.forEach(p => {
+        if (seen.has(p.name)) return; // prevent duplicates
+        seen.add(p.name);
+
+        const imgFile = `${p.type.toLowerCase()}.jpg`;
+        const card = document.createElement("div");
+        card.className = "product-card card";
+        card.innerHTML = `
+          <img src="images/${imgFile}" alt="${p.name}" class="product-image"/>
+          <h3>${p.name}</h3>
+          <p><strong>Type:</strong> ${p.type}</p>
+          <p><strong>Price:</strong> ₹${p.price}</p>
+          <p>${p.desc || ""}</p>
+        `;
+        productList.appendChild(card);
+      });
+    }
+
+    // ✅ Initialize
+    document.addEventListener("DOMContentLoaded", fetchProducts);
+  </script>
 </body>
 </html>
