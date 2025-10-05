@@ -169,16 +169,19 @@ const defaultProducts = [
   { name: "Soothing Serum", description: "Centella + Panthenol", price: 699, types: ["sensitive","normal","dry"], image: "soothingserum.jpg" }
 ];
 
-/* ---------------- INIT PRODUCTS COLLECTION ---------------- */
 async function initProducts() {
   const snapshot = await db.collection("Products").get();
   if (snapshot.empty) {
     console.log("Creating default Products collection...");
     for (const p of defaultProducts) {
       await db.collection("Products").add(p);
+      console.log("Added product:", p.name);
     }
+  } else {
+    console.log("Products already exist, not adding defaults.");
   }
 }
+
 
 /* ---------------- LOAD PRODUCTS ---------------- */
 async function loadProducts() {
@@ -256,4 +259,5 @@ document.addEventListener('DOMContentLoaded', async () => {
   const filterSelect = document.getElementById("filterType");
   if (filterSelect) filterSelect.addEventListener("change", applyFilter);
 });
+
 
