@@ -164,18 +164,18 @@ async function renderResults() {
 const defaultProducts = [
   { name: "Gentle Cleanser", description: "Non-stripping daily cleanser", price: 299, types: ["all","normal","dry"], image: "cleanser.jpg" },
   { name: "Hydrating Moisturizer", description: "Ceramides + HA for dry skin", price: 399, types: ["dry","normal","sensitive"], image: "moisturizer.jpg" },
-  { name: "Broad Spectrum Sunscreen SPF 50", description: "Lightweight, no white cast", price: 549, types: ["all","dry","oily","normal","combo","sensitive","acne"], image: "sunscreen.jpg" },
-  { name: "BHA Toner (Salicylic)", description: "Helps with pores & blackheads", price: 499, types: ["oily","acne","combo"], image: "toner.jpg" },
-  { name: "Soothing Serum", description: "Centella + Panthenol", price: 699, types: ["sensitive","normal","dry"], image: "serum.jpg" }
+  { name: "Broad Spectrum Sunscreen SPF 50", description: "Lightweight, no white cast", price: 549, types: ["all","dry","oily","normal","combo","sensitive","acne-prone"], image: "sunscreen.jpg" },
+  { name: "BHA Toner (Salicylic)", description: "Helps with pores & blackheads", price: 499, types: ["oily","acne-prone","combination"], image: "toner.jpg" },
+  { name: "Soothing Serum", description: "Centella + Panthenol", price: 699, types: ["sensitive","normal","dry"], image: "soothingserum.jpg" }
 ];
 
+/* ---------------- INIT PRODUCTS COLLECTION ---------------- */
 async function initProducts() {
   const snapshot = await db.collection("Products").get();
   if (snapshot.empty) {
     console.log("Creating default Products collection...");
     for (const p of defaultProducts) {
-      try { await db.collection("Products").add(p); } 
-      catch(err) { console.error("Error adding product:", p.name, err); }
+      await db.collection("Products").add(p);
     }
   }
 }
@@ -186,6 +186,7 @@ async function loadProducts() {
   if (!container) return;
 
   container.innerHTML = "";
+
   const snapshot = await db.collection("Products").get();
   snapshot.forEach(doc => {
     const p = doc.data();
@@ -218,6 +219,15 @@ function applyFilter() {
 
 /* ---------------- INIT ---------------- */
 document.addEventListener('DOMContentLoaded', async () => {
+  await initProducts();
+  await loadProducts();
+
+  const filterSelect = document.getElementById("filterType");
+  if (filterSelect) filterSelect.addEventListener("change", applyFilter);
+});
+
+/* ---------------- INIT ---------------- */
+document.addEventListener('DOMContentLoaded', async () => {
   loadProfile();
   renderResults();
 
@@ -246,3 +256,4 @@ document.addEventListener('DOMContentLoaded', async () => {
   const filterSelect = document.getElementById("filterType");
   if (filterSelect) filterSelect.addEventListener("change", applyFilter);
 });
+
