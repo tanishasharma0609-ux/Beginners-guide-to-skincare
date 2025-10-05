@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Skincare Products</title>
+  <title>Products</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -23,7 +23,6 @@
     <div class="card">
       <h2>Browse Products</h2>
 
-      <!-- Filter -->
       <div class="filter-bar">
         <label for="filter">Filter by Type:</label>
         <select id="filter">
@@ -36,73 +35,14 @@
         </select>
       </div>
 
-      <!-- Products container -->
       <div id="productList" class="grid three"></div>
     </div>
   </main>
 
   <footer>© 2025 Beginner's Guide to Skin Care</footer>
 
-  <!-- ✅ Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-  <script>
-    // ✅ Firebase Config (replace with yours)
-    const firebaseConfig = {
-      apiKey: "AIzaSyAKIz9s410M8-Ycu0fibPm0S1iJXEG-5ko",
-      authDomain: "skincare-app-7a3e2.firebaseapp.com",
-      projectId: "skincare-app-7a3e2",
-      storageBucket: "skincare-app-7a3e2.appspot.com",
-      messagingSenderId: "987654321",
-      appId: "1:987654321:web:abcdef123456"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    const productList = document.getElementById("productList");
-    const filter = document.getElementById("filter");
-
-    // ✅ Fetch products from Firestore
-    async function fetchProducts() {
-      const snapshot = await db.collection("products").get();
-      const products = snapshot.docs.map(doc => doc.data());
-      renderProducts(products);
-
-      // Add filtering
-      filter.addEventListener("change", () => {
-        const value = filter.value.toLowerCase();
-        const filtered = value === "all"
-          ? products
-          : products.filter(p => p.type.toLowerCase() === value);
-        renderProducts(filtered);
-      });
-    }
-
-    // ✅ Render unique products only once
-    function renderProducts(products) {
-      productList.innerHTML = "";
-      const seen = new Set();
-
-      products.forEach(p => {
-        if (seen.has(p.name)) return; // prevent duplicates
-        seen.add(p.name);
-
-        const imgFile = `${p.type.toLowerCase()}.jpg`;
-        const card = document.createElement("div");
-        card.className = "product-card card";
-        card.innerHTML = `
-          <img src="images/${imgFile}" alt="${p.name}" class="product-image"/>
-          <h3>${p.name}</h3>
-          <p><strong>Type:</strong> ${p.type}</p>
-          <p><strong>Price:</strong> ₹${p.price}</p>
-          <p>${p.desc || ""}</p>
-        `;
-        productList.appendChild(card);
-      });
-    }
-
-    // ✅ Initialize
-    document.addEventListener("DOMContentLoaded", fetchProducts);
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
