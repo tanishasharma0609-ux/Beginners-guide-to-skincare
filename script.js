@@ -10,21 +10,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-/* ---------------- PROFILE SAVE/LOAD ---------------- */
-async function saveProfile(profileData) {
-  try {
-    profileData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-    const docRef = await db.collection("profiles").add(profileData);
-    console.log("Profile saved with ID:", docRef.id);
-    localStorage.setItem("profile", JSON.stringify(profileData));
-    showProfile(profileData);
-    alert("✅ Profile saved successfully!");
-  } catch (error) {
-    console.error("Error saving profile:", error);
-    alert("❌ Error saving profile. Check console.");
-  }
-}
-
+/* ---------------- PROFILE ---------------- */
 function showProfile(profileData) {
   const dispName = document.getElementById('dispName');
   const dispAge = document.getElementById('dispAge');
@@ -33,13 +19,15 @@ function showProfile(profileData) {
   const profileForm = document.getElementById('profileForm');
   const profileDisplay = document.getElementById('profileDisplay');
 
-  if (dispName) dispName.textContent = profileData.name || '';
-  if (dispAge) dispAge.textContent = profileData.age || '';
-  if (dispGender) dispGender.textContent = profileData.gender || '';
-  if (dispCity) dispCity.textContent = profileData.city || '';
+  if (!dispName || !dispAge || !dispGender || !dispCity || !profileDisplay || !profileForm) return;
 
-  if (profileForm) profileForm.style.display = 'none';
-  if (profileDisplay) profileDisplay.style.display = 'block';
+  dispName.textContent = profileData.name || '';
+  dispAge.textContent = profileData.age || '';
+  dispGender.textContent = profileData.gender || '';
+  dispCity.textContent = profileData.city || '';
+
+  profileForm.style.display = 'none';
+  profileDisplay.style.display = 'block';
 }
 
 function loadProfile() {
@@ -47,7 +35,20 @@ function loadProfile() {
   if (profileData) showProfile(profileData);
 }
 
-/* ---------------- SKIN TYPE COMPUTATION ---------------- */
+async function saveProfile(profileData) {
+  try {
+    profileData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+    await db.collection("profiles").add(profileData);
+    localStorage.setItem("profile", JSON.stringify(profileData));
+    showProfile(profileData);
+    alert("✅ Profile saved successfully!");
+  } catch (err) {
+    console.error("Error saving profile:", err);
+    alert("❌ Error saving profile. Check console.");
+  }
+}
+
+/* ---------------- SURVEY ---------------- */
 function computeSkinType(answers) {
   let score = { dry:0, oily:0, normal:0, sensitive:0, acne:0, combo:0 };
 
@@ -73,7 +74,6 @@ function computeSkinType(answers) {
   return skinType;
 }
 
-/* ---------------- FETCH SUGGESTIONS ---------------- */
 async function getSuggestions(skinType) {
   try {
     const doc = await db.collection("Surveys").doc(skinType).get();
@@ -97,7 +97,6 @@ async function getSuggestions(skinType) {
   }
 }
 
-/* ---------------- SURVEY SUBMISSION ---------------- */
 async function submitSurvey(e) {
   e.preventDefault();
   const get = id => document.querySelector(`[name="${id}"]`)?.value || '';
@@ -136,56 +135,50 @@ async function submitSurvey(e) {
 }
 
 /* ---------------- RESULTS PAGE ---------------- */
-async function renderResults() {
-  // Only run if elements exist on this page
-  if (!document.getElementById('who')) return;
-
+function renderResults() {
   const raw = localStorage.getItem('survey');
   if (!raw) return;
+
   const survey = JSON.parse(raw);
   const profile = JSON.parse(localStorage.getItem('profile') || "{}");
 
-  document.getElementById('who').textContent = profile.name || 'Guest';
+  const whoEl = document.getElementById('who');
+  const skinEl = document.getElementById('skinType');
+  const sugEl = document.getElementById('suggestions');
 
-  const typeMap = {
-    dry: 'Dry',
-    oily: 'Oily',
-    normal: 'Normal',
-    sensitive: 'Sensitive',
-    'acne-prone': 'Acne-prone',
-    combination: 'Combination'
-  };
-  document.getElementById('skinType').textContent = typeMap[survey.skinType] || survey.skinType;
+  if (whoEl) whoEl.textContent = profile.name || 'Guest';
 
-  document.getElementById('suggestions').innerHTML = survey.suggestions.map(s => `<li>${s}</li>`).join('');
+  const typeMap = { dry: 'Dry', oily: 'Oily', normal: 'Normal', sensitive: 'Sensitive', 'acne-prone': 'Acne-prone', combination: 'Combination' };
+  if (skinEl) skinEl.textContent = typeMap[survey.skinType] || survey.skinType;
+
+  if (sugEl) sugEl.innerHTML = survey.suggestions.map(s => `<li>${s}</li>`).join('');
 }
 
 /* ---------------- DEFAULT PRODUCTS ---------------- */
 const defaultProducts = [
-  { name:"Gentle Cleanser", description:"Non-stripping daily cleanser", price:299, types:["all","normal","dry"], image:"cleanser.jpg" },
-  { name:"Hydrating Moisturizer", description:"Ceramides + HA for dry skin", price:399, types:["dry","normal","sensitive"], image:"moisturizer.jpg" },
-  { name:"Broad Spectrum Sunscreen SPF 50", description:"Lightweight, no white cast", price:549, types:["all","dry","oily","normal","combo","sensitive","acne"], image:"sunscreen.jpg" },
-  { name:"BHA Toner (Salicylic)", description:"Helps with pores & blackheads", price:499, types:["oily","acne","combo"], image:"toner.jpg" },
-  { name:"Soothing Serum", description:"Centella + Panthenol", price:699, types:["sensitive","normal","dry"], image:"serum.jpg" }
+  { name: "Gentle Cleanser", description: "Non-stripping daily cleanser", price: 299, types: ["all","normal","dry"], image: "cleanser.jpg" },
+  { name: "Hydrating Moisturizer", description: "Ceramides + HA for dry skin", price: 399, types: ["dry","normal","sensitive"], image: "moisturizer.jpg" },
+  { name: "Broad Spectrum Sunscreen SPF 50", description: "Lightweight, no white cast", price: 549, types: ["all","dry","oily","normal","combo","sensitive","acne"], image: "sunscreen.jpg" },
+  { name: "BHA Toner (Salicylic)", description: "Helps with pores & blackheads", price: 499, types: ["oily","acne","combo"], image: "toner.jpg" },
+  { name: "Soothing Serum", description: "Centella + Panthenol", price: 699, types: ["sensitive","normal","dry"], image: "serum.jpg" }
 ];
 
-/* ---------------- INIT PRODUCTS ---------------- */
+/* ---------------- PRODUCTS ---------------- */
 async function initProducts() {
   const snapshot = await db.collection("Products").get();
   if (snapshot.empty) {
-    console.log("Creating default Products collection...");
     for (const p of defaultProducts) {
       await db.collection("Products").add(p);
     }
   }
 }
 
-// ---------------- LOAD PRODUCTS ----------------
 async function loadProducts() {
   const container = document.querySelector(".product-list");
   if (!container) return;
 
-  container.innerHTML = ""; // clear before rendering
+  container.innerHTML = "";
+
   try {
     const snapshot = await db.collection("Products").get();
     snapshot.forEach(doc => {
@@ -202,81 +195,52 @@ async function loadProducts() {
       container.appendChild(card);
     });
     applyFilter();
-  } catch (err) {
+  } catch(err) {
     console.error("Error loading products:", err);
-    container.innerHTML = "<p>Failed to load products. Check console.</p>";
   }
 }
 
-// ---------------- FILTER PRODUCTS ----------------
 function applyFilter() {
   const filterSelect = document.getElementById("filterType");
   if (!filterSelect) return;
-  const selected = filterSelect.value;
 
+  const selected = filterSelect.value;
   document.querySelectorAll(".product-card").forEach(card => {
     const types = card.dataset.types.split(",");
     card.style.display = selected === "all" || types.includes(selected) ? "block" : "none";
   });
 }
 
-// ---------------- INIT ----------------
-document.addEventListener("DOMContentLoaded", async () => {
-  await loadProducts();
-
-  const filterSelect = document.getElementById("filterType");
-  if (filterSelect) filterSelect.addEventListener("change", applyFilter);
-});
-
-/* ---------------- INIT ---------------- */
-document.addEventListener("DOMContentLoaded", async () => {
-  await initProducts();
-  await loadProducts();
-
-  const filterSelect = document.getElementById("filterType");
-  if (filterSelect) filterSelect.addEventListener("change", applyFilter);
-});
-
-/* ---------------- INIT ---------------- */
-document.addEventListener('DOMContentLoaded', async () => {
-  await initProducts();
-  await loadProducts();
-
-  const filterSelect = document.getElementById("filterType");
-  if (filterSelect) filterSelect.addEventListener("change", applyFilter);
-});
-
 /* ---------------- INIT ---------------- */
 document.addEventListener('DOMContentLoaded', async () => {
   loadProfile();
   renderResults();
 
+  // Save Profile
   const saveButton = document.getElementById('savebutton');
-  if (saveButton) {
-    saveButton.addEventListener('click', () => {
-      const profileData = {
-        name: document.getElementById('p_name').value,
-        age: Number(document.getElementById('p_age').value),
-        gender: document.getElementById('p_gender').value,
-        city: document.getElementById('p_city').value
-      };
-      saveProfile(profileData);
-    });
-  }
+  if (saveButton) saveButton.addEventListener('click', () => {
+    const profileData = {
+      name: document.getElementById('p_name').value,
+      age: Number(document.getElementById('p_age').value),
+      gender: document.getElementById('p_gender').value,
+      city: document.getElementById('p_city').value
+    };
+    saveProfile(profileData);
+  });
 
+  // Survey submission
   const surveyForm = document.getElementById('surveyForm');
   if (surveyForm) surveyForm.addEventListener('submit', submitSurvey);
 
+  // Browse Products button
   const browseBtn = document.getElementById('browseProductsBtn');
-  if (browseBtn) browseBtn.addEventListener('click', () => { window.location.href = 'product.html'; });
+  if (browseBtn) browseBtn.addEventListener('click', () => {
+    window.location.href = 'product.html';
+  });
 
+  // Products
   await initProducts();
   await loadProducts();
-
   const filterSelect = document.getElementById("filterType");
   if (filterSelect) filterSelect.addEventListener("change", applyFilter);
 });
-
-
-
-
