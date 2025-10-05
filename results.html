@@ -1,61 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Survey Results</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Survey Results - Beginner's Guide to Skin Care</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <header>
-    <h1>Survey Results</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="profile.html">Your Profile</a>
-      <a href="tips.html">Tips & Info</a>
-      <a href="survey.html">Survey</a>
-      <a href="results.html">Survey Answers</a>
-      <a href="product.html">Products</a>
-    </nav>
-  </header>
+<header>
+  <h1>Survey Results</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="profile.html">Your Profile</a>
+    <a href="tips.html">Tips & Info</a>
+    <a href="survey.html">Survey</a>
+    <a href="results.html" class="active">Survey Answers</a>
+    <a href="product.html">Products</a>
+  </nav>
+</header>
 
-  <main>
-    <div class="card">
-      <p>Hello, <span id="who">Guest</span>!</p>
-      <p>Your skin type is: <span id="skinType">Unknown</span></p>
+<main>
+  <div class="card">
+    <p>Hello, <span id="who">Guest</span>!</p>
+    <p>Your skin type is: <span id="skinType">Unknown</span></p>
 
-      <h3>Personalized Suggestions:</h3>
-      <ul id="suggestions"></ul>
+    <h3>Personalized Suggestions:</h3>
+    <ul id="suggestions"></ul>
 
-      <div class="buttons">
-        <button onclick="location.href='survey.html'">Retake Survey</button>
-        <button id="browseProductsBtn">Browse Products</button>
-      </div>
+    <div class="grid two">
+      <button onclick="location.href='survey.html'">Retake Survey</button>
+      <button id="browseProductsBtn">Browse Products</button>
     </div>
-  </main>
+  </div>
+</main>
 
-  <footer>© 2025 Skincare Website</footer>
+<footer>© 2025 Beginner's Guide to Skin Care</footer>
 
-  <!-- ✅ Firebase SDKs must load before your main script -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="script.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Animate cards
+    const cards = document.querySelectorAll('.card');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.2 });
+    cards.forEach(card => observer.observe(card));
 
-  <!-- ✅ Your main script -->
-  <script src="script.js"></script>
-
-  <!-- ✅ Initialize results rendering & button -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      renderResults(); // from script.js
-
-      // Make sure Browse Products button works
-      const browseBtn = document.getElementById("browseProductsBtn");
-      if (browseBtn) {
-        browseBtn.addEventListener("click", () => {
-          window.location.href = "product.html";
-        });
-      }
+    // Browse Products button
+    const browseBtn = document.getElementById("browseProductsBtn");
+    if (browseBtn) browseBtn.addEventListener("click", () => {
+      window.location.href = "product.html";
     });
-  </script>
+
+    // Render results (Firebase)
+    if (typeof renderResults === "function") renderResults();
+  });
+</script>
 </body>
 </html>
