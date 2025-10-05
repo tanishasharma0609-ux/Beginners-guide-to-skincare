@@ -6,53 +6,56 @@
   <title>Tips & Info - Beginner's Guide to Skin Care</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
-<body>
-<header>
-  <h1>Tips & Info</h1>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="profile.html">Your Profile</a>
-    <a href="tips.html" class="active">Tips & Info</a>
-    <a href="survey.html">Survey</a>
-    <a href="results.html">Survey Answers</a>
-    <a href="products.html">Products</a>
-  </nav>
-</header>
+<body class="tips-page">
+  <header>
+    <h1>Tips & Info</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="profile.html">Your Profile</a>
+      <a href="tips.html" class="active">Tips & Info</a>
+      <a href="survey.html">Survey</a>
+      <a href="results.html">Survey Answers</a>
+      <a href="products.html">Products</a>
+    </nav>
+  </header>
 
-<main>
-  <div class="card">
-    <img src="images/skincare.jpeg" alt="Skin Care Basics" class="section-image"/>
-    <h2>Skin Care Basics</h2>
-    <p>Understanding your skin type is the first step to a proper routine. Cleanse, moisturize, and protect daily.</p>
-  </div>
+  <main>
+    <!-- Skin Care Basics Card -->
+    <div class="card">
+      <img src="images/skincare.jpeg" alt="Skin Care Basics" class="section-image"/>
+      <h2>Skin Care Basics</h2>
+      <p>Understanding your skin type is the first step to a proper routine. Cleanse, moisturize, and protect daily.</p>
+    </div>
 
-  <div class="card">
-    <img src="images/serum.jpeg" alt="Serums & Treatments" class="section-image"/>
-    <h2>Serums & Treatments</h2>
-    <p>Serums are concentrated with active ingredients targeting specific concerns like acne, dryness, or pigmentation.</p>
-  </div>
+    <!-- Serums & Treatments Card -->
+    <div class="card">
+      <img src="images/serum.jpeg" alt="Serums & Treatments" class="section-image"/>
+      <h2>Serums & Treatments</h2>
+      <p>Serums are concentrated with active ingredients targeting specific concerns like acne, dryness, or pigmentation.</p>
+    </div>
 
-  <section class="quotes card">
-    <h3>Skincare Quotes</h3>
-    <p class="quote">"The best foundation you can wear is healthy skin."</p>
-    <p class="quote">"Hydration is key for glowing skin."</p>
-    <p class="quote">"Nourish your skin, nourish your soul."</p>
-  </section>
-</main>
+    <!-- Quotes Section -->
+    <section class="quotes card">
+      <h3>Skincare Quotes</h3>
+      <p class="quote">"The best foundation you can wear is healthy skin."</p>
+      <p class="quote">"Hydration is key for glowing skin."</p>
+      <p class="quote">"Nourish your skin, nourish your soul."</p>
+    </section>
+  </main>
 
-<footer>© 2025 Beginner's Guide to Skin Care</footer>
+  <footer>© 2025 Beginner's Guide to Skin Care</footer>
 
-<script>
-  // Animate cards on scroll
-  const cards = document.querySelectorAll('.card');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.2 });
-  cards.forEach(card => observer.observe(card));
-</script>
+  <script>
+    // Animate cards on scroll
+    const cards = document.querySelectorAll('.card');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.2 });
+    cards.forEach(card => observer.observe(card));
+  </script>
 </body>
 </html>
