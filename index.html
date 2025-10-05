@@ -6,50 +6,52 @@
   <title>Beginner's Guide to Skin Care</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
-<body>
-<header>
-  <h1>Beginner's Guide to Skin Care</h1>
-  <nav>
-    <a href="index.html" class="active">Home</a>
-    <a href="profile.html">Your Profile</a>
-    <a href="tips.html">Tips & Info</a>
-    <a href="survey.html">Survey</a>
-    <a href="results.html">Survey Answers</a>
-    <a href="products.html">Products</a>
-  </nav>
-</header>
+<body class="index-page">
+  <header>
+    <h1>Beginner's Guide to Skin Care</h1>
+    <nav>
+      <a href="index.html" class="active">Home</a>
+      <a href="profile.html">Your Profile</a>
+      <a href="tips.html">Tips & Info</a>
+      <a href="survey.html">Survey</a>
+      <a href="results.html">Survey Answers</a>
+      <a href="products.html">Products</a>
+    </nav>
+  </header>
 
-<main>
-  <div class="hero-section card">
-    <img src="images/skincare.jpeg" alt="Skin Care" class="hero-image"/>
-    <div class="hero-text">
-      <h2>Invest in Your Skin, It's Going to Represent You Forever</h2>
-      <p>Learn, explore, and take care of your skin with our beginner-friendly guide. Start your journey today!</p>
-      <button onclick="location.href='profile.html'">Create Your Profile</button>
+  <main>
+    <!-- Hero Section -->
+    <div class="hero-section card">
+      <img src="images/skincare.jpeg" alt="Skin Care" class="hero-image"/>
+      <div class="hero-text">
+        <h2>GOOD SKINCARE IS SELF-CARE</h2>
+        <p>Learn, explore, and take care of your skin with our beginner-friendly guide. Start your journey today!</p>
+        <button onclick="location.href='profile.html'">Create Your Profile</button>
+      </div>
     </div>
-  </div>
 
-  <section class="quotes card">
-    <h3>Skin Care Wisdom</h3>
-    <p class="quote">"Healthy skin is a reflection of overall wellness."</p>
-    <p class="quote">"Consistency over time brings results in skincare."</p>
-    <p class="quote">"Your skin deserves daily love and care."</p>
-  </section>
-</main>
+    <!-- Quotes Section -->
+    <section class="quotes card">
+      <h3>Skin Care Wisdom</h3>
+      <p class="quote">"Healthy skin is a reflection of overall wellness."</p>
+      <p class="quote">"Consistency over time brings results in skincare."</p>
+      <p class="quote">"Your skin deserves daily love and care."</p>
+    </section>
+  </main>
 
-<footer>© 2025 Beginner's Guide to Skin Care</footer>
+  <footer>© 2025 Beginner's Guide to Skin Care</footer>
 
-<script>
-  // Animate cards on scroll
-  const cards = document.querySelectorAll('.card');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.2 });
-  cards.forEach(card => observer.observe(card));
-</script>
+  <script>
+    // Animate cards on scroll
+    const cards = document.querySelectorAll('.card');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.2 });
+    cards.forEach(card => observer.observe(card));
+  </script>
 </body>
 </html>
