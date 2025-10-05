@@ -15,7 +15,7 @@
     <a href="tips.html">Tips & Info</a>
     <a href="survey.html">Survey</a>
     <a href="results.html">Survey Answers</a>
-    <a href="products.html">Products</a>
+    <a href="product.html">Products</a>
   </nav>
 </header>
 
@@ -34,44 +34,17 @@
   </div>
 
   <section class="product-list">
-    <div class="product-card" data-types="all,normal,dry">
-      <img src="images/cleanser.jpg" alt="Gentle Cleanser">
-      <h3>Gentle Cleanser</h3>
-      <p>Non-stripping daily cleanser.</p>
-      <p class="price">₹299</p>
-    </div>
-
-    <div class="product-card" data-types="dry,normal,sensitive">
-      <img src="images/moisturizer.jpg" alt="Hydrating Moisturizer">
-      <h3>Hydrating Moisturizer</h3>
-      <p>Ceramides + HA for dry skin.</p>
-      <p class="price">₹399</p>
-    </div>
-
-    <div class="product-card" data-types="all,dry,oily,normal,combo,sensitive,acne">
-      <img src="images/sunscreen.jpg" alt="Sunscreen SPF 50">
-      <h3>Broad Spectrum Sunscreen SPF 50</h3>
-      <p>Lightweight, no white cast.</p>
-      <p class="price">₹549</p>
-    </div>
-
-    <div class="product-card" data-types="oily,acne,combo">
-      <img src="images/toner.jpg" alt="BHA Toner">
-      <h3>BHA Toner (Salicylic)</h3>
-      <p>Helps with pores & blackheads.</p>
-      <p class="price">₹499</p>
-    </div>
-
-    <div class="product-card" data-types="sensitive,normal,dry">
-      <img src="images/serum.jpg" alt="Soothing Serum">
-      <h3>Soothing Serum</h3>
-      <p>Centella + Panthenol.</p>
-      <p class="price">₹699</p>
-    </div>
+    <!-- Products will be loaded here dynamically -->
   </section>
 </main>
 
 <footer>© 2025 Skincare Website</footer>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<!-- Script -->
 <script src="script.js"></script>
 </body>
 </html>
