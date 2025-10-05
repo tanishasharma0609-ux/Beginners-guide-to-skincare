@@ -1,5 +1,5 @@
-/* ---------------- BASE ---------------- */
-* { box-sizing: border-box; margin:0; padding:0; }
+/* ---------------- Base ---------------- */
+* { box-sizing: border-box; }
 :root {
   --brand: #e75480;
   --brand-2: #ffccd5;
@@ -7,30 +7,33 @@
   --text: #333;
   --card: #fff;
 }
-body {
-  font-family: 'Poppins', sans-serif;
-  background: #f9f9f9;
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', Arial, sans-serif;
   color: var(--text);
+  background: #f9f9f9;
+  scroll-behavior: smooth;
 }
 
-/* ---------------- HEADER / NAV ---------------- */
+/* ---------------- Header / Nav ---------------- */
 header {
   background: var(--brand-2);
   padding: 16px 12px;
-  text-align: center;
 }
 header h1 {
+  margin: 0 0 8px 0;
+  text-align: center;
   font-family: 'Playfair Display', serif;
-  font-size: 2.2em;
   color: var(--brand);
-  margin-bottom: 10px;
-  animation: fadeInDown 1s ease-out;
+  font-size: 2rem;
 }
 nav {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
   gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
   background: var(--brand-3);
   padding: 10px 12px;
   border-radius: 12px;
@@ -38,112 +41,153 @@ nav {
 nav a {
   text-decoration: none;
   color: var(--text);
-  font-weight: 600;
-  padding: 6px 12px;
+  font-weight: bold;
+  padding: 6px 10px;
   border-radius: 8px;
   transition: 0.3s;
 }
-nav a:hover, nav a.active {
-  color: #fff;
+nav a.active, nav a:hover { 
+  color: #fff; 
   background: var(--brand);
 }
 
-/* ---------------- HERO IMAGE ---------------- */
-.hero, .tips-hero {
-  position: relative;
+/* ---------------- Layout ---------------- */
+main { 
+  padding: 20px; 
+  max-width: 980px; 
+  margin: 0 auto; 
+}
+.card {
+  background: var(--card); 
+  border-radius: 12px; 
+  padding: 16px; 
+  margin: 16px 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease-out;
+}
+.card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.grid { display: grid; gap: 16px; }
+.grid.two { grid-template-columns: repeat(2, minmax(0,1fr)); }
+.grid.three { grid-template-columns: repeat(3, minmax(0,1fr)); }
+@media (max-width: 780px) {
+  .grid.two, .grid.three { grid-template-columns: 1fr; }
+}
+
+/* ---------------- Forms ---------------- */
+label { font-weight: bold; }
+input[type="text"], input[type="number"], select, textarea {
+  width: 100%; 
+  padding: 10px; 
+  border-radius: 8px;
+  border: 1px solid #ccc; 
+  margin: 6px 0 14px;
+}
+button {
+  padding: 10px 16px; 
+  background: var(--brand); 
+  color: #fff; 
+  border: 0;
+  border-radius: 8px; 
+  cursor: pointer; 
+  font-weight: bold;
+  transition: 0.3s;
+}
+button:hover { background: #c94f73; }
+
+/* ---------------- Profile Card ---------------- */
+.profile-card {
+  background: #ffe0f0;       
+  border: 2px solid #ff99cc; 
+  border-radius: 15px;
+  padding: 20px;
+  width: 300px;
+  margin: 20px auto;
+  box-shadow: 0 4px 12px rgba(255, 153, 204, 0.3);
+  font-family: 'Comic Sans MS', cursive, sans-serif;
   text-align: center;
-  margin-bottom: 30px;
+  color: #d63384;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.profile-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(255, 153, 204, 0.5);
+}
+.profile-card h2 { margin-bottom: 15px; color: #ff3399; }
+.profile-card p { font-size: 1.1em; margin: 8px 0; }
+
+/* ---------------- Products ---------------- */
+.product-list { 
+  display: grid; 
+  gap: 16px; 
+  grid-template-columns: repeat(3, minmax(0,1fr)); 
+}
+.product-card {
+  background: #fff; 
+  border-radius: 12px; 
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.3s;
+}
+.product-card:hover { transform: translateY(-5px); }
+.product-card img { 
+  width: 100%; 
+  height: 180px; 
+  object-fit: cover; 
+  border-radius: 10px; 
+}
+.product-card h3 { margin: 10px 0 4px; }
+.price { font-weight: bold; }
+
+/* ---------------- Footer ---------------- */
+footer {
+  background: var(--brand-2); 
+  padding: 10px; 
+  text-align: center; 
+  margin-top: 20px;
+  border-top: 1px solid #f1b8c4;
+}
+
+/* ---------------- Hero & Section Animations ---------------- */
+@keyframes fadeSlideUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 .hero-image {
   width: 100%;
   max-height: 400px;
   object-fit: cover;
   border-radius: 12px;
-  animation: fadeIn 1.2s ease-in-out;
-}
-.hero-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #fff;
-  text-shadow: 1px 2px 6px rgba(0,0,0,0.5);
+  opacity: 0;
+  animation: fadeSlideUp 1.2s forwards;
 }
 .hero-text h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 2em;
-  margin-bottom: 12px;
-  animation: fadeInDown 1s 0.5s both;
+  opacity: 0;
+  animation: fadeSlideUp 1s 1.2s forwards;
 }
 .hero-text p {
-  font-size: 1.1em;
-  margin-bottom: 15px;
-  animation: fadeInDown 1s 0.7s both;
+  opacity: 0;
+  animation: fadeSlideUp 1s 1.5s forwards;
 }
 .hero-text button {
-  padding: 12px 20px;
-  font-weight: bold;
-  background: var(--brand);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
-  animation: fadeInUp 1s 0.9s both;
+  opacity: 0;
+  animation: fadeSlideUp 1s 1.8s forwards;
 }
-.hero-text button:hover { background: #c94f73; }
-
-/* ---------------- CARDS ---------------- */
-.card {
-  background: var(--card);
+.section-image {
+  width: 100%;
+  max-height: 250px;
+  object-fit: cover;
   border-radius: 12px;
-  padding: 20px;
-  margin: 20px auto;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  animation: fadeIn 1s ease-out;
+  margin-bottom: 12px;
+  opacity: 0;
+  animation: fadeSlideUp 1s 0.5s forwards;
 }
-
-/* ---------------- QUOTES ---------------- */
 .quotes .quote {
-  background: var(--brand-3);
-  padding: 15px 20px;
-  margin: 10px 0;
-  border-left: 5px solid var(--brand);
-  font-style: italic;
-  color: var(--brand);
-  border-radius: 8px;
-  animation: fadeInUp 1s ease-out;
+  opacity: 0;
+  animation: fadeSlideUp 0.8s forwards;
 }
-
-/* ---------------- LISTS ---------------- */
-ul { padding-left: 20px; }
-ul li { margin-bottom: 8px; line-height: 1.4em; }
-
-/* ---------------- FOOTER ---------------- */
-footer {
-  background: var(--brand-2);
-  text-align: center;
-  padding: 12px;
-  margin-top: 30px;
-  border-top: 1px solid #f1b8c4;
-}
-
-/* ---------------- ANIMATIONS ---------------- */
-@keyframes fadeIn {
-  from {opacity: 0;} to {opacity:1;}
-}
-@keyframes fadeInDown {
-  from {opacity:0; transform: translateY(-20px);}
-  to {opacity:1; transform: translateY(0);}
-}
-@keyframes fadeInUp {
-  from {opacity:0; transform: translateY(20px);}
-  to {opacity:1; transform: translateY(0);}
-}
-
-/* ---------------- MEDIA ---------------- */
-@media (max-width: 780px) {
-  .hero-text h2 { font-size: 1.5em; }
-  .hero-text p { font-size: 1em; }
-  .hero-text button { padding: 10px 16px; }
-}
+.quotes .quote:nth-child(1) { animation-delay: 0.5s;
