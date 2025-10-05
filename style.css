@@ -3,260 +3,277 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  scroll-behavior: smooth;
-}
-:root {
-  --brand: #e75480;
-  --brand-2: #ffccd5;
-  --brand-3: #ffe5ec;
-  --text: #333;
-  --card: #fff;
-  --shadow: rgba(0,0,0,0.1);
+  font-family: 'Arial', sans-serif;
+  transition: all 0.3s ease;
 }
 
+:root {
+  --brand: #e75480;
+  --brand-light: #ffccd5;
+  --brand-lighter: #ffe5ec;
+  --text: #333;
+  --card: #fff;
+  --button-hover: #c94f73;
+  --header-height: auto;
+}
+
+/* ---------------- BODY ---------------- */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #f9f9f9;
   color: var(--text);
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 /* ---------------- HEADER / NAV ---------------- */
 header {
-  background: var(--brand-2);
+  background: var(--brand-light);
   padding: 16px 12px;
   text-align: center;
 }
+
 header h1 {
-  margin-bottom: 12px;
-  font-size: 2rem;
+  margin-bottom: 10px;
   color: var(--brand);
+  font-size: 2rem;
 }
+
 nav {
   display: flex;
+  gap: 12px;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 12px;
-  padding: 10px;
-  background: var(--brand-3);
+  background: var(--brand-lighter);
+  padding: 10px 12px;
   border-radius: 12px;
 }
+
 nav a {
   text-decoration: none;
   color: var(--text);
-  font-weight: 600;
+  font-weight: bold;
   padding: 6px 12px;
   border-radius: 8px;
-  transition: 0.3s;
-}
-nav a.active, nav a:hover {
-  background: #fff;
-  color: var(--brand);
+  transition: background 0.3s, color 0.3s;
 }
 
-/* ---------------- HERO / MAIN ---------------- */
-.hero-section {
-  position: relative;
-  text-align: center;
-  margin-bottom: 24px;
+nav a:hover,
+nav a.active {
+  color: var(--brand);
+  background: #fff;
 }
-.hero-section .hero-image {
-  width: 100%;
-  max-height: 500px;
-  object-fit: cover;
-  border-radius: 12px;
-}
-.hero-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #fff;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.5);
-  padding: 16px;
-  max-width: 90%;
-}
-.hero-text h2 {
-  font-size: 2rem;
-  margin-bottom: 12px;
-  animation: fadeInDown 1s ease forwards;
-}
-.hero-text p {
-  font-size: 1.2rem;
-  margin-bottom: 16px;
-  animation: fadeInUp 1s ease forwards;
-}
-.hero-text button {
-  background: var(--brand);
-  color: #fff;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s;
-}
-.hero-text button:hover {
-  background: #c94f73;
+
+/* ---------------- MAIN ---------------- */
+main {
+  max-width: 1100px;
+  margin: 20px auto;
+  padding: 0 16px;
 }
 
 /* ---------------- CARDS ---------------- */
 .card {
   background: var(--card);
-  border-radius: 12px;
+  border-radius: 15px;
   padding: 20px;
-  margin: 16px auto;
-  max-width: 980px;
-  box-shadow: 0 4px 12px var(--shadow);
+  margin: 20px 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   opacity: 0;
   transform: translateY(20px);
-  transition: all 0.8s ease;
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
+
 .card.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* ---------------- QUOTES ---------------- */
-.quotes {
-  text-align: center;
-  background: var(--brand-3);
-}
-.quotes h3 {
-  margin-bottom: 12px;
-  color: var(--brand);
-}
-.quote {
-  font-style: italic;
-  margin-bottom: 8px;
+/* ---------------- GRID LAYOUTS ---------------- */
+.grid {
+  display: grid;
+  gap: 16px;
 }
 
-/* ---------------- PROFILE ---------------- */
+.grid.two {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid.three {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 780px) {
+  .grid.two,
+  .grid.three {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------------- FORM ELEMENTS ---------------- */
+label {
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin: 6px 0 14px;
+}
+
+button {
+  padding: 10px 20px;
+  background: var(--brand);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: var(--button-hover);
+}
+
+/* ---------------- PROFILE CARD ---------------- */
 .profile-card {
   background: #ffe0f0;
   border: 2px solid #ff99cc;
   border-radius: 15px;
   padding: 20px;
-  width: 300px;
+  max-width: 400px;
   margin: 20px auto;
   text-align: center;
   color: #d63384;
-  box-shadow: 0 6px 12px rgba(255, 153, 204, 0.4);
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-.profile-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 18px rgba(255, 153, 204, 0.6);
-}
-.profile-card h2 {
-  margin-bottom: 15px;
-  color: #ff3399;
+  box-shadow: 0 4px 8px rgba(255, 153, 204, 0.3);
 }
 
-/* ---------------- FORMS ---------------- */
-label {
-  font-weight: bold;
+.profile-card h2 {
+  color: #ff3399;
+  margin-bottom: 15px;
 }
-input, select, textarea {
-  width: 100%;
-  padding: 10px;
-  margin: 6px 0 14px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-button {
-  cursor: pointer;
-}
-button:hover {
-  opacity: 0.9;
+
+.profile-card p {
+  font-size: 1.1em;
+  margin: 8px 0;
 }
 
 /* ---------------- PRODUCTS ---------------- */
+.product-page-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.product-page-header h2 {
+  font-size: 1.8rem;
+  color: var(--brand);
+}
+
+#filterType {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
 .product-list {
   display: grid;
   gap: 16px;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  margin: 16px auto;
-  max-width: 980px;
+  grid-template-columns: repeat(3, 1fr);
 }
+
 .product-card {
-  background: var(--card);
+  background: #fff;
   border-radius: 12px;
-  padding: 12px;
-  box-shadow: 0 2px 8px var(--shadow);
-  transition: transform 0.3s;
+  padding: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
+
 .product-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
+
 .product-card img {
   width: 100%;
   height: 180px;
   object-fit: cover;
   border-radius: 10px;
 }
+
 .product-card h3 {
-  margin: 10px 0 4px;
+  margin: 12px 0 6px;
 }
-.product-card .price {
+
+.price {
   font-weight: bold;
   color: var(--brand);
 }
 
-/* ---------------- PRODUCT FILTER ---------------- */
-.card label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 6px;
+/* ---------------- HERO SECTION ---------------- */
+.hero-section {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  margin-bottom: 30px;
 }
-#filterType {
+
+.hero-image {
   width: 100%;
-  padding: 8px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  margin-bottom: 16px;
-  font-size: 1rem;
-  background: #fff;
-  color: var(--text);
+  height: 300px;
+  object-fit: cover;
+}
+
+.hero-text {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  color: #fff;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+}
+
+.hero-text h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.hero-text p {
+  font-size: 1.1rem;
+}
+
+/* ---------------- QUOTES ---------------- */
+.quotes {
+  text-align: center;
+}
+
+.quote {
+  font-style: italic;
+  margin: 8px 0;
 }
 
 /* ---------------- FOOTER ---------------- */
 footer {
+  background: var(--brand-light);
+  padding: 12px;
   text-align: center;
-  padding: 10px;
-  background: var(--brand-2);
+  margin-top: 20px;
   border-top: 1px solid #f1b8c4;
-  margin-top: 24px;
-}
-
-/* ---------------- GRID UTILITIES ---------------- */
-.grid {
-  display: grid;
-  gap: 16px;
-}
-.grid.two { grid-template-columns: repeat(2, 1fr); }
-.grid.three { grid-template-columns: repeat(3, 1fr); }
-@media (max-width: 780px) {
-  .grid.two, .grid.three {
-    grid-template-columns: 1fr;
-  }
 }
 
 /* ---------------- ANIMATIONS ---------------- */
-@keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
-/* ---------------- SECTION IMAGES ---------------- */
-.section-image {
-  width: 100%;
-  max-height: 350px;
-  object-fit: cover;
-  border-radius: 12px;
-  margin-bottom: 12px;
+.visible {
+  animation: fadeInUp 0.6s forwards;
 }
