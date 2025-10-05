@@ -162,33 +162,29 @@ async function renderResults() {
 
 /* ---------------- DEFAULT PRODUCTS ---------------- */
 const defaultProducts = [
-  { name: "Gentle Cleanser", description: "Non-stripping daily cleanser", price: 299, types: ["all","normal","dry"], image: "cleanser.jpg" },
-  { name: "Hydrating Moisturizer", description: "Ceramides + HA for dry skin", price: 399, types: ["dry","normal","sensitive"], image: "moisturizer.jpg" },
-  { name: "Broad Spectrum Sunscreen SPF 50", description: "Lightweight, no white cast", price: 549, types: ["all","dry","oily","normal","combo","sensitive","acne-prone"], image: "sunscreen.jpg" },
-  { name: "BHA Toner (Salicylic)", description: "Helps with pores & blackheads", price: 499, types: ["oily","acne-prone","combination"], image: "toner.jpg" },
-  { name: "Soothing Serum", description: "Centella + Panthenol", price: 699, types: ["sensitive","normal","dry"], image: "soothingserum.jpg" }
+  { name:"Gentle Cleanser", description:"Non-stripping daily cleanser", price:299, types:["all","normal","dry"], image:"cleanser.jpg" },
+  { name:"Hydrating Moisturizer", description:"Ceramides + HA for dry skin", price:399, types:["dry","normal","sensitive"], image:"moisturizer.jpg" },
+  { name:"Broad Spectrum Sunscreen SPF 50", description:"Lightweight, no white cast", price:549, types:["all","dry","oily","normal","combo","sensitive","acne"], image:"sunscreen.jpg" },
+  { name:"BHA Toner (Salicylic)", description:"Helps with pores & blackheads", price:499, types:["oily","acne","combo"], image:"toner.jpg" },
+  { name:"Soothing Serum", description:"Centella + Panthenol", price:699, types:["sensitive","normal","dry"], image:"serum.jpg" }
 ];
 
+/* ---------------- INIT PRODUCTS ---------------- */
 async function initProducts() {
   const snapshot = await db.collection("Products").get();
   if (snapshot.empty) {
     console.log("Creating default Products collection...");
     for (const p of defaultProducts) {
       await db.collection("Products").add(p);
-      console.log("Added product:", p.name);
     }
-  } else {
-    console.log("Products already exist, not adding defaults.");
   }
 }
-
 
 /* ---------------- LOAD PRODUCTS ---------------- */
 async function loadProducts() {
   const container = document.querySelector(".product-list");
   if (!container) return;
-
-  container.innerHTML = "";
+  container.innerHTML = ""; // Clear duplicates
 
   const snapshot = await db.collection("Products").get();
   snapshot.forEach(doc => {
@@ -205,7 +201,7 @@ async function loadProducts() {
     container.appendChild(card);
   });
 
-  applyFilter();
+  applyFilter(); // Apply initial filter
 }
 
 /* ---------------- FILTER PRODUCTS ---------------- */
@@ -219,6 +215,15 @@ function applyFilter() {
     card.style.display = selected === "all" || types.includes(selected) ? "block" : "none";
   });
 }
+
+/* ---------------- INIT ---------------- */
+document.addEventListener("DOMContentLoaded", async () => {
+  await initProducts();
+  await loadProducts();
+
+  const filterSelect = document.getElementById("filterType");
+  if (filterSelect) filterSelect.addEventListener("change", applyFilter);
+});
 
 /* ---------------- INIT ---------------- */
 document.addEventListener('DOMContentLoaded', async () => {
@@ -259,5 +264,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   const filterSelect = document.getElementById("filterType");
   if (filterSelect) filterSelect.addEventListener("change", applyFilter);
 });
+
 
 
