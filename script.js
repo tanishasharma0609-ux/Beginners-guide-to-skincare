@@ -68,7 +68,6 @@ function computeSkinType(answers) {
   if (answers.routine === 'advanced') score.normal += 2;
 
   let skinType = Object.entries(score).sort((a,b)=>b[1]-a[1])[0][0];
-
   if (skinType === "combo") return "combination";
   if (skinType === "acne") return "acne-prone";
   return skinType;
@@ -158,8 +157,8 @@ function renderResults() {
 const defaultProducts = [
   { name: "Gentle Cleanser", description: "Non-stripping daily cleanser", price: 299, types: ["all","normal","dry"], image: "cleanser.jpg" },
   { name: "Hydrating Moisturizer", description: "Ceramides + HA for dry skin", price: 399, types: ["dry","normal","sensitive"], image: "moisturizer.jpg" },
-  { name: "Broad Spectrum Sunscreen SPF 50", description: "Lightweight, no white cast", price: 549, types: ["all","dry","oily","normal","combo","sensitive","acne"], image: "sunscreen.jpg" },
-  { name: "BHA Toner (Salicylic)", description: "Helps with pores & blackheads", price: 499, types: ["oily","acne","combo"], image: "toner.jpg" },
+  { name: "Broad Spectrum Sunscreen SPF 50", description: "Lightweight, no white cast", price: 549, types: ["all","dry","oily","normal","combination","sensitive","acne-prone"], image: "sunscreen.jpg" },
+  { name: "BHA Toner (Salicylic)", description: "Helps with pores & blackheads", price: 499, types: ["oily","acne-prone","combination"], image: "toner.jpg" },
   { name: "Soothing Serum", description: "Centella + Panthenol", price: 699, types: ["sensitive","normal","dry"], image: "serum.jpg" }
 ];
 
@@ -177,14 +176,16 @@ async function loadProducts() {
   const container = document.querySelector(".product-list");
   if (!container) return;
 
-  container.innerHTML = "";
+  container.innerHTML = "<p>Loading products...</p>";
 
   try {
     const snapshot = await db.collection("Products").get();
+    container.innerHTML = "";
+
     snapshot.forEach(doc => {
       const p = doc.data();
       const card = document.createElement("div");
-      card.classList.add("product-card");
+      card.classList.add("product-card", "visible");
       card.dataset.types = p.types.join(",");
       card.innerHTML = `
         <img src="images/${p.image}" alt="${p.name}">
@@ -194,9 +195,13 @@ async function loadProducts() {
       `;
       container.appendChild(card);
     });
+
+    document.querySelectorAll(".card").forEach(c => c.classList.add("visible"));
     applyFilter();
+
   } catch(err) {
     console.error("Error loading products:", err);
+    container.innerHTML = `<p style="color:red;">Error loading products.</p>`;
   }
 }
 
@@ -216,7 +221,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   loadProfile();
   renderResults();
 
-  // Save Profile
   const saveButton = document.getElementById('savebutton');
   if (saveButton) saveButton.addEventListener('click', () => {
     const profileData = {
@@ -228,17 +232,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     saveProfile(profileData);
   });
 
-  // Survey submission
   const surveyForm = document.getElementById('surveyForm');
   if (surveyForm) surveyForm.addEventListener('submit', submitSurvey);
 
-  // Browse Products button
   const browseBtn = document.getElementById('browseProductsBtn');
   if (browseBtn) browseBtn.addEventListener('click', () => {
     window.location.href = 'product.html';
   });
 
-  // Products
   await initProducts();
   await loadProducts();
   const filterSelect = document.getElementById("filterType");
