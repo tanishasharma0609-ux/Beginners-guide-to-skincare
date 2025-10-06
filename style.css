@@ -1,57 +1,319 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Products | Skin Studio</title>
-  
-  <!-- Link to your main stylesheet (product-specific one) -->
-  <link rel="stylesheet" href="product.css" />
+/* ---------------- BASE ---------------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  transition: all 0.3s ease;
+}
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-</head>
-<body>
-  <header>
-    <nav>
-      <a href="index.html" class="logo">Skin Studio</a>
-      <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="survey.html">Survey</a>
-        <a href="results.html">Results</a>
-        <a href="product.html" class="active">Products</a>
-      </div>
-    </nav>
-  </header>
+:root {
+  --brand: #e75480;
+  --brand-light: #ffccd5;
+  --brand-lighter: #ffe5ec;
+  --text: #333;
+  --card: #fff;
+  --button-hover: #c94f73;
+  --header-height: auto;
+}
 
-  <main class="product-page">
-    <h1>Recommended Products</h1>
+/* ---------------- BODY ---------------- */
+body {
+  background: #f9f9f9;
+  color: var(--text);
+  line-height: 1.6;
+}
 
-    <div class="filter-bar">
-      <label for="filterType">Filter by skin type:</label>
-      <select id="filterType">
-        <option value="all">All</option>
-        <option value="dry">Dry</option>
-        <option value="oily">Oily</option>
-        <option value="normal">Normal</option>
-        <option value="combo">Combination</option>
-        <option value="sensitive">Sensitive</option>
-        <option value="acne">Acne-prone</option>
-      </select>
-    </div>
+/* ---------------- HEADER / NAV ---------------- */
+header {
+  background: var(--brand-light);
+  padding: 16px 12px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
 
-    <!-- Product List (filled dynamically by script.js) -->
-    <div class="product-list">
-      <!-- Product cards will load here -->
-    </div>
-  </main>
+header h1 {
+  margin-bottom: 10px;
+  color: var(--brand);
+  font-size: 2rem;
+}
 
-  <footer>
-    <p>© 2025 Skin Studio. All rights reserved.</p>
-  </footer>
+nav {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  background: var(--brand-lighter);
+  padding: 10px 12px;
+  border-radius: 12px;
+}
 
-  <!-- Script -->
-  <script src="script.js"></script>
-</body>
-</html>
+nav a {
+  text-decoration: none;
+  color: var(--text);
+  font-weight: bold;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+nav a:hover,
+nav a.active {
+  color: #fff;
+  background: var(--brand);
+}
+
+/* ---------------- MAIN ---------------- */
+main {
+  max-width: 1100px;
+  margin: 20px auto;
+  padding: 0 16px;
+}
+
+/* ---------------- CARDS ---------------- */
+.card {
+  background: var(--card);
+  border-radius: 15px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------------- GRID LAYOUTS ---------------- */
+.grid {
+  display: grid;
+  gap: 16px;
+}
+
+.grid.two {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid.three {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 780px) {
+  .grid.two,
+  .grid.three {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------------- FORM ELEMENTS ---------------- */
+label {
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin: 6px 0 14px;
+}
+
+button {
+  padding: 10px 20px;
+  background: var(--brand);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: var(--button-hover);
+  transform: translateY(-2px);
+}
+
+/* ---------------- PROFILE CARD ---------------- */
+.profile-card {
+  background: #ffe0f0;
+  border: 2px solid #ff99cc;
+  border-radius: 15px;
+  padding: 20px;
+  max-width: 400px;
+  margin: 20px auto;
+  text-align: center;
+  color: #d63384;
+  box-shadow: 0 8px 20px rgba(255, 153, 204, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(255, 153, 204, 0.4);
+}
+
+.profile-card h2 {
+  color: #ff3399;
+  margin-bottom: 15px;
+}
+
+.profile-card p {
+  font-size: 1.1em;
+  margin: 8px 0;
+}
+
+/* ---------------- PRODUCTS ---------------- */
+.product-page-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: var(--brand-lighter);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s forwards;
+}
+
+.product-page-header h2 {
+  font-size: 1.8rem;
+  color: var(--brand);
+}
+
+#filterType {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  background: #fff;
+  cursor: pointer;
+}
+
+#filterType:hover {
+  border-color: var(--brand);
+}
+
+/* Product Grid */
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Product Card */
+.product-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.5s forwards;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+}
+
+.product-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.product-card h3 {
+  font-size: 1.1rem;
+  color: var(--text);
+  margin: 6px 0;
+}
+
+.product-card p {
+  color: #555;
+  font-size: 0.95rem;
+  margin: 4px 0;
+}
+
+.price {
+  font-weight: bold;
+  color: var(--brand);
+  margin-top: 6px;
+  font-size: 1rem;
+}
+
+/* ---------------- HERO SECTION ---------------- */
+.hero-section {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.hero-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.hero-text {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  color: #fff;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+}
+
+.hero-text h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.hero-text p {
+  font-size: 1.1rem;
+}
+
+/* ---------------- QUOTES ---------------- */
+.quotes {
+  text-align: center;
+}
+
+.quote {
+  font-style: italic;
+  margin: 8px 0;
+}
+
+/* ---------------- FOOTER ---------------- */
+footer {
+  background: var(--brand-light);
+  padding: 12px;
+  text-align: center;
+  margin-top: 20px;
+  border-top: 1px solid #f1b8c4;
+}
+
+/* ---------------- ANIMATIONS ---------------- */
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.visible {
+  animation: fadeInUp 0.6s forwards;
+}
