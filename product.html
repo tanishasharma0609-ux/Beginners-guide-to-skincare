@@ -1,50 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Products - Beginner's Guide to Skin Care</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products | Skin Studio</title>
+  
+  <!-- Link to your main stylesheet (product-specific one) -->
+  <link rel="stylesheet" href="product.css" />
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 </head>
 <body>
-<header>
-  <h1>Products</h1>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="profile.html">Your Profile</a>
-    <a href="tips.html">Tips & Info</a>
-    <a href="survey.html">Survey</a>
-    <a href="results.html">Survey Answers</a>
-    <a href="product.html" class="active">Products</a>
-  </nav>
-</header>
+  <header>
+    <nav>
+      <a href="index.html" class="logo">Skin Studio</a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="survey.html">Survey</a>
+        <a href="results.html">Results</a>
+        <a href="product.html" class="active">Products</a>
+      </div>
+    </nav>
+  </header>
 
-<main>
-  <div class="card">
-    <label for="filterType">Filter by skin type:</label>
-    <select id="filterType">
-      <option value="all">All</option>
-      <option value="dry">Dry</option>
-      <option value="oily">Oily</option>
-      <option value="normal">Normal</option>
-      <option value="sensitive">Sensitive</option>
-      <option value="combination">Combination</option>
-      <option value="acne-prone">Acne-prone</option>
-    </select>
-  </div>
+  <main class="product-page">
+    <h1>Recommended Products</h1>
 
-  <div class="product-list card">
-    <!-- Products will be dynamically loaded here -->
-  </div>
-</main>
+    <div class="filter-bar">
+      <label for="filterType">Filter by skin type:</label>
+      <select id="filterType">
+        <option value="all">All</option>
+        <option value="dry">Dry</option>
+        <option value="oily">Oily</option>
+        <option value="normal">Normal</option>
+        <option value="combo">Combination</option>
+        <option value="sensitive">Sensitive</option>
+        <option value="acne">Acne-prone</option>
+      </select>
+    </div>
 
-<footer>© 2025 Beginner's Guide to Skin Care</footer>
+    <!-- Product List (filled dynamically by script.js) -->
+    <div class="product-list">
+      <!-- Product cards will load here -->
+    </div>
+  </main>
 
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <footer>
+    <p>© 2025 Skin Studio. All rights reserved.</p>
+  </footer>
 
-<!-- Product Script -->
-<script src="script.js"></script>
+  <!-- Script -->
+  <script src="script.js"></script>
 </body>
 </html>
