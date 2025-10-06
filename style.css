@@ -137,7 +137,7 @@ button {
 
 button:hover {
   background: var(--button-hover);
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.05);
 }
 
 /* ---------------- PROFILE CARD ---------------- */
@@ -151,12 +151,12 @@ button:hover {
   text-align: center;
   color: #d63384;
   box-shadow: 0 8px 20px rgba(255, 153, 204, 0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
 .profile-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 25px rgba(255, 153, 204, 0.4);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 14px 30px rgba(255, 153, 204, 0.45);
 }
 
 .profile-card h2 {
@@ -182,7 +182,7 @@ button:hover {
   box-shadow: 0 4px 15px rgba(0,0,0,0.05);
   opacity: 0;
   transform: translateY(20px);
-  animation: fadeInUp 0.6s forwards;
+  animation: fadeInUp 0.8s ease forwards;
 }
 
 .product-page-header h2 {
@@ -197,6 +197,7 @@ button:hover {
   font-size: 1rem;
   background: #fff;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 #filterType:hover {
@@ -206,8 +207,8 @@ button:hover {
 /* Product Grid */
 .product-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 18px;
   margin-top: 20px;
   opacity: 1 !important;
   transform: none !important;
@@ -220,23 +221,28 @@ button:hover {
   padding: 16px;
   text-align: center;
   box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, opacity 0.6s ease;
   opacity: 0;
   transform: translateY(20px);
-  animation: fadeInUp 0.5s forwards;
+  animation: fadeInUp 0.7s ease forwards;
 }
 
 .product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 14px 30px rgba(0,0,0,0.12);
 }
 
 .product-card img {
   width: 100%;
-  height: 200px;
+  max-height: 180px;
   object-fit: cover;
   border-radius: 12px;
   margin-bottom: 10px;
+  transition: transform 0.4s ease;
+}
+
+.product-card img:hover {
+  transform: scale(1.05);
 }
 
 .product-card h3 {
@@ -264,12 +270,19 @@ button:hover {
   border-radius: 15px;
   overflow: hidden;
   margin-bottom: 30px;
+  max-height: 350px;
 }
 
 .hero-image {
   width: 100%;
   height: 300px;
+  max-height: 300px;
   object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.hero-image:hover {
+  transform: scale(1.05);
 }
 
 .hero-text {
@@ -277,7 +290,7 @@ button:hover {
   bottom: 20px;
   left: 20px;
   color: #fff;
-  text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+  text-shadow: 1px 1px 6px rgba(0,0,0,0.7);
 }
 
 .hero-text h2 {
@@ -310,10 +323,11 @@ footer {
 
 /* ---------------- ANIMATIONS ---------------- */
 @keyframes fadeInUp {
-  0% { opacity: 0; transform: translateY(20px); }
+  0% { opacity: 0; transform: translateY(30px); }
+  60% { opacity: 0.7; transform: translateY(-5px); }
   100% { opacity: 1; transform: translateY(0); }
 }
 
 .visible {
-  animation: fadeInUp 0.6s forwards;
+  animation: fadeInUp 0.7s ease forwards;
 }
