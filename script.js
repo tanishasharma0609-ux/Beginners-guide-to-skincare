@@ -169,6 +169,19 @@ async function initProducts() {
     for (const p of defaultProducts) {
       await db.collection("Products").add(p);
     }
+  } else {
+    // Check if we have all default products, add missing ones
+    const existingNames = new Set();
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      existingNames.add(data.name);
+    });
+    
+    for (const p of defaultProducts) {
+      if (!existingNames.has(p.name)) {
+        await db.collection("Products").add(p);
+      }
+    }
   }
 }
 
@@ -182,8 +195,19 @@ async function loadProducts() {
     const snapshot = await db.collection("Products").get();
     container.innerHTML = "";
 
+    // Remove duplicates by keeping only the first occurrence of each product name
+    const seenNames = new Set();
+    const uniqueProducts = [];
+    
     snapshot.forEach(doc => {
       const p = doc.data();
+      if (!seenNames.has(p.name)) {
+        seenNames.add(p.name);
+        uniqueProducts.push(p);
+      }
+    });
+
+    uniqueProducts.forEach(p => {
       const card = document.createElement("div");
       card.classList.add("product-card", "visible");
       card.dataset.types = p.types.join(",");
