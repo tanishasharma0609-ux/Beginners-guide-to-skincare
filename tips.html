@@ -429,20 +429,28 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Enhanced scroll animations
-      const animatedElements = document.querySelectorAll('.animated-card, .tip-card, .ingredient-card, .problem-card, .lifestyle-card, .season-card, .quote-card');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting){
-          entry.target.classList.add('visible');
-            // Add staggered animation delay
-            const delay = Array.from(animatedElements).indexOf(entry.target) * 100;
-            entry.target.style.animationDelay = `${delay}ms`;
+      // Improved scroll animations with better timing
+      const animatedElements = document.querySelectorAll('.tip-card, .ingredient-card, .problem-card, .lifestyle-card, .season-card, .quote-card, .routine-card');
+      
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach((entry, index) => {
+          if(entry.isIntersecting){
+            // Add a small delay for smoother animation
+            setTimeout(() => {
+              entry.target.classList.add('visible');
+            }, index * 50); // Reduced delay for smoother flow
           }
         });
-      }, { threshold: 0.1 });
+      }, { 
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
+      });
       
-      animatedElements.forEach(element => observer.observe(element));
+      animatedElements.forEach(element => {
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(20px)';
+        observer.observe(element);
+      });
 
       // Search functionality
       const searchInput = document.getElementById('tipSearch');
@@ -481,14 +489,15 @@
         });
       }
 
-      searchInput.addEventListener('input', filterTips);
-      categoryFilter.addEventListener('change', filterTips);
+      if (searchInput) searchInput.addEventListener('input', filterTips);
+      if (categoryFilter) categoryFilter.addEventListener('change', filterTips);
 
-      // Add hover effects to tip cards
-      const tipCards = document.querySelectorAll('.tip-card, .ingredient-card, .problem-card, .lifestyle-card');
+      // Smooth hover effects with better transitions
+      const tipCards = document.querySelectorAll('.tip-card, .ingredient-card, .problem-card, .lifestyle-card, .season-card');
       tipCards.forEach(card => {
         card.addEventListener('mouseenter', () => {
-          card.style.transform = 'translateY(-5px) scale(1.02)';
+          card.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+          card.style.transform = 'translateY(-8px) scale(1.02)';
         });
         
         card.addEventListener('mouseleave', () => {
@@ -496,31 +505,59 @@
         });
       });
 
-      // Add click animations to routine steps
+      // Enhanced click animations for routine steps
       const steps = document.querySelectorAll('.step');
       steps.forEach(step => {
         step.addEventListener('click', () => {
-          step.style.transform = 'scale(0.95)';
+          step.style.transition = 'transform 0.1s ease';
+          step.style.transform = 'scale(0.98)';
           setTimeout(() => {
             step.style.transform = 'scale(1)';
-          }, 150);
+          }, 100);
         });
       });
 
-      // Parallax effect for hero section
-      window.addEventListener('scroll', () => {
+      // Subtle parallax effect for hero section
+      let ticking = false;
+      function updateParallax() {
         const scrolled = window.pageYOffset;
         const hero = document.querySelector('.tips-hero');
-        if (hero) {
-          hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+        if (hero && scrolled < window.innerHeight) {
+          hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+        }
+        ticking = false;
+      }
+
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(updateParallax);
+          ticking = true;
         }
       });
 
-      // Add floating animation to icons
+      // Improved floating animation for icons
       const icons = document.querySelectorAll('.ingredient-icon, .problem-icon, .season-icon');
       icons.forEach((icon, index) => {
-        icon.style.animation = `float 3s ease-in-out infinite`;
-        icon.style.animationDelay = `${index * 0.5}s`;
+        icon.style.animation = `float 4s ease-in-out infinite`;
+        icon.style.animationDelay = `${index * 0.3}s`;
+      });
+
+      // Add smooth reveal animation for sections
+      const sections = document.querySelectorAll('.tips-section');
+      const sectionObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, { threshold: 0.1 });
+
+      sections.forEach(section => {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(30px)';
+        section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        sectionObserver.observe(section);
       });
     });
   </script>
