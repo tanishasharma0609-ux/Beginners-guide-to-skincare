@@ -20,118 +20,336 @@
 </header>
 
 <main>
-  <div class="card">
+  <!-- Progress Bar -->
+  <div class="progress-container">
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <p class="progress-text">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">10</span></p>
+  </div>
+
+  <div class="card survey-container">
+    <div class="survey-header">
+      <h2>✨ Let's discover your perfect skincare routine!</h2>
+      <p class="survey-subtitle">Answer a few quick questions and we'll create a personalized skincare plan just for you</p>
+    </div>
+    
     <form id="surveyForm">
-      <h2>📝 Tell us about your skin</h2>
-      <div class="grid two">
+      <div class="questions-container" id="questionsContainer">
         <!-- 1) Dryness -->
-        <div>
-          <label>1) How often does your skin feel dry/tight?</label>
-          <select name="dryness" required>
-            <option value="">-- choose --</option>
-            <option value="rarely">Rarely</option>
-            <option value="sometimes">Sometimes</option>
-            <option value="often">Often</option>
-          </select>
+        <div class="question-card" data-question="1">
+          <div class="question-header">
+            <span class="question-icon">💧</span>
+            <h3>How often does your skin feel dry or tight?</h3>
+          </div>
+          <div class="options-container">
+            <label class="option-card">
+              <input type="radio" name="dryness" value="rarely" required>
+              <div class="option-content">
+                <span class="option-emoji">😊</span>
+                <span class="option-text">Rarely</span>
+                <span class="option-desc">My skin feels comfortable most of the time</span>
+              </div>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="dryness" value="sometimes" required>
+              <div class="option-content">
+                <span class="option-emoji">🤔</span>
+                <span class="option-text">Sometimes</span>
+                <span class="option-desc">Occasionally after washing or in certain weather</span>
+              </div>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="dryness" value="often" required>
+              <div class="option-content">
+                <span class="option-emoji">😰</span>
+                <span class="option-text">Often</span>
+                <span class="option-desc">Frequently feels tight and uncomfortable</span>
+              </div>
+            </label>
+          </div>
         </div>
 
         <!-- 2) Oiliness -->
-        <div>
-          <label>2) Do you experience oiliness or shine?</label>
-          <select name="oiliness" required>
-            <option value="">-- choose --</option>
-            <option value="no">No</option>
-            <option value="sometimes">Sometimes</option>
-            <option value="yes">Yes</option>
-          </select>
+        <div class="question-card" data-question="2">
+          <div class="question-header">
+            <span class="question-icon">✨</span>
+            <h3>Do you experience oiliness or shine?</h3>
+          </div>
+          <div class="options-container">
+            <label class="option-card">
+              <input type="radio" name="oiliness" value="no" required>
+              <div class="option-content">
+                <span class="option-emoji">🌿</span>
+                <span class="option-text">No</span>
+                <span class="option-desc">My skin stays matte throughout the day</span>
+              </div>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="oiliness" value="sometimes" required>
+              <div class="option-content">
+                <span class="option-emoji">🌤️</span>
+                <span class="option-text">Sometimes</span>
+                <span class="option-desc">Occasional shine, especially in T-zone</span>
+              </div>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="oiliness" value="yes" required>
+              <div class="option-content">
+                <span class="option-emoji">💎</span>
+                <span class="option-text">Yes</span>
+                <span class="option-desc">Frequent shine and oily appearance</span>
+              </div>
+            </label>
+          </div>
         </div>
 
         <!-- 3) Acne -->
-        <div>
-          <label>3) Do you have acne/breakouts?</label>
-          <select name="acne" required>
-            <option value="">-- choose --</option>
-            <option value="never">Never</option>
-            <option value="sometimes">Sometimes</option>
-            <option value="frequent">Frequent</option>
-          </select>
+        <div class="question-card" data-question="3">
+          <div class="question-header">
+            <span class="question-icon">🌟</span>
+            <h3>Do you have acne or breakouts?</h3>
+          </div>
+          <div class="options-container">
+            <label class="option-card">
+              <input type="radio" name="acne" value="never" required>
+              <div class="option-content">
+                <span class="option-emoji">🌸</span>
+                <span class="option-text">Never</span>
+                <span class="option-desc">Clear skin with no breakouts</span>
+              </div>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="acne" value="sometimes" required>
+              <div class="option-content">
+                <span class="option-emoji">🌙</span>
+                <span class="option-text">Sometimes</span>
+                <span class="option-desc">Occasional pimples or small breakouts</span>
+              </div>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="acne" value="frequent" required>
+              <div class="option-content">
+                <span class="option-emoji">🌋</span>
+                <span class="option-text">Frequent</span>
+                <span class="option-desc">Regular breakouts and acne concerns</span>
+              </div>
+            </label>
+          </div>
         </div>
 
         <!-- 4) Sun Exposure -->
-        <div>
-          <label>4) Time in the sun?</label>
-          <select name="sun" required>
-            <option value="">-- choose --</option>
-            <option value="rarely">Rarely</option>
-            <option value="sometimes">Sometimes</option>
-            <option value="often">Often</option>
-          </select>
+        <div class="question-card" data-question="4">
+          <div class="question-header">
+            <span class="question-icon">☀️</span>
+            <h3>How much time do you spend in the sun?</h3>
+          </div>
+          <div class="options-container">
+            <label class="option-card">
+              <input type="radio" name="sun" value="rarely" required>
+              <div class="option-content">
+                <span class="option-emoji">🏠</span>
+                <span class="option-text">Rarely</span>
+                <span class="option-desc">Mostly indoors, minimal sun exposure</span>
+              </div>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="sun" value="sometimes" required>
+              <div class="option-content">
+                <span class="option-emoji">🚶‍♀️</span>
+                <span class="option-text">Sometimes</span>
+                <span class="option-desc">Regular outdoor activities with some protection</span>
+              </div>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="sun" value="often" required>
+              <div class="option-content">
+                <span class="option-emoji">🏖️</span>
+                <span class="option-text">Often</span>
+                <span class="option-desc">Frequent outdoor activities and sun exposure</span>
+              </div>
+            </label>
+          </div>
         </div>
 
         <!-- 5) T-zone Oiliness -->
-        <div>
-          <label>5) Is your T-zone (forehead/nose) more oily?</label>
-          <select name="tzone" required>
-            <option value="">-- choose --</option>
-            <option value="no">No</option>
-            <option value="yes">Yes</option>
-          </select>
+        <div class="question-card" data-question="5">
+          <div class="question-header">
+            <span class="question-icon">🎯</span>
+            <h3>Is your T-zone (forehead/nose) more oily than other areas?</h3>
+          </div>
+          <div class="options-container">
+            <label class="option-card">
+              <input type="radio" name="tzone" value="no" required>
+              <div class="option-content">
+                <span class="option-emoji">⚖️</span>
+                <span class="option-text">No</span>
+                <span class="option-desc">Oiliness is even across my face</span>
+              </div>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="tzone" value="yes" required>
+              <div class="option-content">
+                <span class="option-emoji">🎪</span>
+                <span class="option-text">Yes</span>
+                <span class="option-desc">T-zone gets noticeably oilier</span>
+              </div>
+            </label>
+          </div>
         </div>
 
         <!-- 6) Redness -->
-        <div>
-          <label>6) Do you get redness/itching easily?</label>
-          <select name="redness" required>
-            <option value="">-- choose --</option>
-            <option value="no">No</option>
-            <option value="yes">Yes</option>
-          </select>
+        <div class="question-card" data-question="6">
+          <div class="question-header">
+            <span class="question-icon">🌹</span>
+            <h3>Do you get redness or itching easily?</h3>
+          </div>
+          <div class="options-container">
+            <label class="option-card">
+              <input type="radio" name="redness" value="no" required>
+              <div class="option-content">
+                <span class="option-emoji">🕊️</span>
+                <span class="option-text">No</span>
+                <span class="option-desc">My skin is calm and doesn't react easily</span>
+              </div>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="redness" value="yes" required>
+              <div class="option-content">
+                <span class="option-emoji">🌶️</span>
+                <span class="option-text">Yes</span>
+                <span class="option-desc">My skin is sensitive and reacts easily</span>
+              </div>
+            </label>
+          </div>
         </div>
 
         <!-- 7) Fragrance Sensitivity -->
-        <div>
-          <label>7) Sensitive to fragrance?</label>
-          <select name="fragrance" required>
-            <option value="">-- choose --</option>
-            <option value="no">No</option>
-            <option value="yes">Yes</option>
-          </select>
+        <div class="question-card" data-question="7">
+          <div class="question-header">
+            <span class="question-icon">🌸</span>
+            <h3>Are you sensitive to fragrance in skincare products?</h3>
+          </div>
+          <div class="options-container">
+            <label class="option-card">
+              <input type="radio" name="fragrance" value="no" required>
+              <div class="option-content">
+                <span class="option-emoji">🌺</span>
+                <span class="option-text">No</span>
+                <span class="option-desc">I enjoy scented products without issues</span>
+              </div>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="fragrance" value="yes" required>
+              <div class="option-content">
+                <span class="option-emoji">🤧</span>
+                <span class="option-text">Yes</span>
+                <span class="option-desc">Fragrances irritate my skin</span>
+              </div>
+            </label>
+          </div>
         </div>
 
         <!-- 8) Pores -->
-        <div>
-          <label>8) Pores size?</label>
-          <select name="pores" required>
-            <option value="">-- choose --</option>
-            <option value="small">Small</option>
-            <option value="medium">Medium</option>
-            <option value="large">Large</option>
-          </select>
+        <div class="question-card" data-question="8">
+          <div class="question-header">
+            <span class="question-icon">🔍</span>
+            <h3>How would you describe your pore size?</h3>
+          </div>
+          <div class="options-container">
+            <label class="option-card">
+              <input type="radio" name="pores" value="small" required>
+              <div class="option-content">
+                <span class="option-emoji">✨</span>
+                <span class="option-text">Small</span>
+                <span class="option-desc">Hardly visible, smooth texture</span>
+              </div>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="pores" value="medium" required>
+              <div class="option-content">
+                <span class="option-emoji">🔸</span>
+                <span class="option-text">Medium</span>
+                <span class="option-desc">Noticeable but not prominent</span>
+              </div>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="pores" value="large" required>
+              <div class="option-content">
+                <span class="option-emoji">🔹</span>
+                <span class="option-text">Large</span>
+                <span class="option-desc">Clearly visible and prominent</span>
+              </div>
+            </label>
+          </div>
         </div>
 
         <!-- 9) Flaking -->
-        <div>
-          <label>9) Do you see flaking?</label>
-          <select name="flaking" required>
-            <option value="">-- choose --</option>
-            <option value="no">No</option>
-            <option value="yes">Yes</option>
-          </select>
+        <div class="question-card" data-question="9">
+          <div class="question-header">
+            <span class="question-icon">❄️</span>
+            <h3>Do you experience flaking or peeling skin?</h3>
+          </div>
+          <div class="options-container">
+            <label class="option-card">
+              <input type="radio" name="flaking" value="no" required>
+              <div class="option-content">
+                <span class="option-emoji">🌊</span>
+                <span class="option-text">No</span>
+                <span class="option-desc">My skin stays smooth without flaking</span>
+              </div>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="flaking" value="yes" required>
+              <div class="option-content">
+                <span class="option-emoji">🍂</span>
+                <span class="option-text">Yes</span>
+                <span class="option-desc">I notice flaking, especially in dry areas</span>
+              </div>
+            </label>
+          </div>
         </div>
 
         <!-- 10) Routine -->
-        <div>
-          <label>10) Current routine level?</label>
-          <select name="routine" required>
-            <option value="">-- choose --</option>
-            <option value="none">None</option>
-            <option value="basic">Basic (cleanser + moisturizer + sunscreen)</option>
-            <option value="advanced">Advanced (actives/serums)</option>
-          </select>
+        <div class="question-card" data-question="10">
+          <div class="question-header">
+            <span class="question-icon">🎨</span>
+            <h3>What's your current skincare routine level?</h3>
+          </div>
+          <div class="options-container">
+            <label class="option-card">
+              <input type="radio" name="routine" value="none" required>
+              <div class="option-content">
+                <span class="option-emoji">🌱</span>
+                <span class="option-text">None</span>
+                <span class="option-desc">Just starting my skincare journey</span>
+              </div>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="routine" value="basic" required>
+              <div class="option-content">
+                <span class="option-emoji">🏗️</span>
+                <span class="option-text">Basic</span>
+                <span class="option-desc">Cleanser + moisturizer + sunscreen</span>
+              </div>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="routine" value="advanced" required>
+              <div class="option-content">
+                <span class="option-emoji">🧪</span>
+                <span class="option-text">Advanced</span>
+                <span class="option-desc">I use actives, serums, and targeted treatments</span>
+              </div>
+            </label>
+          </div>
         </div>
       </div>
 
-      <button type="submit">Submit Survey</button>
+      <div class="survey-navigation">
+        <button type="button" id="prevBtn" class="nav-btn prev-btn" style="display: none;">← Previous</button>
+        <button type="button" id="nextBtn" class="nav-btn next-btn">Next →</button>
+        <button type="submit" id="submitBtn" class="submit-btn" style="display: none;">✨ Get My Skincare Plan ✨</button>
+      </div>
     </form>
   </div>
 </main>
@@ -153,6 +371,100 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }, { threshold: 0.2 });
   cards.forEach(card => observer.observe(card));
+
+  // Survey functionality
+  const questions = document.querySelectorAll('.question-card');
+  const totalQuestions = questions.length;
+  let currentQuestionIndex = 0;
+  
+  const progressFill = document.getElementById('progressFill');
+  const currentQuestionSpan = document.getElementById('currentQuestion');
+  const totalQuestionsSpan = document.getElementById('totalQuestions');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const submitBtn = document.getElementById('submitBtn');
+  
+  totalQuestionsSpan.textContent = totalQuestions;
+  
+  // Show first question
+  showQuestion(0);
+  
+  function showQuestion(index) {
+    questions.forEach((q, i) => {
+      q.style.display = i === index ? 'block' : 'none';
+    });
+    
+    currentQuestionIndex = index;
+    currentQuestionSpan.textContent = index + 1;
+    
+    // Update progress bar
+    const progress = ((index + 1) / totalQuestions) * 100;
+    progressFill.style.width = progress + '%';
+    
+    // Update navigation buttons
+    prevBtn.style.display = index > 0 ? 'block' : 'none';
+    nextBtn.style.display = index < totalQuestions - 1 ? 'block' : 'none';
+    submitBtn.style.display = index === totalQuestions - 1 ? 'block' : 'none';
+    
+    // Check if current question is answered
+    updateNextButton();
+  }
+  
+  function updateNextButton() {
+    const currentQuestion = questions[currentQuestionIndex];
+    const selectedOption = currentQuestion.querySelector('input[type="radio"]:checked');
+    const isLastQuestion = currentQuestionIndex === totalQuestions - 1;
+    
+    if (isLastQuestion) {
+      submitBtn.disabled = !selectedOption;
+    } else {
+      nextBtn.disabled = !selectedOption;
+    }
+  }
+  
+  // Navigation event listeners
+  nextBtn.addEventListener('click', () => {
+    if (currentQuestionIndex < totalQuestions - 1) {
+      showQuestion(currentQuestionIndex + 1);
+    }
+  });
+  
+  prevBtn.addEventListener('click', () => {
+    if (currentQuestionIndex > 0) {
+      showQuestion(currentQuestionIndex - 1);
+    }
+  });
+  
+  // Update next button when option is selected
+  questions.forEach(question => {
+    const radioButtons = question.querySelectorAll('input[type="radio"]');
+    radioButtons.forEach(radio => {
+      radio.addEventListener('change', () => {
+        updateNextButton();
+        
+        // Add visual feedback
+        const optionCard = radio.closest('.option-card');
+        optionCard.classList.add('selected');
+        
+        // Remove selection from other options in same question
+        const otherOptions = question.querySelectorAll('.option-card');
+        otherOptions.forEach(opt => {
+          if (opt !== optionCard) {
+            opt.classList.remove('selected');
+          }
+        });
+      });
+    });
+  });
+  
+  // Add keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' && !nextBtn.disabled) {
+      nextBtn.click();
+    } else if (e.key === 'ArrowLeft' && !prevBtn.disabled) {
+      prevBtn.click();
+    }
+  });
 });
 </script>
 </body>
