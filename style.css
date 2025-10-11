@@ -954,6 +954,633 @@ footer {
   box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
 
+/* ---------------- TIPS PAGE STYLES ---------------- */
+.tips-hero {
+  background: linear-gradient(135deg, var(--pink-lighter), var(--lavender-lighter));
+  border-radius: 25px;
+  padding: 60px 40px;
+  margin-bottom: 40px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.tips-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  animation: shimmer 4s ease-in-out infinite;
+}
+
+.tips-hero h2 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, var(--pink), var(--lavender));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  z-index: 1;
+}
+
+.tips-hero p {
+  font-size: 1.3rem;
+  color: var(--text-light);
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Search and Filter */
+.search-card {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.search-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.search-input {
+  padding: 15px 20px;
+  border: 2px solid var(--lavender-light);
+  border-radius: 25px;
+  font-size: 1.1rem;
+  min-width: 300px;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--pink);
+  box-shadow: 0 0 0 3px rgba(255, 179, 217, 0.2);
+}
+
+.category-filter {
+  padding: 15px 20px;
+  border: 2px solid var(--lavender-light);
+  border-radius: 25px;
+  font-size: 1.1rem;
+  background: var(--white);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.category-filter:focus {
+  outline: none;
+  border-color: var(--pink);
+}
+
+/* Tips Sections */
+.tips-section {
+  margin-bottom: 50px;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.section-header h3 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: var(--text);
+}
+
+.section-header p {
+  font-size: 1.2rem;
+  color: var(--text-light);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Tip Cards */
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.tip-card {
+  background: var(--white);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  transition: all 0.4s ease;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.tip-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tip-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+.tip-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.tip-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.tip-card:hover .tip-image img {
+  transform: scale(1.1);
+}
+
+.tip-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
+  background: rgba(255,255,255,0.9);
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.tip-card:hover .tip-overlay {
+  opacity: 1;
+}
+
+.tip-content {
+  padding: 25px;
+}
+
+.tip-content h4 {
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  color: var(--text);
+}
+
+.tip-content p {
+  color: var(--text-light);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.tip-tags {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background: var(--pink-lighter);
+  color: var(--text);
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Routine Cards */
+.routine-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.routine-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  border: 3px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.morning-routine {
+  border-color: var(--pink);
+}
+
+.evening-routine {
+  border-color: var(--lavender);
+}
+
+.routine-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--lavender-light);
+}
+
+.routine-header h4 {
+  font-size: 1.6rem;
+  color: var(--text);
+  margin: 0;
+}
+
+.routine-time {
+  background: var(--lavender-light);
+  color: var(--text);
+  padding: 5px 15px;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.routine-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 15px;
+  background: var(--lavender-lighter);
+  border-radius: 15px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.step:hover {
+  background: var(--pink-lighter);
+  transform: translateX(5px);
+}
+
+.step-number {
+  background: var(--pink);
+  color: var(--white);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.step-content h5 {
+  margin: 0 0 5px 0;
+  color: var(--text);
+  font-size: 1.1rem;
+}
+
+.step-content p {
+  margin: 0;
+  color: var(--text-light);
+  font-size: 0.95rem;
+}
+
+/* Ingredients Grid */
+.ingredients-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.ingredient-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.ingredient-card:hover {
+  border-color: var(--pink);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+}
+
+.ingredient-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.ingredient-card h4 {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.ingredient-card p {
+  color: var(--text-light);
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.ingredient-benefits {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.benefit {
+  background: var(--lavender-light);
+  color: var(--text);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* Problems Grid */
+.problems-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.problem-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.problem-card:hover {
+  border-color: var(--pink);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+}
+
+.problem-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.problem-card h4 {
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  color: var(--text);
+}
+
+.solution-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.solution-list li {
+  background: var(--lavender-lighter);
+  margin-bottom: 8px;
+  padding: 10px 15px;
+  border-radius: 10px;
+  color: var(--text);
+  position: relative;
+  padding-left: 35px;
+}
+
+.solution-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 12px;
+  color: var(--pink);
+  font-weight: bold;
+}
+
+/* Lifestyle Tips */
+.lifestyle-tips {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.lifestyle-card {
+  background: var(--white);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  transition: all 0.4s ease;
+}
+
+.lifestyle-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+.lifestyle-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.lifestyle-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.lifestyle-card:hover .lifestyle-image img {
+  transform: scale(1.1);
+}
+
+.lifestyle-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
+  background: rgba(255,255,255,0.9);
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.lifestyle-card:hover .lifestyle-overlay {
+  opacity: 1;
+}
+
+.lifestyle-content {
+  padding: 25px;
+}
+
+.lifestyle-content h4 {
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  color: var(--text);
+}
+
+.lifestyle-content p {
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+/* Seasonal Grid */
+.seasonal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.season-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  border: 3px solid transparent;
+}
+
+.season-card.spring { border-color: #ffb3d9; }
+.season-card.summer { border-color: #ffd700; }
+.season-card.autumn { border-color: #ff8c42; }
+.season-card.winter { border-color: #87ceeb; }
+
+.season-card:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+}
+
+.season-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.season-card h4 {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.season-card p {
+  color: var(--text-light);
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+/* Quotes Section */
+.quotes-section {
+  background: linear-gradient(135deg, var(--pink-lighter), var(--lavender-lighter));
+  border-radius: 25px;
+  padding: 40px;
+  margin-bottom: 40px;
+}
+
+.quotes-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.quotes-header h3 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.quotes-header p {
+  color: var(--text-light);
+  font-size: 1.1rem;
+}
+
+.quotes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.quote-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.quote-card:hover {
+  border-color: var(--pink);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+}
+
+.quote-text {
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--text);
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.quote-author {
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+/* Animations */
+@keyframes shimmer {
+  0%, 100% { transform: translateX(-100%) translateY(-100%) rotate(30deg); }
+  50% { transform: translateX(100%) translateY(100%) rotate(30deg); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.visible {
+  animation: slideInUp 0.6s ease forwards;
+}
+
 /* ---------------- RESPONSIVE ---------------- */
 @media (max-width: 768px) {
   header h1 {
@@ -1091,5 +1718,72 @@ footer {
     width: 100%;
     max-width: 300px;
     min-width: auto;
+  }
+  
+  /* Tips page responsive styles */
+  .tips-hero {
+    padding: 40px 20px;
+  }
+  
+  .tips-hero h2 {
+    font-size: 2.2rem;
+  }
+  
+  .tips-hero p {
+    font-size: 1.1rem;
+  }
+  
+  .search-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .search-input {
+    min-width: auto;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .section-header h3 {
+    font-size: 2rem;
+  }
+  
+  .tips-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .routine-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .ingredients-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  
+  .problems-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .lifestyle-tips {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .seasonal-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+  }
+  
+  .quotes-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .quotes-section {
+    padding: 30px 20px;
   }
 }
