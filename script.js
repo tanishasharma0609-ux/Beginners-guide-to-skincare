@@ -134,23 +134,212 @@ async function submitSurvey(e) {
 }
 
 /* ---------------- RESULTS PAGE ---------------- */
+const skinTypeData = {
+  dry: {
+    icon: '🏜️',
+    name: 'Dry Skin',
+    description: 'Your skin needs extra hydration and gentle care to maintain its moisture barrier.',
+    morning: [
+      'Gentle, hydrating cleanser',
+      'Hyaluronic acid serum',
+      'Rich moisturizer with ceramides',
+      'Broad spectrum SPF 30+ sunscreen'
+    ],
+    evening: [
+      'Gentle, hydrating cleanser',
+      'Hydrating toner (alcohol-free)',
+      'Night cream with retinol (start slowly)',
+      'Face oil for extra hydration'
+    ],
+    tips: [
+      'Avoid hot water when cleansing',
+      'Use lukewarm water instead',
+      'Apply moisturizer while skin is still damp',
+      'Consider a humidifier in dry climates',
+      'Look for products with hyaluronic acid and ceramides'
+    ],
+    products: ['Gentle Cleanser', 'Hydrating Moisturizer', 'Broad Spectrum Sunscreen SPF 50', 'Soothing Serum']
+  },
+  oily: {
+    icon: '✨',
+    name: 'Oily Skin',
+    description: 'Your skin produces excess oil, so focus on gentle cleansing and oil control.',
+    morning: [
+      'Salicylic acid cleanser',
+      'Oil-free moisturizer',
+      'Mattifying primer (optional)',
+      'Broad spectrum SPF 30+ sunscreen'
+    ],
+    evening: [
+      'Salicylic acid cleanser',
+      'BHA toner for pore care',
+      'Lightweight, oil-free moisturizer',
+      'Spot treatment for breakouts (if needed)'
+    ],
+    tips: [
+      'Don\'t skip moisturizer - it helps balance oil production',
+      'Use oil-free and non-comedogenic products',
+      'Blot excess oil with blotting papers',
+      'Avoid over-cleansing which can increase oil production',
+      'Consider clay masks 1-2 times per week'
+    ],
+    products: ['BHA Toner (Salicylic)', 'Broad Spectrum Sunscreen SPF 50']
+  },
+  normal: {
+    icon: '🌟',
+    name: 'Normal Skin',
+    description: 'You have well-balanced skin! Maintain it with a consistent routine.',
+    morning: [
+      'Gentle cleanser',
+      'Lightweight moisturizer',
+      'Broad spectrum SPF 30+ sunscreen'
+    ],
+    evening: [
+      'Gentle cleanser',
+      'Moisturizer or night cream',
+      'Optional: gentle exfoliant 2-3 times per week'
+    ],
+    tips: [
+      'Maintain your current routine',
+      'Don\'t over-complicate your skincare',
+      'Focus on prevention with sunscreen',
+      'Listen to your skin and adjust as needed',
+      'Consider adding antioxidants like vitamin C'
+    ],
+    products: ['Gentle Cleanser', 'Hydrating Moisturizer', 'Broad Spectrum Sunscreen SPF 50', 'Soothing Serum']
+  },
+  sensitive: {
+    icon: '🌹',
+    name: 'Sensitive Skin',
+    description: 'Your skin reacts easily, so gentle, fragrance-free products are essential.',
+    morning: [
+      'Fragrance-free, gentle cleanser',
+      'Soothing, fragrance-free moisturizer',
+      'Mineral sunscreen (zinc oxide/titanium dioxide)'
+    ],
+    evening: [
+      'Fragrance-free, gentle cleanser',
+      'Soothing, fragrance-free moisturizer',
+      'Gentle, hydrating serum'
+    ],
+    tips: [
+      'Always patch test new products',
+      'Avoid fragrances and harsh ingredients',
+      'Use lukewarm water, never hot',
+      'Introduce new products one at a time',
+      'Keep your routine simple and consistent'
+    ],
+    products: ['Gentle Cleanser', 'Soothing Serum', 'Broad Spectrum Sunscreen SPF 50']
+  },
+  'acne-prone': {
+    icon: '🌋',
+    name: 'Acne-Prone Skin',
+    description: 'Focus on gentle acne treatment and maintaining a healthy skin barrier.',
+    morning: [
+      'Salicylic acid or benzoyl peroxide cleanser',
+      'Oil-free, non-comedogenic moisturizer',
+      'Broad spectrum SPF 30+ sunscreen'
+    ],
+    evening: [
+      'Gentle cleanser',
+      'BHA toner or treatment',
+      'Lightweight, oil-free moisturizer',
+      'Spot treatment for active breakouts'
+    ],
+    tips: [
+      'Don\'t pick or pop pimples',
+      'Be patient - acne treatments take 6-8 weeks to show results',
+      'Use non-comedogenic products',
+      'Don\'t over-treat - this can irritate skin',
+      'Consider seeing a dermatologist for persistent acne'
+    ],
+    products: ['BHA Toner (Salicylic)', 'Broad Spectrum Sunscreen SPF 50']
+  },
+  combination: {
+    icon: '🎭',
+    name: 'Combination Skin',
+    description: 'You have both oily and dry areas, so target each zone appropriately.',
+    morning: [
+      'Gentle cleanser',
+      'Light moisturizer on dry areas',
+      'Oil-free moisturizer on T-zone',
+      'Broad spectrum SPF 30+ sunscreen'
+    ],
+    evening: [
+      'Gentle cleanser',
+      'BHA toner on T-zone only',
+      'Rich moisturizer on dry areas',
+      'Light moisturizer on T-zone'
+    ],
+    tips: [
+      'Treat different areas of your face differently',
+      'Use oil-free products on T-zone',
+      'Use richer products on dry areas',
+      'Consider using different products for different zones',
+      'Balance is key - don\'t over-treat either area'
+    ],
+    products: ['Gentle Cleanser', 'Hydrating Moisturizer', 'BHA Toner (Salicylic)', 'Broad Spectrum Sunscreen SPF 50']
+  }
+};
+
 function renderResults() {
   const raw = localStorage.getItem('survey');
   if (!raw) return;
 
   const survey = JSON.parse(raw);
   const profile = JSON.parse(localStorage.getItem('profile') || "{}");
+  const skinType = survey.skinType;
+  const skinData = skinTypeData[skinType] || skinTypeData.normal;
 
+  // Update basic info
   const whoEl = document.getElementById('who');
   const skinEl = document.getElementById('skinType');
-  const sugEl = document.getElementById('suggestions');
+  const skinIconEl = document.getElementById('skinTypeIcon');
+  const skinDescEl = document.getElementById('skinTypeDescription');
 
   if (whoEl) whoEl.textContent = profile.name || 'Guest';
+  if (skinEl) skinEl.textContent = skinData.name;
+  if (skinIconEl) skinIconEl.textContent = skinData.icon;
+  if (skinDescEl) skinDescEl.textContent = skinData.description;
 
-  const typeMap = { dry: 'Dry', oily: 'Oily', normal: 'Normal', sensitive: 'Sensitive', 'acne-prone': 'Acne-prone', combination: 'Combination' };
-  if (skinEl) skinEl.textContent = typeMap[survey.skinType] || survey.skinType;
+  // Update morning routine
+  const morningEl = document.getElementById('morningRoutine');
+  if (morningEl) {
+    morningEl.innerHTML = skinData.morning.map(step => `<li>${step}</li>`).join('');
+  }
 
-  if (sugEl) sugEl.innerHTML = survey.suggestions.map(s => `<li>${s}</li>`).join('');
+  // Update evening routine
+  const eveningEl = document.getElementById('eveningRoutine');
+  if (eveningEl) {
+    eveningEl.innerHTML = skinData.evening.map(step => `<li>${step}</li>`).join('');
+  }
+
+  // Update tips
+  const tipsEl = document.getElementById('keyTips');
+  if (tipsEl) {
+    tipsEl.innerHTML = skinData.tips.map(tip => `
+      <div class="tip-card">
+        <span class="tip-icon">💡</span>
+        <p>${tip}</p>
+      </div>
+    `).join('');
+  }
+
+  // Update recommended products
+  const productsEl = document.getElementById('recommendedProducts');
+  if (productsEl) {
+    productsEl.innerHTML = `
+      <div class="product-recommendations">
+        ${skinData.products.map(product => `
+          <div class="product-recommendation">
+            <span class="product-icon">✨</span>
+            <span class="product-name">${product}</span>
+          </div>
+        `).join('')}
+      </div>
+      <p class="product-note">These products are specifically recommended for ${skinData.name.toLowerCase()} skin.</p>
+    `;
+  }
 }
 
 /* ---------------- DEFAULT PRODUCTS ---------------- */
