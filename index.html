@@ -48,19 +48,23 @@
         <div class="hero-visual">
           <div class="floating-elements">
             <div class="floating-card card-1">
-              <span class="card-icon">💧</span>
+              <img src="images/hydration-icon.jpg" alt="Hydration" class="card-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+              <span class="card-icon" style="display: none;">💧</span>
               <span class="card-text">Hydration</span>
             </div>
             <div class="floating-card card-2">
-              <span class="card-icon">☀️</span>
+              <img src="images/protection-icon.jpg" alt="Protection" class="card-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+              <span class="card-icon" style="display: none;">☀️</span>
               <span class="card-text">Protection</span>
             </div>
             <div class="floating-card card-3">
-              <span class="card-icon">🌿</span>
+              <img src="images/natural-icon.jpg" alt="Natural" class="card-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+              <span class="card-icon" style="display: none;">🌿</span>
               <span class="card-text">Natural</span>
             </div>
             <div class="floating-card card-4">
-              <span class="card-icon">✨</span>
+              <img src="images/glow-icon.jpg" alt="Glow" class="card-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+              <span class="card-icon" style="display: none;">✨</span>
               <span class="card-text">Glow</span>
             </div>
           </div>
@@ -76,22 +80,26 @@
       </div>
       <div class="features-grid">
         <div class="feature-card">
-          <div class="feature-icon">🎯</div>
+          <img src="images/analysis-icon.jpg" alt="Personalized Analysis" class="feature-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <div class="feature-icon" style="display: none;">🎯</div>
           <h4>Personalized Analysis</h4>
           <p>Get a custom skincare routine based on your unique skin type and concerns</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">📚</div>
+          <img src="images/knowledge-icon.jpg" alt="Expert Knowledge" class="feature-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <div class="feature-icon" style="display: none;">📚</div>
           <h4>Expert Knowledge</h4>
           <p>Learn from dermatologist-approved tips and ingredient guides</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">🛍️</div>
+          <img src="images/products-icon.jpg" alt="Curated Products" class="feature-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <div class="feature-icon" style="display: none;">🛍️</div>
           <h4>Curated Products</h4>
           <p>Discover products specifically recommended for your skin type</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">📱</div>
+          <img src="images/easy-icon.jpg" alt="Easy to Follow" class="feature-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <div class="feature-icon" style="display: none;">📱</div>
           <h4>Easy to Follow</h4>
           <p>Simple, step-by-step routines that fit into your daily life</p>
         </div>
@@ -115,22 +123,26 @@
       </div>
       <div class="skin-types-grid">
         <div class="skin-type-card" data-type="dry">
-          <div class="skin-icon">🏜️</div>
+          <img src="images/dry-skin.jpg" alt="Dry Skin" class="skin-type-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <div class="skin-icon" style="display: none;">🏜️</div>
           <h4>Dry Skin</h4>
           <p>Feels tight, may have flaking</p>
         </div>
         <div class="skin-type-card" data-type="oily">
-          <div class="skin-icon">✨</div>
+          <img src="images/oily-skin.jpg" alt="Oily Skin" class="skin-type-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <div class="skin-icon" style="display: none;">✨</div>
           <h4>Oily Skin</h4>
           <p>Shiny, enlarged pores</p>
         </div>
         <div class="skin-type-card" data-type="combination">
-          <div class="skin-icon">🎭</div>
+          <img src="images/combination-skin.jpg" alt="Combination Skin" class="skin-type-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <div class="skin-icon" style="display: none;">🎭</div>
           <h4>Combination</h4>
           <p>Oily T-zone, dry elsewhere</p>
         </div>
         <div class="skin-type-card" data-type="sensitive">
-          <div class="skin-icon">🌹</div>
+          <img src="images/sensitive-skin.jpg" alt="Sensitive Skin" class="skin-type-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <div class="skin-icon" style="display: none;">🌹</div>
           <h4>Sensitive</h4>
           <p>Easily irritated, reactive</p>
         </div>
@@ -224,11 +236,11 @@
     document.addEventListener('DOMContentLoaded', () => {
       // Animate elements on scroll
       const animatedElements = document.querySelectorAll('.feature-card, .skin-type-card, .stat, .floating-card');
-      const observer = new IntersectionObserver(entries => {
+    const observer = new IntersectionObserver(entries => {
         entries.forEach((entry, index) => {
-          if(entry.isIntersecting){
+        if(entry.isIntersecting){
             setTimeout(() => {
-              entry.target.classList.add('visible');
+          entry.target.classList.add('visible');
             }, index * 100);
           }
         });
