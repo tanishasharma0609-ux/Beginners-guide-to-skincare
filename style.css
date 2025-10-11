@@ -200,34 +200,90 @@ button:hover {
 
 /* ---------------- PRODUCTS ---------------- */
 .product-page-header {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
-  padding: 20px;
-  border-radius: 15px;
-  background: var(--white);
-  box-shadow: 0 4px 15px var(--shadow);
+  margin-bottom: 40px;
+  padding: 40px;
+  border-radius: 25px;
+  background: linear-gradient(135deg, var(--pink-lighter), var(--lavender-lighter));
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  text-align: center;
 }
 
 .product-page-header h2 {
-  font-size: 1.8rem;
+  font-size: 2.5rem;
   color: var(--text);
+  margin-bottom: 15px;
+  background: linear-gradient(135deg, var(--pink), var(--lavender));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-#filterType {
-  padding: 10px 15px;
-  border-radius: 10px;
+.header-subtitle {
+  font-size: 1.2rem;
+  color: var(--text-light);
+  margin-bottom: 30px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.filter-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 25px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filter-group label {
+  font-weight: 600;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.filter-group select {
+  padding: 12px 15px;
+  border-radius: 15px;
   border: 2px solid var(--lavender-light);
-  font-size: 16px;
+  font-size: 14px;
   background: var(--white);
   cursor: pointer;
-  transition: border-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
-#filterType:hover {
+.filter-group select:hover {
   border-color: var(--pink);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.filter-group select:focus {
+  outline: none;
+  border-color: var(--pink);
+  box-shadow: 0 0 0 3px rgba(255, 179, 217, 0.2);
+}
+
+.product-stats {
+  margin-top: 20px;
+  padding: 15px;
+  background: var(--white);
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  display: inline-block;
+}
+
+.product-stats span {
+  font-weight: 600;
+  color: var(--text);
+  font-size: 1.1rem;
 }
 
 /* Product Grid */
@@ -242,50 +298,99 @@ button:hover {
 .product-card {
   background: var(--white);
   border-radius: 20px;
-  padding: 20px;
-  text-align: center;
-  box-shadow: 0 4px 15px var(--shadow);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 0.7s ease forwards;
+  border: 2px solid transparent;
 }
 
 .product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px var(--shadow);
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+  border-color: var(--pink);
+}
+
+.product-image-container {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
 }
 
 .product-card img {
   width: 100%;
-  max-height: 200px;
+  height: 100%;
   object-fit: cover;
-  border-radius: 15px;
-  margin-bottom: 15px;
-  transition: transform 0.3s ease;
+  transition: transform 0.4s ease;
 }
 
-.product-card img:hover {
-  transform: scale(1.05);
+.product-card:hover img {
+  transform: scale(1.1);
+}
+
+.category-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--pink);
+  color: var(--white);
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.product-info {
+  padding: 20px;
+  text-align: left;
 }
 
 .product-card h3 {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: var(--text);
-  margin: 10px 0;
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.product-card p {
+.brand {
   color: var(--text-light);
-  font-size: 0.95rem;
-  margin: 5px 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 0 0 10px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.description {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin: 0 0 15px 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .price {
-  font-weight: 600;
+  font-weight: 700;
   color: var(--pink);
-  margin-top: 10px;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  margin: 0;
+  text-align: center;
+  background: var(--pink-lighter);
+  padding: 8px 15px;
+  border-radius: 20px;
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* ---------------- HERO SECTION ---------------- */
@@ -2383,5 +2488,50 @@ footer {
   
   .cta-content h3 {
     font-size: 2.2rem;
+  }
+  
+  /* Product page responsive styles */
+  .product-page-header {
+    padding: 30px 20px;
+  }
+  
+  .product-page-header h2 {
+    font-size: 2rem;
+  }
+  
+  .header-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .filter-controls {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .filter-group select {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+  
+  .product-list {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+  }
+  
+  .product-card h3 {
+    font-size: 1rem;
+  }
+  
+  .brand {
+    font-size: 0.8rem;
+  }
+  
+  .description {
+    font-size: 0.85rem;
+  }
+  
+  .price {
+    font-size: 1.1rem;
+    padding: 6px 12px;
   }
 }

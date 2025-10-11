@@ -25,18 +25,58 @@
 
   <main>
     <div class="product-page-header card">
-      <h2>Recommended Products</h2>
-      <div>
-        <label for="filterType">Filter by skin type:</label>
-        <select id="filterType">
-          <option value="all">All</option>
-          <option value="dry">Dry</option>
-          <option value="oily">Oily</option>
-          <option value="normal">Normal</option>
-          <option value="combo">Combination</option>
-          <option value="sensitive">Sensitive</option>
-          <option value="acne">Acne-prone</option>
-        </select>
+      <h2>✨ Skincare Products Collection ✨</h2>
+      <p class="header-subtitle">Discover professional-grade products for every skin type and concern</p>
+      
+      <div class="filter-controls">
+        <div class="filter-group">
+          <label for="filterType">Filter by skin type:</label>
+          <select id="filterType">
+            <option value="all">All Skin Types</option>
+            <option value="dry">Dry Skin</option>
+            <option value="oily">Oily Skin</option>
+            <option value="normal">Normal Skin</option>
+            <option value="combination">Combination Skin</option>
+            <option value="sensitive">Sensitive Skin</option>
+            <option value="acne-prone">Acne-Prone Skin</option>
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label for="filterCategory">Filter by category:</label>
+          <select id="filterCategory">
+            <option value="all">All Categories</option>
+            <option value="cleanser">Cleansers</option>
+            <option value="moisturizer">Moisturizers</option>
+            <option value="sunscreen">Sunscreens</option>
+            <option value="serum">Serums</option>
+            <option value="treatment">Treatments</option>
+            <option value="toner">Toners</option>
+            <option value="exfoliant">Exfoliants</option>
+            <option value="eye-care">Eye Care</option>
+            <option value="mask">Masks</option>
+            <option value="oil">Oils</option>
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label for="filterBrand">Filter by brand:</label>
+          <select id="filterBrand">
+            <option value="all">All Brands</option>
+            <option value="CeraVe">CeraVe</option>
+            <option value="The Ordinary">The Ordinary</option>
+            <option value="Paula's Choice">Paula's Choice</option>
+            <option value="La Roche-Posay">La Roche-Posay</option>
+            <option value="Neutrogena">Neutrogena</option>
+            <option value="EltaMD">EltaMD</option>
+            <option value="Supergoop!">Supergoop!</option>
+            <option value="Thayers">Thayers</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="product-stats">
+        <span id="productCount">Loading products...</span>
       </div>
     </div>
 

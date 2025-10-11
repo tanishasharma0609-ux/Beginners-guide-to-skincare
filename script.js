@@ -344,11 +344,54 @@ function renderResults() {
 
 /* ---------------- DEFAULT PRODUCTS ---------------- */
 const defaultProducts = [
-  { name: "Gentle Cleanser", description: "Non-stripping daily cleanser", price: 299, types: ["all","normal","dry"], image: "cleanser.jpg" },
-  { name: "Hydrating Moisturizer", description: "Ceramides + HA for dry skin", price: 399, types: ["dry","normal","sensitive"], image: "moisturizer.jpg" },
-  { name: "Broad Spectrum Sunscreen SPF 50", description: "Lightweight, no white cast", price: 549, types: ["all","dry","oily","normal","combination","sensitive","acne-prone"], image: "sunscreen.jpg" },
-  { name: "BHA Toner (Salicylic)", description: "Helps with pores & blackheads", price: 499, types: ["oily","acne-prone","combination"], image: "toner.jpg" },
-  { name: "Soothing Serum", description: "Centella + Panthenol", price: 699, types: ["sensitive","normal","dry"], image: "serum.jpg" }
+  // CLEANSERS
+  { name: "CeraVe Foaming Facial Cleanser", description: "Gentle foaming cleanser with ceramides and hyaluronic acid", price: 1299, types: ["all","normal","oily","combination"], image: "cerave-foaming-cleanser.jpg", brand: "CeraVe", category: "cleanser" },
+  { name: "CeraVe Hydrating Facial Cleanser", description: "Non-foaming cleanser for normal to dry skin", price: 1199, types: ["all","normal","dry","sensitive"], image: "cerave-hydrating-cleanser.jpg", brand: "CeraVe", category: "cleanser" },
+  { name: "La Roche-Posay Toleriane Hydrating Gentle Cleanser", description: "Fragrance-free cleanser for sensitive skin", price: 1899, types: ["sensitive","dry","normal"], image: "lrp-toleriane-cleanser.jpg", brand: "La Roche-Posay", category: "cleanser" },
+  { name: "Neutrogena Ultra Gentle Daily Cleanser", description: "Soap-free, hypoallergenic cleanser", price: 899, types: ["sensitive","dry","normal"], image: "neutrogena-gentle-cleanser.jpg", brand: "Neutrogena", category: "cleanser" },
+  { name: "Paula's Choice Skin Perfecting 2% BHA Liquid Exfoliant", description: "Salicylic acid exfoliant for acne-prone skin", price: 2899, types: ["oily","acne-prone","combination"], image: "paula-choice-bha.jpg", brand: "Paula's Choice", category: "exfoliant" },
+
+  // MOISTURIZERS
+  { name: "CeraVe Daily Moisturizing Lotion", description: "Lightweight lotion with ceramides and hyaluronic acid", price: 1399, types: ["all","normal","dry","sensitive"], image: "cerave-daily-lotion.jpg", brand: "CeraVe", category: "moisturizer" },
+  { name: "CeraVe PM Facial Moisturizing Lotion", description: "Night moisturizer with niacinamide and ceramides", price: 1599, types: ["all","normal","dry","sensitive"], image: "cerave-pm-lotion.jpg", brand: "CeraVe", category: "moisturizer" },
+  { name: "Neutrogena Hydro Boost Water Gel", description: "Hyaluronic acid gel moisturizer", price: 1799, types: ["all","normal","oily","combination"], image: "neutrogena-hydro-boost.jpg", brand: "Neutrogena", category: "moisturizer" },
+  { name: "La Roche-Posay Toleriane Double Repair Face Moisturizer", description: "Prebiotic moisturizer for sensitive skin", price: 2199, types: ["sensitive","dry","normal"], image: "lrp-toleriane-moisturizer.jpg", brand: "La Roche-Posay", category: "moisturizer" },
+  { name: "The Ordinary Natural Moisturizing Factors + HA", description: "Lightweight moisturizer with natural moisturizing factors", price: 899, types: ["all","normal","dry"], image: "ordinary-nmf.jpg", brand: "The Ordinary", category: "moisturizer" },
+
+  // SUNSCREENS
+  { name: "EltaMD UV Clear Broad-Spectrum SPF 46", description: "Mineral sunscreen with niacinamide", price: 3299, types: ["all","sensitive","acne-prone","normal"], image: "elta-md-uv-clear.jpg", brand: "EltaMD", category: "sunscreen" },
+  { name: "La Roche-Posay Anthelios Ultra Light Fluid SPF 60", description: "Lightweight, fast-absorbing sunscreen", price: 2499, types: ["all","oily","combination","normal"], image: "lrp-anthelios.jpg", brand: "La Roche-Posay", category: "sunscreen" },
+  { name: "Neutrogena Ultra Sheer Dry-Touch Sunscreen SPF 55", description: "Non-greasy, fast-absorbing sunscreen", price: 1299, types: ["all","oily","combination","normal"], image: "neutrogena-ultra-sheer.jpg", brand: "Neutrogena", category: "sunscreen" },
+  { name: "CeraVe Hydrating Mineral Sunscreen SPF 30", description: "Mineral sunscreen for sensitive skin", price: 1899, types: ["sensitive","dry","normal"], image: "cerave-mineral-sunscreen.jpg", brand: "CeraVe", category: "sunscreen" },
+  { name: "Supergoop! Unseen Sunscreen SPF 40", description: "Invisible, weightless sunscreen", price: 3499, types: ["all","oily","combination","normal"], image: "supergoop-unseen.jpg", brand: "Supergoop!", category: "sunscreen" },
+
+  // SERUMS & TREATMENTS
+  { name: "The Ordinary Hyaluronic Acid 2% + B5", description: "Hydrating serum with hyaluronic acid", price: 699, types: ["all","dry","normal","sensitive"], image: "ordinary-ha-serum.jpg", brand: "The Ordinary", category: "serum" },
+  { name: "The Ordinary Niacinamide 10% + Zinc 1%", description: "Oil control and pore-minimizing serum", price: 699, types: ["oily","acne-prone","combination"], image: "ordinary-niacinamide.jpg", brand: "The Ordinary", category: "serum" },
+  { name: "The Ordinary Vitamin C Suspension 23% + HA Spheres 2%", description: "High-potency vitamin C serum", price: 899, types: ["all","normal","dry","combination"], image: "ordinary-vitamin-c.jpg", brand: "The Ordinary", category: "serum" },
+  { name: "Paula's Choice 10% Azelaic Acid Booster", description: "Anti-inflammatory treatment for acne and rosacea", price: 3299, types: ["acne-prone","sensitive","combination"], image: "paula-choice-azelaic.jpg", brand: "Paula's Choice", category: "treatment" },
+  { name: "The Ordinary Retinol 0.5% in Squalane", description: "Anti-aging retinol treatment", price: 999, types: ["all","normal","dry","combination"], image: "ordinary-retinol.jpg", brand: "The Ordinary", category: "treatment" },
+
+  // TONERS & EXFOLIANTS
+  { name: "The Ordinary Glycolic Acid 7% Toning Solution", description: "Gentle exfoliating toner", price: 899, types: ["all","normal","oily","combination"], image: "ordinary-glycolic-toner.jpg", brand: "The Ordinary", category: "toner" },
+  { name: "Paula's Choice Skin Perfecting 2% BHA Liquid Exfoliant", description: "Salicylic acid exfoliant for pores", price: 2899, types: ["oily","acne-prone","combination"], image: "paula-choice-bha-liquid.jpg", brand: "Paula's Choice", category: "exfoliant" },
+  { name: "The Ordinary AHA 30% + BHA 2% Peeling Solution", description: "Weekly exfoliating treatment", price: 999, types: ["all","normal","oily","combination"], image: "ordinary-peeling-solution.jpg", brand: "The Ordinary", category: "exfoliant" },
+  { name: "Thayers Witch Hazel Toner", description: "Alcohol-free toner with witch hazel", price: 1299, types: ["all","normal","oily","combination"], image: "thayers-witch-hazel.jpg", brand: "Thayers", category: "toner" },
+
+  // EYE CARE
+  { name: "CeraVe Eye Repair Cream", description: "Hydrating eye cream with ceramides", price: 1899, types: ["all","dry","normal","sensitive"], image: "cerave-eye-cream.jpg", brand: "CeraVe", category: "eye-care" },
+  { name: "The Ordinary Caffeine Solution 5% + EGCG", description: "Eye serum for puffiness and dark circles", price: 699, types: ["all","normal","dry","sensitive"], image: "ordinary-caffeine-serum.jpg", brand: "The Ordinary", category: "eye-care" },
+
+  // MASKS & TREATMENTS
+  { name: "The Ordinary AHA 30% + BHA 2% Peeling Solution", description: "Weekly exfoliating mask", price: 999, types: ["all","normal","oily","combination"], image: "ordinary-peeling-mask.jpg", brand: "The Ordinary", category: "mask" },
+  { name: "The Ordinary Salicylic Acid 2% Masque", description: "Clay mask for acne-prone skin", price: 899, types: ["oily","acne-prone","combination"], image: "ordinary-salicylic-mask.jpg", brand: "The Ordinary", category: "mask" },
+  { name: "CeraVe Hydrating Facial Cleanser", description: "Gentle cleanser for dry skin", price: 1199, types: ["dry","sensitive","normal"], image: "cerave-hydrating-facial.jpg", brand: "CeraVe", category: "cleanser" },
+
+  // SPECIALTY PRODUCTS
+  { name: "The Ordinary Squalane Cleanser", description: "Oil-based cleanser for makeup removal", price: 899, types: ["all","dry","sensitive","normal"], image: "ordinary-squalane-cleanser.jpg", brand: "The Ordinary", category: "cleanser" },
+  { name: "The Ordinary Rose Hip Seed Oil", description: "Natural oil for dry and aging skin", price: 999, types: ["dry","normal","sensitive"], image: "ordinary-rosehip-oil.jpg", brand: "The Ordinary", category: "oil" },
+  { name: "The Ordinary 100% Plant-Derived Squalane", description: "Lightweight moisturizing oil", price: 899, types: ["all","dry","normal","sensitive"], image: "ordinary-squalane-oil.jpg", brand: "The Ordinary", category: "oil" },
+  { name: "Paula's Choice Resist Advanced Replenishing Toner", description: "Anti-aging toner with antioxidants", price: 2499, types: ["all","normal","dry","combination"], image: "paula-choice-replenishing-toner.jpg", brand: "Paula's Choice", category: "toner" }
 ];
 
 /* ---------------- PRODUCTS ---------------- */
@@ -400,11 +443,23 @@ async function loadProducts() {
       const card = document.createElement("div");
       card.classList.add("product-card", "visible");
       card.dataset.types = p.types.join(",");
+      card.dataset.category = p.category || "general";
+      card.dataset.brand = p.brand || "Unknown";
+      
+      const categoryBadge = p.category ? `<span class="category-badge">${p.category}</span>` : '';
+      const brandInfo = p.brand ? `<p class="brand">${p.brand}</p>` : '';
+      
       card.innerHTML = `
-        <img src="images/${p.image}" alt="${p.name}">
+        <div class="product-image-container">
+          <img src="images/${p.image}" alt="${p.name}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBmMGYwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg=='">
+          ${categoryBadge}
+        </div>
+        <div class="product-info">
         <h3>${p.name}</h3>
-        <p>${p.description}</p>
+          ${brandInfo}
+          <p class="description">${p.description}</p>
         <p class="price">₹${p.price}</p>
+        </div>
       `;
       container.appendChild(card);
     });
@@ -419,14 +474,38 @@ async function loadProducts() {
 }
 
 function applyFilter() {
-  const filterSelect = document.getElementById("filterType");
-  if (!filterSelect) return;
+  const filterType = document.getElementById("filterType");
+  const filterCategory = document.getElementById("filterCategory");
+  const filterBrand = document.getElementById("filterBrand");
+  const productCount = document.getElementById("productCount");
+  
+  if (!filterType || !filterCategory || !filterBrand) return;
 
-  const selected = filterSelect.value;
+  const selectedType = filterType.value;
+  const selectedCategory = filterCategory.value;
+  const selectedBrand = filterBrand.value;
+  
+  let visibleCount = 0;
+  
   document.querySelectorAll(".product-card").forEach(card => {
     const types = card.dataset.types.split(",");
-    card.style.display = selected === "all" || types.includes(selected) ? "block" : "none";
+    const category = card.dataset.category;
+    const brand = card.dataset.brand;
+    
+    const typeMatch = selectedType === "all" || types.includes(selectedType);
+    const categoryMatch = selectedCategory === "all" || category === selectedCategory;
+    const brandMatch = selectedBrand === "all" || brand === selectedBrand;
+    
+    const shouldShow = typeMatch && categoryMatch && brandMatch;
+    
+    card.style.display = shouldShow ? "block" : "none";
+    if (shouldShow) visibleCount++;
   });
+  
+  // Update product count
+  if (productCount) {
+    productCount.textContent = `${visibleCount} products found`;
+  }
 }
 
 /* ---------------- INIT ---------------- */
@@ -455,6 +534,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   await initProducts();
   await loadProducts();
-  const filterSelect = document.getElementById("filterType");
-  if (filterSelect) filterSelect.addEventListener("change", applyFilter);
+  
+  // Add event listeners for all filters
+  const filterType = document.getElementById("filterType");
+  const filterCategory = document.getElementById("filterCategory");
+  const filterBrand = document.getElementById("filterBrand");
+  
+  if (filterType) filterType.addEventListener("change", applyFilter);
+  if (filterCategory) filterCategory.addEventListener("change", applyFilter);
+  if (filterBrand) filterBrand.addEventListener("change", applyFilter);
 });
