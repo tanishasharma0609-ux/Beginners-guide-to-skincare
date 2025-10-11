@@ -98,7 +98,7 @@ async function getSuggestions(skinType) {
 
 async function submitSurvey(e) {
   e.preventDefault();
-  const get = id => document.querySelector(`[name="${id}"]`)?.value || '';
+  const get = id => document.querySelector(`[name="${id}"]:checked`)?.value || '';
   const answers = {
     dryness: get('dryness'),
     oiliness: get('oiliness'),
