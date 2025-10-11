@@ -1687,19 +1687,6 @@ footer {
 }
 
 /* ---------------- HOME PAGE STYLES ---------------- */
-.original-hero-section {
-  margin-bottom: 40px;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-}
-
-.hero-main-image {
-  width: 100%;
-  height: 400px;
-  object-fit: cover;
-  display: block;
-}
 
 .hero-container {
   background: linear-gradient(135deg, var(--pink-lighter), var(--lavender-lighter));
