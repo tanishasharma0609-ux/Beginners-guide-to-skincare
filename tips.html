@@ -432,12 +432,12 @@
       // Improved scroll animations with better timing
       const animatedElements = document.querySelectorAll('.tip-card, .ingredient-card, .problem-card, .lifestyle-card, .season-card, .quote-card, .routine-card');
       
-      const observer = new IntersectionObserver(entries => {
+    const observer = new IntersectionObserver(entries => {
         entries.forEach((entry, index) => {
-          if(entry.isIntersecting){
+        if(entry.isIntersecting){
             // Add a small delay for smoother animation
             setTimeout(() => {
-              entry.target.classList.add('visible');
+          entry.target.classList.add('visible');
             }, index * 50); // Reduced delay for smoother flow
           }
         });
