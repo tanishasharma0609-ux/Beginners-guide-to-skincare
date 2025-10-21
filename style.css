@@ -2859,7 +2859,7 @@ body {
 /* Quote overlay on top of the hero image for index page */
 .index-page .hero-section { position: relative; }
 .index-page .hero-section::after {
-  content: "good skincare is self care";
+  content: "good skincare is selfcare";
   position: absolute;
   left: 20px;
   right: 20px;
@@ -2878,6 +2878,8 @@ body {
   transform: translateY(18px) scale(0.98);
   opacity: 0;
   animation: heroQuoteIn 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 250ms forwards;
+  z-index: 2;
+  pointer-events: none;
 }
 
 .index-page .hero-section:hover::after {
