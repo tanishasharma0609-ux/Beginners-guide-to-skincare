@@ -1,568 +1,349 @@
-/* ---------------- FIREBASE INIT ---------------- */
-const firebaseConfig = {
-  apiKey: "AIzaSyAKIz9s410M8-Ycu0fibPm0S1iJXEG-5ko",
-  authDomain: "studio-4130330890-84f62.firebaseapp.com",
-  projectId: "studio-4130330890-84f62",
-  storageBucket: "studio-4130330890-84f62.firebasestorage.app",
-  messagingSenderId: "96173266847",
-  appId: "1:96173266847:web:26cfea51521f6865c50faa"
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Beginner's Guide to Skin Care</title>
+  <link rel="stylesheet" href="style.css"/>
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="index-page">
+  <header>
+    <h1>Beginner's Guide to Skin Care</h1>
+    <nav>
+      <a href="index.html" class="active">Home</a>
+      <a href="profile.html">Your Profile</a>
+      <a href="tips.html">Tips & Info</a>
+      <a href="survey.html">Survey</a>
+      <a href="results.html">Survey Answers</a>
+      <a href="product.html">Products</a>
+    </nav>
+  </header>
 
-// Fallback image mapping based on product category (uses local images folder)
-function getFallbackImage(category) {
-  const cat = (category || '').toLowerCase();
-  if (cat.includes('cleanser')) return 'images/cleanser.jpg';
-  if (cat.includes('moistur')) return 'images/moisturizer.jpg';
-  if (cat.includes('sunscreen')) return 'images/sunscreen.jpg';
-  if (cat.includes('serum') || cat.includes('treatment') || cat.includes('toner') || cat.includes('exfol') || cat.includes('eye') || cat.includes('mask') || cat.includes('oil')) return 'images/serum.jpg';
-  return 'images/skincare.jpeg';
-}
+  <main>
+    <!-- Hero Image Section -->
+    <div class="hero-section card">
+      <img src="images/skincare.jpeg" alt="Skin Care" class="hero-image"/>
+    </div>
 
-/* ---------------- PROFILE ---------------- */
-function showProfile(profileData) {
-  const dispName = document.getElementById('dispName');
-  const dispAge = document.getElementById('dispAge');
-  const dispGender = document.getElementById('dispGender');
-  const dispCity = document.getElementById('dispCity');
-  const profileForm = document.getElementById('profileForm');
-  const profileDisplay = document.getElementById('profileDisplay');
-
-  if (!dispName || !dispAge || !dispGender || !dispCity || !profileDisplay || !profileForm) return;
-
-  dispName.textContent = profileData.name || '';
-  dispAge.textContent = profileData.age || '';
-  dispGender.textContent = profileData.gender || '';
-  dispCity.textContent = profileData.city || '';
-
-  profileForm.style.display = 'none';
-  profileDisplay.style.display = 'block';
-}
-
-function loadProfile() {
-  const profileData = JSON.parse(localStorage.getItem("profile") || "null");
-  if (profileData) showProfile(profileData);
-}
-
-async function saveProfile(profileData) {
-  try {
-    profileData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-    await db.collection("profiles").add(profileData);
-    localStorage.setItem("profile", JSON.stringify(profileData));
-    showProfile(profileData);
-    alert("✅ Profile saved successfully!");
-  } catch (err) {
-    console.error("Error saving profile:", err);
-    alert("❌ Error saving profile. Check console.");
-  }
-}
-
-/* ---------------- SURVEY ---------------- */
-function computeSkinType(answers) {
-  let score = { dry:0, oily:0, normal:0, sensitive:0, acne:0, combo:0 };
-
-  if (answers.dryness === 'often') score.dry += 2;
-  if (answers.dryness === 'sometimes') score.dry += 1;
-  if (answers.oiliness === 'yes') score.oily += 2;
-  if (answers.oiliness === 'sometimes') score.oily += 1;
-  if (answers.acne === 'frequent') score.acne += 2;
-  if (answers.acne === 'sometimes') score.acne += 1;
-  if (answers.sun === 'often') score.sensitive += 1;
-  if (answers.tzone === 'yes') score.combo += 2;
-  if (answers.redness === 'yes') score.sensitive += 2;
-  if (answers.fragrance === 'yes') score.sensitive += 1;
-  if (answers.pores === 'large') score.oily += 1;
-  if (answers.flaking === 'yes') score.dry += 1;
-  if (answers.routine === 'basic') score.normal += 1;
-  if (answers.routine === 'advanced') score.normal += 2;
-
-  let skinType = Object.entries(score).sort((a,b)=>b[1]-a[1])[0][0];
-  if (skinType === "combo") return "combination";
-  if (skinType === "acne") return "acne-prone";
-  return skinType;
-}
-
-async function getSuggestions(skinType) {
-  try {
-    const doc = await db.collection("Surveys").doc(skinType).get();
-    const common = [
-      "Patch-test new products.",
-      "Use sunscreen (SPF 30+) every morning.",
-      "Gentle, non-stripping cleanser."
-    ];
-    if (doc.exists) {
-      const specific = doc.data().suggestions || [];
-      return [...common, ...specific];
-    }
-    return common;
-  } catch (err) {
-    console.error("Error fetching suggestions:", err);
-    return [
-      "Patch-test new products.",
-      "Use sunscreen (SPF 30+) every morning.",
-      "Gentle, non-stripping cleanser."
-    ];
-  }
-}
-
-async function submitSurvey(e) {
-  e.preventDefault();
-  const get = id => document.querySelector(`[name="${id}"]:checked`)?.value || '';
-  const answers = {
-    dryness: get('dryness'),
-    oiliness: get('oiliness'),
-    acne: get('acne'),
-    sun: get('sun'),
-    tzone: get('tzone'),
-    redness: get('redness'),
-    fragrance: get('fragrance'),
-    pores: get('pores'),
-    flaking: get('flaking'),
-    routine: get('routine')
-  };
-
-  if (Object.values(answers).some(v => !v)) {
-    alert("Please answer all questions.");
-    return;
-  }
-
-  const skinType = computeSkinType(answers);
-  const suggestions = await getSuggestions(skinType);
-
-  const surveyData = { answers, skinType, suggestions, createdAt: firebase.firestore.FieldValue.serverTimestamp() };
-
-  try {
-    await db.collection("SurveyResponses").add(surveyData);
-    localStorage.setItem("survey", JSON.stringify(surveyData));
-    alert("✅ Survey submitted!");
-    location.href = "results.html";
-  } catch(err) {
-    console.error("Error saving survey:", err);
-    alert("❌ Error saving survey. Check console.");
-  }
-}
-
-/* ---------------- RESULTS PAGE ---------------- */
-const skinTypeData = {
-  dry: {
-    icon: 'sun',
-    name: 'Dry Skin',
-    description: 'Your skin needs extra hydration and gentle care to maintain its moisture barrier.',
-    morning: [
-      'Gentle, hydrating cleanser',
-      'Hyaluronic acid serum',
-      'Rich moisturizer with ceramides',
-      'Broad spectrum SPF 30+ sunscreen'
-    ],
-    evening: [
-      'Gentle, hydrating cleanser',
-      'Hydrating toner (alcohol-free)',
-      'Night cream with retinol (start slowly)',
-      'Face oil for extra hydration'
-    ],
-    tips: [
-      'Avoid hot water when cleansing',
-      'Use lukewarm water instead',
-      'Apply moisturizer while skin is still damp',
-      'Consider a humidifier in dry climates',
-      'Look for products with hyaluronic acid and ceramides'
-    ],
-    products: ['Gentle Cleanser', 'Hydrating Moisturizer', 'Broad Spectrum Sunscreen SPF 50', 'Soothing Serum']
-  },
-  oily: {
-    icon: 'droplet',
-    name: 'Oily Skin',
-    description: 'Your skin produces excess oil, so focus on gentle cleansing and oil control.',
-    morning: [
-      'Salicylic acid cleanser',
-      'Oil-free moisturizer',
-      'Mattifying primer (optional)',
-      'Broad spectrum SPF 30+ sunscreen'
-    ],
-    evening: [
-      'Salicylic acid cleanser',
-      'BHA toner for pore care',
-      'Lightweight, oil-free moisturizer',
-      'Spot treatment for breakouts (if needed)'
-    ],
-    tips: [
-      'Don\'t skip moisturizer - it helps balance oil production',
-      'Use oil-free and non-comedogenic products',
-      'Blot excess oil with blotting papers',
-      'Avoid over-cleansing which can increase oil production',
-      'Consider clay masks 1-2 times per week'
-    ],
-    products: ['BHA Toner (Salicylic)', 'Broad Spectrum Sunscreen SPF 50']
-  },
-  normal: {
-    icon: 'smile',
-    name: 'Normal Skin',
-    description: 'You have well-balanced skin! Maintain it with a consistent routine.',
-    morning: [
-      'Gentle cleanser',
-      'Lightweight moisturizer',
-      'Broad spectrum SPF 30+ sunscreen'
-    ],
-    evening: [
-      'Gentle cleanser',
-      'Moisturizer or night cream',
-      'Optional: gentle exfoliant 2-3 times per week'
-    ],
-    tips: [
-      'Maintain your current routine',
-      'Don\'t over-complicate your skincare',
-      'Focus on prevention with sunscreen',
-      'Listen to your skin and adjust as needed',
-      'Consider adding antioxidants like vitamin C'
-    ],
-    products: ['Gentle Cleanser', 'Hydrating Moisturizer', 'Broad Spectrum Sunscreen SPF 50', 'Soothing Serum']
-  },
-  sensitive: {
-    icon: 'heart',
-    name: 'Sensitive Skin',
-    description: 'Your skin reacts easily, so gentle, fragrance-free products are essential.',
-    morning: [
-      'Fragrance-free, gentle cleanser',
-      'Soothing, fragrance-free moisturizer',
-      'Mineral sunscreen (zinc oxide/titanium dioxide)'
-    ],
-    evening: [
-      'Fragrance-free, gentle cleanser',
-      'Soothing, fragrance-free moisturizer',
-      'Gentle, hydrating serum'
-    ],
-    tips: [
-      'Always patch test new products',
-      'Avoid fragrances and harsh ingredients',
-      'Use lukewarm water, never hot',
-      'Introduce new products one at a time',
-      'Keep your routine simple and consistent'
-    ],
-    products: ['Gentle Cleanser', 'Soothing Serum', 'Broad Spectrum Sunscreen SPF 50']
-  },
-  'acne-prone': {
-    icon: 'alert-circle',
-    name: 'Acne-Prone Skin',
-    description: 'Focus on gentle acne treatment and maintaining a healthy skin barrier.',
-    morning: [
-      'Salicylic acid or benzoyl peroxide cleanser',
-      'Oil-free, non-comedogenic moisturizer',
-      'Broad spectrum SPF 30+ sunscreen'
-    ],
-    evening: [
-      'Gentle cleanser',
-      'BHA toner or treatment',
-      'Lightweight, oil-free moisturizer',
-      'Spot treatment for active breakouts'
-    ],
-    tips: [
-      'Don\'t pick or pop pimples',
-      'Be patient - acne treatments take 6-8 weeks to show results',
-      'Use non-comedogenic products',
-      'Don\'t over-treat - this can irritate skin',
-      'Consider seeing a dermatologist for persistent acne'
-    ],
-    products: ['BHA Toner (Salicylic)', 'Broad Spectrum Sunscreen SPF 50']
-  },
-  combination: {
-    icon: 'columns',
-    name: 'Combination Skin',
-    description: 'You have both oily and dry areas, so target each zone appropriately.',
-    morning: [
-      'Gentle cleanser',
-      'Light moisturizer on dry areas',
-      'Oil-free moisturizer on T-zone',
-      'Broad spectrum SPF 30+ sunscreen'
-    ],
-    evening: [
-      'Gentle cleanser',
-      'BHA toner on T-zone only',
-      'Rich moisturizer on dry areas',
-      'Light moisturizer on T-zone'
-    ],
-    tips: [
-      'Treat different areas of your face differently',
-      'Use oil-free products on T-zone',
-      'Use richer products on dry areas',
-      'Consider using different products for different zones',
-      'Balance is key - don\'t over-treat either area'
-    ],
-    products: ['Gentle Cleanser', 'Hydrating Moisturizer', 'BHA Toner (Salicylic)', 'Broad Spectrum Sunscreen SPF 50']
-  }
-};
-
-function renderResults() {
-  const raw = localStorage.getItem('survey');
-  if (!raw) return;
-
-  const survey = JSON.parse(raw);
-  const profile = JSON.parse(localStorage.getItem('profile') || "{}");
-  const skinType = survey.skinType;
-  const skinData = skinTypeData[skinType] || skinTypeData.normal;
-
-  // Update basic info
-  const whoEl = document.getElementById('who');
-  const skinEl = document.getElementById('skinType');
-  const skinIconEl = document.getElementById('skinTypeIcon');
-  const skinDescEl = document.getElementById('skinTypeDescription');
-
-  if (whoEl) whoEl.textContent = profile.name || 'Guest';
-  if (skinEl) skinEl.textContent = skinData.name;
-  if (skinIconEl) skinIconEl.innerHTML = `<i data-feather="${skinData.icon}"></i>`;
-  if (skinDescEl) skinDescEl.textContent = skinData.description;
-
-  // Update morning routine
-  const morningEl = document.getElementById('morningRoutine');
-  if (morningEl) {
-    morningEl.innerHTML = skinData.morning.map(step => `<li>${step}</li>`).join('');
-  }
-
-  // Update evening routine
-  const eveningEl = document.getElementById('eveningRoutine');
-  if (eveningEl) {
-    eveningEl.innerHTML = skinData.evening.map(step => `<li>${step}</li>`).join('');
-  }
-
-  // Update tips
-  const tipsEl = document.getElementById('keyTips');
-  if (tipsEl) {
-    tipsEl.innerHTML = skinData.tips.map(tip => `
-      <div class="tip-card">
-        <i data-feather="info" class="tip-icon"></i>
-        <p>${tip}</p>
-      </div>
-    `).join('');
-  }
-
-  // Update recommended products
-  const productsEl = document.getElementById('recommendedProducts');
-  if (productsEl) {
-    productsEl.innerHTML = `
-      <div class="product-recommendations">
-        ${skinData.products.map(product => `
-          <div class="product-recommendation">
-            <i data-feather="star" class="product-icon"></i>
-            <span class="product-name">${product}</span>
+    <!-- Hero Content Section -->
+    <div class="hero-content-section">
+      <div class="hero-content">
+        <div class="hero-text">
+          <h2 class="hero-title">
+            <span class="title-line"><i data-feather="star" class="icon-inline" aria-hidden="true"></i> Begin Your Path to</span>
+            <span class="title-line highlight">Radiant, Healthy Skin</span>
+            <span class="title-line">— Backed by Clear Guidance <i data-feather="star" class="icon-inline" aria-hidden="true"></i></span>
+          </h2>
+          <p class="hero-description">Personalized routines, evidence-based tips, and thoughtfully selected products tailored to your skin type — clear guidance that delivers measurable results.</p>
+          <div class="hero-buttons">
+            <button class="cta-button primary" onclick="location.href='survey.html'">
+              <i data-feather="target" class="button-icon" aria-hidden="true"></i>
+              <span class="button-text">Start My Skin Analysis</span>
+            </button>
+            <button class="cta-button secondary" onclick="location.href='tips.html'">
+              <i data-feather="book-open" class="button-icon" aria-hidden="true"></i>
+              <span class="button-text">Explore Expert Tips</span>
+            </button>
+            <button class="cta-button profile" onclick="location.href='profile.html'">
+              <i data-feather="user" class="button-icon" aria-hidden="true"></i>
+              <span class="button-text">View My Profile</span>
+            </button>
           </div>
-        `).join('')}
+        </div>
+        <div class="hero-visual">
+          <div class="floating-elements">
+            <div class="floating-card card-1">
+              <img src="images/hydration-icon.jpg" alt="Hydration" class="card-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+              <i data-feather="droplet" class="card-icon" style="display: none;" aria-hidden="true"></i>
+              <span class="card-text">Hydration</span>
+            </div>
+            <div class="floating-card card-2">
+              <img src="images/protection-icon.jpg" alt="Protection" class="card-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+              <i data-feather="sun" class="card-icon" style="display: none;" aria-hidden="true"></i>
+              <span class="card-text">Protection</span>
+            </div>
+            <div class="floating-card card-3">
+              <img src="images/natural-icon.jpg" alt="Natural" class="card-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+              <i data-feather="leaf" class="card-icon" style="display: none;" aria-hidden="true"></i>
+              <span class="card-text">Natural</span>
+            </div>
+            <div class="floating-card card-4">
+              <img src="images/glow-icon.jpg" alt="Glow" class="card-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+              <i data-feather="star" class="card-icon" style="display: none;" aria-hidden="true"></i>
+              <span class="card-text">Glow</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <p class="product-note">These products are specifically recommended for ${skinData.name.toLowerCase()} skin.</p>
-    `;
-  }
+    </div>
 
-  // Activate feather icons for injected HTML
-  if (window.feather) feather.replace();
-}
-
-/* ---------------- DEFAULT PRODUCTS ---------------- */
-const defaultProducts = [
-  // CLEANSERS
-  { name: "CeraVe Foaming Facial Cleanser", description: "Gentle foaming cleanser with ceramides and hyaluronic acid", price: 1299, types: ["all","normal","oily","combination"], image: "cerave-foaming-cleanser.jpg", brand: "CeraVe", category: "cleanser" },
-  { name: "CeraVe Hydrating Facial Cleanser", description: "Non-foaming cleanser for normal to dry skin", price: 1199, types: ["all","normal","dry","sensitive"], image: "cerave-hydrating-cleanser.jpg", brand: "CeraVe", category: "cleanser" },
-  { name: "La Roche-Posay Toleriane Hydrating Gentle Cleanser", description: "Fragrance-free cleanser for sensitive skin", price: 1899, types: ["sensitive","dry","normal"], image: "lrp-toleriane-cleanser.jpg", brand: "La Roche-Posay", category: "cleanser" },
-  { name: "Neutrogena Ultra Gentle Daily Cleanser", description: "Soap-free, hypoallergenic cleanser", price: 899, types: ["sensitive","dry","normal"], image: "neutrogena-gentle-cleanser.jpg", brand: "Neutrogena", category: "cleanser" },
-  { name: "Paula's Choice Skin Perfecting 2% BHA Liquid Exfoliant", description: "Salicylic acid exfoliant for acne-prone skin", price: 2899, types: ["oily","acne-prone","combination"], image: "paula-choice-bha.jpg", brand: "Paula's Choice", category: "exfoliant" },
-
-  // MOISTURIZERS
-  { name: "CeraVe Daily Moisturizing Lotion", description: "Lightweight lotion with ceramides and hyaluronic acid", price: 1399, types: ["all","normal","dry","sensitive"], image: "cerave-daily-lotion.jpg", brand: "CeraVe", category: "moisturizer" },
-  { name: "CeraVe PM Facial Moisturizing Lotion", description: "Night moisturizer with niacinamide and ceramides", price: 1599, types: ["all","normal","dry","sensitive"], image: "cerave-pm-lotion.jpg", brand: "CeraVe", category: "moisturizer" },
-  { name: "Neutrogena Hydro Boost Water Gel", description: "Hyaluronic acid gel moisturizer", price: 1799, types: ["all","normal","oily","combination"], image: "neutrogena-hydro-boost.jpg", brand: "Neutrogena", category: "moisturizer" },
-  { name: "La Roche-Posay Toleriane Double Repair Face Moisturizer", description: "Prebiotic moisturizer for sensitive skin", price: 2199, types: ["sensitive","dry","normal"], image: "lrp-toleriane-moisturizer.jpg", brand: "La Roche-Posay", category: "moisturizer" },
-  { name: "The Ordinary Natural Moisturizing Factors + HA", description: "Lightweight moisturizer with natural moisturizing factors", price: 899, types: ["all","normal","dry"], image: "ordinary-nmf.jpg", brand: "The Ordinary", category: "moisturizer" },
-
-  // SUNSCREENS
-  { name: "EltaMD UV Clear Broad-Spectrum SPF 46", description: "Mineral sunscreen with niacinamide", price: 3299, types: ["all","sensitive","acne-prone","normal"], image: "elta-md-uv-clear.jpg", brand: "EltaMD", category: "sunscreen" },
-  { name: "La Roche-Posay Anthelios Ultra Light Fluid SPF 60", description: "Lightweight, fast-absorbing sunscreen", price: 2499, types: ["all","oily","combination","normal"], image: "lrp-anthelios.jpg", brand: "La Roche-Posay", category: "sunscreen" },
-  { name: "Neutrogena Ultra Sheer Dry-Touch Sunscreen SPF 55", description: "Non-greasy, fast-absorbing sunscreen", price: 1299, types: ["all","oily","combination","normal"], image: "neutrogena-ultra-sheer.jpg", brand: "Neutrogena", category: "sunscreen" },
-  { name: "CeraVe Hydrating Mineral Sunscreen SPF 30", description: "Mineral sunscreen for sensitive skin", price: 1899, types: ["sensitive","dry","normal"], image: "cerave-mineral-sunscreen.jpg", brand: "CeraVe", category: "sunscreen" },
-  { name: "Supergoop! Unseen Sunscreen SPF 40", description: "Invisible, weightless sunscreen", price: 3499, types: ["all","oily","combination","normal"], image: "supergoop-unseen.jpg", brand: "Supergoop!", category: "sunscreen" },
-
-  // SERUMS & TREATMENTS
-  { name: "The Ordinary Hyaluronic Acid 2% + B5", description: "Hydrating serum with hyaluronic acid", price: 699, types: ["all","dry","normal","sensitive"], image: "ordinary-ha-serum.jpg", brand: "The Ordinary", category: "serum" },
-  { name: "The Ordinary Niacinamide 10% + Zinc 1%", description: "Oil control and pore-minimizing serum", price: 699, types: ["oily","acne-prone","combination"], image: "ordinary-niacinamide.jpg", brand: "The Ordinary", category: "serum" },
-  { name: "The Ordinary Vitamin C Suspension 23% + HA Spheres 2%", description: "High-potency vitamin C serum", price: 899, types: ["all","normal","dry","combination"], image: "ordinary-vitamin-c.jpg", brand: "The Ordinary", category: "serum" },
-  { name: "Paula's Choice 10% Azelaic Acid Booster", description: "Anti-inflammatory treatment for acne and rosacea", price: 3299, types: ["acne-prone","sensitive","combination"], image: "paula-choice-azelaic.jpg", brand: "Paula's Choice", category: "treatment" },
-  { name: "The Ordinary Retinol 0.5% in Squalane", description: "Anti-aging retinol treatment", price: 999, types: ["all","normal","dry","combination"], image: "ordinary-retinol.jpg", brand: "The Ordinary", category: "treatment" },
-
-  // TONERS & EXFOLIANTS
-  { name: "The Ordinary Glycolic Acid 7% Toning Solution", description: "Gentle exfoliating toner", price: 899, types: ["all","normal","oily","combination"], image: "ordinary-glycolic-toner.jpg", brand: "The Ordinary", category: "toner" },
-  { name: "Paula's Choice Skin Perfecting 2% BHA Liquid Exfoliant", description: "Salicylic acid exfoliant for pores", price: 2899, types: ["oily","acne-prone","combination"], image: "paula-choice-bha-liquid.jpg", brand: "Paula's Choice", category: "exfoliant" },
-  { name: "The Ordinary AHA 30% + BHA 2% Peeling Solution", description: "Weekly exfoliating treatment", price: 999, types: ["all","normal","oily","combination"], image: "ordinary-peeling-solution.jpg", brand: "The Ordinary", category: "exfoliant" },
-  { name: "Thayers Witch Hazel Toner", description: "Alcohol-free toner with witch hazel", price: 1299, types: ["all","normal","oily","combination"], image: "thayers-witch-hazel.jpg", brand: "Thayers", category: "toner" },
-
-  // EYE CARE
-  { name: "CeraVe Eye Repair Cream", description: "Hydrating eye cream with ceramides", price: 1899, types: ["all","dry","normal","sensitive"], image: "cerave-eye-cream.jpg", brand: "CeraVe", category: "eye-care" },
-  { name: "The Ordinary Caffeine Solution 5% + EGCG", description: "Eye serum for puffiness and dark circles", price: 699, types: ["all","normal","dry","sensitive"], image: "ordinary-caffeine-serum.jpg", brand: "The Ordinary", category: "eye-care" },
-
-  // MASKS & TREATMENTS
-  { name: "The Ordinary AHA 30% + BHA 2% Peeling Solution", description: "Weekly exfoliating mask", price: 999, types: ["all","normal","oily","combination"], image: "ordinary-peeling-mask.jpg", brand: "The Ordinary", category: "mask" },
-  { name: "The Ordinary Salicylic Acid 2% Masque", description: "Clay mask for acne-prone skin", price: 899, types: ["oily","acne-prone","combination"], image: "ordinary-salicylic-mask.jpg", brand: "The Ordinary", category: "mask" },
-  { name: "CeraVe Hydrating Facial Cleanser", description: "Gentle cleanser for dry skin", price: 1199, types: ["dry","sensitive","normal"], image: "cerave-hydrating-facial.jpg", brand: "CeraVe", category: "cleanser" },
-
-  // SPECIALTY PRODUCTS
-  { name: "The Ordinary Squalane Cleanser", description: "Oil-based cleanser for makeup removal", price: 899, types: ["all","dry","sensitive","normal"], image: "ordinary-squalane-cleanser.jpg", brand: "The Ordinary", category: "cleanser" },
-  { name: "The Ordinary Rose Hip Seed Oil", description: "Natural oil for dry and aging skin", price: 999, types: ["dry","normal","sensitive"], image: "ordinary-rosehip-oil.jpg", brand: "The Ordinary", category: "oil" },
-  { name: "The Ordinary 100% Plant-Derived Squalane", description: "Lightweight moisturizing oil", price: 899, types: ["all","dry","normal","sensitive"], image: "ordinary-squalane-oil.jpg", brand: "The Ordinary", category: "oil" },
-  { name: "Paula's Choice Resist Advanced Replenishing Toner", description: "Anti-aging toner with antioxidants", price: 2499, types: ["all","normal","dry","combination"], image: "paula-choice-replenishing-toner.jpg", brand: "Paula's Choice", category: "toner" }
-];
-
-/* ---------------- PRODUCTS ---------------- */
-async function initProducts() {
-  const snapshot = await db.collection("Products").get();
-  if (snapshot.empty) {
-    for (const p of defaultProducts) {
-      await db.collection("Products").add(p);
-    }
-  } else {
-    // Check if we have all default products, add missing ones
-    const existingNames = new Set();
-    snapshot.forEach(doc => {
-      const data = doc.data();
-      existingNames.add(data.name);
-    });
-    
-    for (const p of defaultProducts) {
-      if (!existingNames.has(p.name)) {
-        await db.collection("Products").add(p);
-      }
-    }
-  }
-}
-
-async function loadProducts() {
-  const container = document.querySelector(".product-list");
-  if (!container) return;
-
-  container.innerHTML = "<p>Loading products...</p>";
-
-  try {
-    const snapshot = await db.collection("Products").get();
-    container.innerHTML = "";
-
-    // Remove duplicates by keeping only the first occurrence of each product name
-    const seenNames = new Set();
-    const uniqueProducts = [];
-    
-    snapshot.forEach(doc => {
-      const p = doc.data();
-      if (!seenNames.has(p.name)) {
-        seenNames.add(p.name);
-        uniqueProducts.push(p);
-      }
-    });
-
-    // Business rule: keep only 15 products under ₹1000, sorted by price (no brand restriction)
-    const selectedForRender = uniqueProducts
-      .filter(p => Number(p.price || 0) < 1000)
-      .sort((a,b) => Number(a.price||0) - Number(b.price||0))
-      .slice(0,15);
-
-    // Render only the selected products
-    selectedForRender.forEach(p => {
-      const card = document.createElement("div");
-      card.classList.add("product-card", "visible");
-      card.dataset.types = (p.types || []).join(",");
-      card.dataset.category = p.category || "general";
-      card.dataset.brand = p.brand || "Unknown";
-      card.dataset.price = String(p.price || 0);
-      
-      const categoryBadge = p.category ? `<span class="category-badge">${p.category}</span>` : '';
-      const brandInfo = p.brand ? `<p class="brand">${p.brand}</p>` : '';
-      const fallbackSrc = getFallbackImage(p.category);
-      
-      card.innerHTML = `
-        <div class="product-image-container">
-          <img src="images/${p.image}" alt="${p.name}" onerror="this.onerror=null;this.src='${fallbackSrc}';">
-          ${categoryBadge}
+    <!-- Features Section -->
+    <div class="features-section">
+      <div class="section-header">
+        <h3>Why Choose Our Guide?</h3>
+        <p>Everything you need for healthy, beautiful skin in one place</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <img src="images/analysis-icon.jpg" alt="Personalized Analysis" class="feature-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <i data-feather="target" class="feature-icon" style="display: none;" aria-hidden="true"></i>
+          <h4>Personalized Analysis</h4>
+          <p>Receive a tailored skincare regimen designed for your skin type and specific concerns.</p>
         </div>
-        <div class="product-info">
-        <h3>${p.name}</h3>
-          ${brandInfo}
-          <p class="description">${p.description}</p>
-        <p class="price">₹${p.price}</p>
+        <div class="feature-card">
+          <img src="images/knowledge-icon.jpg" alt="Expert Knowledge" class="feature-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <i data-feather="book-open" class="feature-icon" style="display: none;" aria-hidden="true"></i>
+          <h4>Expert Knowledge</h4>
+          <p>Access dermatologist-reviewed guidance and clear ingredient insights to inform your choices.</p>
         </div>
-      `;
-      container.appendChild(card);
+        <div class="feature-card">
+          <img src="images/products-icon.jpg" alt="Curated Products" class="feature-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <i data-feather="shopping-bag" class="feature-icon" style="display: none;" aria-hidden="true"></i>
+          <h4>Curated Products</h4>
+          <p>Find professionally curated products matched to your skin’s needs and goals.</p>
+        </div>
+        <div class="feature-card">
+          <img src="images/easy-icon.jpg" alt="Easy to Follow" class="feature-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <div class="feature-icon" style="display: none;"><i data-feather="smartphone" aria-hidden="true"></i></div>
+          <h4>Simple, Practical Routines</h4>
+          <p>Clear, step-by-step routines that integrate seamlessly into your daily schedule.</p>
+        </div>
+        <div class="feature-card profile-card">
+          <i data-feather="user" class="feature-icon" aria-hidden="true"></i>
+          <h4>Personal Profile</h4>
+          <p>Create a profile to save analyses, track progress over time, and receive tailored recommendations.</p>
+          <button class="profile-btn" onclick="location.href='profile.html'">
+            <i data-feather="zap" class="button-icon" aria-hidden="true"></i>
+            <span class="button-text">Create Profile</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Skin Type Preview -->
+    <div class="skin-types-preview">
+      <div class="section-header">
+        <h3>Discover Your Skin Type</h3>
+        <p>Click on a skin type to learn more</p>
+      </div>
+      <div class="skin-types-grid">
+        <div class="skin-type-card" data-type="dry">
+          <img src="images/dry-skin.jpg" alt="Dry Skin" class="skin-type-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <i data-feather="sun" class="skin-icon" style="display: none;"></i>
+          <h4>Dry Skin</h4>
+          <p>Skin feels tight and may flake; benefits from richer hydration and barrier-repair ingredients.</p>
+        </div>
+        <div class="skin-type-card" data-type="oily">
+          <img src="images/oily-skin.jpg" alt="Oily Skin" class="skin-type-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <i data-feather="droplet" class="skin-icon" aria-hidden="true"></i>
+          <h4>Oily Skin</h4>
+          <p>Prone to shine with visibly enlarged pores; often benefits from lightweight, non-comedogenic formulations.</p>
+        </div>
+        <div class="skin-type-card" data-type="combination">
+          <img src="images/combination-skin.jpg" alt="Combination Skin" class="skin-type-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <i data-feather="layers" class="skin-icon" style="display: none;"></i>
+          <h4>Combination</h4>
+          <p>Oily in the T-zone and drier elsewhere; balancing routines that address multiple zones are recommended.</p>
+        </div>
+        <div class="skin-type-card" data-type="sensitive">
+          <img src="images/sensitive-skin.jpg" alt="Sensitive Skin" class="skin-type-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <i data-feather="heart" class="skin-icon" style="display: none;"></i>
+          <h4>Sensitive</h4>
+          <p>Reactive or easily irritated skin that responds best to gentle, fragrance-free care.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Start Section -->
+    <div class="quick-start-section">
+      <div class="quick-start-content">
+        <div class="quick-start-text">
+          <h3>Ready to Begin?</h3>
+            <p>Join thousands who have improved their skin with a personalized, evidence-informed approach.</p>
+          <div class="stats">
+            <div class="stat">
+              <span class="stat-number">10K+</span>
+              <span class="stat-label">Happy Users</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">95%</span>
+              <span class="stat-label">See Results</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">30</span>
+              <span class="stat-label">Days Average</span>
+            </div>
+          </div>
+        </div>
+        <div class="quick-start-visual">
+          <div class="progress-ring">
+            <div class="ring-segment segment-1"></div>
+            <div class="ring-segment segment-2"></div>
+            <div class="ring-segment segment-3"></div>
+            <div class="ring-center">
+              <i data-feather="star" class="center-icon"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile/Login Section -->
+    <div class="profile-section">
+      <div class="profile-content">
+        <div class="profile-text">
+          <h3>Ready to Get Started?</h3>
+          <p>Create your personal profile to save your skin analysis, track your progress, and get personalized recommendations.</p>
+          <div class="profile-benefits">
+            <div class="benefit">
+              <i data-feather="save" class="benefit-icon"></i>
+              <span class="benefit-text">Save your skin analysis</span>
+            </div>
+            <div class="benefit">
+              <i data-feather="trending-up" class="benefit-icon"></i>
+              <span class="benefit-text">Track your progress</span>
+            </div>
+            <div class="benefit">
+              <i data-feather="target" class="benefit-icon"></i>
+              <span class="benefit-text">Get personalized tips</span>
+            </div>
+          </div>
+        </div>
+        <div class="profile-actions">
+          <button class="cta-button large primary" onclick="location.href='profile.html'">
+            <i data-feather="user" class="button-icon"></i>
+            <span class="button-text">Create My Profile</span>
+          </button>
+          <button class="cta-button large secondary" onclick="location.href='survey.html'">
+            <i data-feather="target" class="button-icon"></i>
+            <span class="button-text">Take Skin Analysis</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="final-cta">
+      <div class="cta-content">
+        <h3>Your Best Skin Starts Today</h3>
+        <p>Complete our quick analysis to receive a personalized plan created just for you.</p>
+        <button class="cta-button large" onclick="location.href='survey.html'">
+          <i data-feather="zap" class="button-icon" aria-hidden="true"></i>
+          <span class="button-text">Start My Personalized Plan</span>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <footer>© 2025 Beginner's Guide to Skin Care</footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Animate elements on scroll
+      const animatedElements = document.querySelectorAll('.feature-card, .skin-type-card, .stat, .floating-card');
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach((entry, index) => {
+        if(entry.isIntersecting){
+            setTimeout(() => {
+          entry.target.classList.add('visible');
+            }, index * 100);
+        }
+      });
+    }, { threshold: 0.2 });
+      
+      animatedElements.forEach(element => {
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(30px)';
+        observer.observe(element);
+      });
+
+      // Interactive skin type cards
+      const skinTypeCards = document.querySelectorAll('.skin-type-card');
+      skinTypeCards.forEach(card => {
+        card.addEventListener('click', () => {
+          const skinType = card.dataset.type;
+          // Add visual feedback
+          card.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            card.style.transform = 'scale(1)';
+            // Navigate to survey with skin type hint
+            window.location.href = 'survey.html';
+          }, 150);
+        });
+
+        card.addEventListener('mouseenter', () => {
+          card.style.transform = 'translateY(-10px) scale(1.05)';
+        });
+
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'translateY(0) scale(1)';
+        });
+      });
+
+      // Animated progress ring
+      const ringSegments = document.querySelectorAll('.ring-segment');
+      ringSegments.forEach((segment, index) => {
+        setTimeout(() => {
+          segment.style.animation = `fillRing 2s ease forwards`;
+        }, index * 500);
+      });
+
+      // Floating cards animation
+      const floatingCards = document.querySelectorAll('.floating-card');
+      floatingCards.forEach((card, index) => {
+        card.style.animation = `float 3s ease-in-out infinite`;
+        card.style.animationDelay = `${index * 0.5}s`;
+      });
+
+      // Parallax effect for hero
+      let ticking = false;
+      function updateParallax() {
+        const scrolled = window.pageYOffset;
+        const hero = document.querySelector('.hero-container');
+        if (hero && scrolled < window.innerHeight) {
+          hero.style.transform = `translateY(${scrolled * 0.2}px)`;
+        }
+        ticking = false;
+      }
+
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(updateParallax);
+          ticking = true;
+        }
+      });
+
+      // Counter animation for stats
+      const stats = document.querySelectorAll('.stat-number');
+      const statsObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting) {
+            const target = entry.target;
+            const finalValue = target.textContent;
+            const isPercentage = finalValue.includes('%');
+            const isPlus = finalValue.includes('+');  
+            const numericValue = parseInt(finalValue.replace(/[^\d]/g, ''));
+            
+            let current = 0;
+            const increment = numericValue / 50;
+            const timer = setInterval(() => {
+              current += increment;
+              if (current >= numericValue) {
+                current = numericValue;
+                clearInterval(timer);
+              }
+              target.textContent = Math.floor(current) + (isPercentage ? '%' : '') + (isPlus ? '+' : '');
+            }, 30);
+          }
+        });
+      }, { threshold: 0.5 });
+
+      stats.forEach(stat => statsObserver.observe(stat));
+      
+      // Initialize Feather icons
+      feather.replace();
     });
-
-    document.querySelectorAll(".card").forEach(c => c.classList.add("visible"));
-    applyFilter();
-
-  } catch(err) {
-    console.error("Error loading products:", err);
-    container.innerHTML = `<p style="color:red;">Error loading products.</p>`;
-  }
-}
-
-function applyFilter() {
-  const filterType = document.getElementById("filterType");
-  const filterCategory = document.getElementById("filterCategory");
-  const filterBrand = document.getElementById("filterBrand");
-  const productCount = document.getElementById("productCount");
-  
-  if (!filterType || !filterCategory || !filterBrand) return;
-
-  const selectedType = filterType.value;
-  const selectedCategory = filterCategory.value;
-  const selectedBrand = filterBrand.value;
-  
-  let visibleCount = 0;
-  
-  document.querySelectorAll(".product-card").forEach(card => {
-    const types = card.dataset.types.split(",");
-    const category = card.dataset.category;
-    const brand = card.dataset.brand;
-    
-    const typeMatch = selectedType === "all" || types.includes(selectedType);
-    const categoryMatch = selectedCategory === "all" || category === selectedCategory;
-    const brandMatch = selectedBrand === "all" || brand === selectedBrand;
-    
-    const shouldShow = typeMatch && categoryMatch && brandMatch;
-    
-    card.style.display = shouldShow ? "block" : "none";
-    if (shouldShow) visibleCount++;
-  });
-  
-  // Update product count
-  if (productCount) {
-    productCount.textContent = `${visibleCount} products found`;
-  }
-}
-
-/* ---------------- INIT ---------------- */
-document.addEventListener('DOMContentLoaded', async () => {
-  loadProfile();
-  renderResults();
-
-  const saveButton = document.getElementById('savebutton');
-  if (saveButton) saveButton.addEventListener('click', () => {
-    const profileData = {
-      name: document.getElementById('p_name').value,
-      age: Number(document.getElementById('p_age').value),
-      gender: document.getElementById('p_gender').value,
-      city: document.getElementById('p_city').value
-    };
-    saveProfile(profileData);
-  });
-
-  const surveyForm = document.getElementById('surveyForm');
-  if (surveyForm) surveyForm.addEventListener('submit', submitSurvey);
-
-  const browseBtn = document.getElementById('browseProductsBtn');
-  if (browseBtn) browseBtn.addEventListener('click', () => {
-    window.location.href = 'product.html';
-  });
-
-  await initProducts();
-  await loadProducts();
-  
-  // Add event listeners for all filters
-  const filterType = document.getElementById("filterType");
-  const filterCategory = document.getElementById("filterCategory");
-  const filterBrand = document.getElementById("filterBrand");
-  
-  if (filterType) filterType.addEventListener("change", applyFilter);
-  if (filterCategory) filterCategory.addEventListener("change", applyFilter);
-  if (filterBrand) filterBrand.addEventListener("change", applyFilter);
-});
+  </script>
+</body>
+</html>
