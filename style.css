@@ -12,12 +12,12 @@
 
 :root {
   /* Modernized, professional palette */
-  --pink: #6366f1; /* primary */
-  --pink-light: #eef2ff;
-  --pink-lighter: #f5f7ff;
-  --lavender: #8b5cf6; /* secondary */
+  --pink: #e8529b; /* primary */
+  --pink-light: #ffb7e2;
+  --pink-lighter: #edd6ec;
+  --lavender: #dccefe; /* secondary */
   --lavender-light: #ede9fe;
-  --lavender-lighter: #f5f3ff;
+  --lavender-lighter: #e1bdf4;
   --text: #111827;
   --text-light: #6b7280;
   --white: #ffffff;
