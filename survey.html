@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Skincare Survey - Beginner's Guide to Skin Care</title>
   <link rel="stylesheet" href="style.css"/>
+  <script src="https://unpkg.com/feather-icons"></script>
 </head>
 <body>
 <header>
@@ -30,7 +31,7 @@
 
   <div class="card survey-container">
     <div class="survey-header">
-      <h2>✨ Let's discover your perfect skincare routine!</h2>
+  <h2><i data-feather="star" class="icon-inline" aria-hidden="true"></i> Let's discover your perfect skincare routine!</h2>
       <p class="survey-subtitle">Answer a few quick questions and we'll create a personalized skincare plan just for you</p>
     </div>
     
@@ -39,14 +40,14 @@
         <!-- 1) Dryness -->
         <div class="question-card" data-question="1">
           <div class="question-header">
-            <span class="question-icon">💧</span>
+            <span class="question-icon"><i data-feather="droplet"></i></span>
             <h3>How often does your skin feel dry or tight?</h3>
           </div>
           <div class="options-container">
             <label class="option-card">
               <input type="radio" name="dryness" value="rarely" required>
               <div class="option-content">
-                <span class="option-emoji">😊</span>
+                <i data-feather="smile" class="option-emoji" aria-hidden="true"></i>
                 <span class="option-text">Rarely</span>
                 <span class="option-desc">My skin feels comfortable most of the time</span>
               </div>
@@ -54,7 +55,7 @@
             <label class="option-card">
               <input type="radio" name="dryness" value="sometimes" required>
               <div class="option-content">
-                <span class="option-emoji">🤔</span>
+                <i data-feather="help-circle" class="option-emoji" aria-hidden="true"></i>
                 <span class="option-text">Sometimes</span>
                 <span class="option-desc">Occasionally after washing or in certain weather</span>
               </div>
@@ -62,7 +63,7 @@
             <label class="option-card">
               <input type="radio" name="dryness" value="often" required>
               <div class="option-content">
-                <span class="option-emoji">😰</span>
+                <i data-feather="alert-circle" class="option-emoji" aria-hidden="true"></i>
                 <span class="option-text">Often</span>
                 <span class="option-desc">Frequently feels tight and uncomfortable</span>
               </div>
@@ -73,14 +74,14 @@
         <!-- 2) Oiliness -->
         <div class="question-card" data-question="2">
           <div class="question-header">
-            <span class="question-icon">✨</span>
+            <span class="question-icon"><i data-feather="sun"></i></span>
             <h3>Do you experience oiliness or shine?</h3>
           </div>
           <div class="options-container">
             <label class="option-card">
               <input type="radio" name="oiliness" value="no" required>
               <div class="option-content">
-                <span class="option-emoji">🌿</span>
+                <i data-feather="check-circle" class="option-emoji" aria-hidden="true"></i>
                 <span class="option-text">No</span>
                 <span class="option-desc">My skin stays matte throughout the day</span>
               </div>
@@ -88,7 +89,7 @@
             <label class="option-card">
               <input type="radio" name="oiliness" value="sometimes" required>
               <div class="option-content">
-                <span class="option-emoji">🌤️</span>
+                <i data-feather="cloud" class="option-emoji" aria-hidden="true"></i>
                 <span class="option-text">Sometimes</span>
                 <span class="option-desc">Occasional shine, especially in T-zone</span>
               </div>
@@ -96,7 +97,7 @@
             <label class="option-card">
               <input type="radio" name="oiliness" value="yes" required>
               <div class="option-content">
-                <span class="option-emoji">💎</span>
+                <i data-feather="droplet" class="option-emoji" aria-hidden="true"></i>
                 <span class="option-text">Yes</span>
                 <span class="option-desc">Frequent shine and oily appearance</span>
               </div>
@@ -107,14 +108,14 @@
         <!-- 3) Acne -->
         <div class="question-card" data-question="3">
           <div class="question-header">
-            <span class="question-icon">🌟</span>
+            <span class="question-icon"><i data-feather="moon"></i></span>
             <h3>Do you have acne or breakouts?</h3>
           </div>
           <div class="options-container">
             <label class="option-card">
               <input type="radio" name="acne" value="never" required>
               <div class="option-content">
-                <span class="option-emoji">🌸</span>
+                <i data-feather="check-circle" class="option-emoji" aria-hidden="true"></i>
                 <span class="option-text">Never</span>
                 <span class="option-desc">Clear skin with no breakouts</span>
               </div>
@@ -122,7 +123,7 @@
             <label class="option-card">
               <input type="radio" name="acne" value="sometimes" required>
               <div class="option-content">
-                <span class="option-emoji">🌙</span>
+                <i data-feather="activity" class="option-emoji" aria-hidden="true"></i>
                 <span class="option-text">Sometimes</span>
                 <span class="option-desc">Occasional pimples or small breakouts</span>
               </div>
@@ -130,7 +131,7 @@
             <label class="option-card">
               <input type="radio" name="acne" value="frequent" required>
               <div class="option-content">
-                <span class="option-emoji">🌋</span>
+                <i data-feather="zap" class="option-emoji" aria-hidden="true"></i>
                 <span class="option-text">Frequent</span>
                 <span class="option-desc">Regular breakouts and acne concerns</span>
               </div>
@@ -141,14 +142,14 @@
         <!-- 4) Sun Exposure -->
         <div class="question-card" data-question="4">
           <div class="question-header">
-            <span class="question-icon">☀️</span>
+            <span class="question-icon"><i data-feather="sun"></i></span>
             <h3>How much time do you spend in the sun?</h3>
           </div>
           <div class="options-container">
             <label class="option-card">
               <input type="radio" name="sun" value="rarely" required>
               <div class="option-content">
-                <span class="option-emoji">🏠</span>
+                <i data-feather="home" class="option-emoji" aria-hidden="true"></i>
                 <span class="option-text">Rarely</span>
                 <span class="option-desc">Mostly indoors, minimal sun exposure</span>
               </div>
@@ -156,7 +157,7 @@
             <label class="option-card">
               <input type="radio" name="sun" value="sometimes" required>
               <div class="option-content">
-                <span class="option-emoji">🚶‍♀️</span>
+                <i data-feather="walk" class="option-emoji" aria-hidden="true"></i>
                 <span class="option-text">Sometimes</span>
                 <span class="option-desc">Regular outdoor activities with some protection</span>
               </div>
@@ -164,7 +165,7 @@
             <label class="option-card">
               <input type="radio" name="sun" value="often" required>
               <div class="option-content">
-                <span class="option-emoji">🏖️</span>
+                <i data-feather="umbrella" class="option-emoji" aria-hidden="true"></i>
                 <span class="option-text">Often</span>
                 <span class="option-desc">Frequent outdoor activities and sun exposure</span>
               </div>
@@ -175,14 +176,14 @@
         <!-- 5) T-zone Oiliness -->
         <div class="question-card" data-question="5">
           <div class="question-header">
-            <span class="question-icon">🎯</span>
+            <span class="question-icon"><i data-feather="target"></i></span>
             <h3>Is your T-zone (forehead/nose) more oily than other areas?</h3>
           </div>
           <div class="options-container">
             <label class="option-card">
               <input type="radio" name="tzone" value="no" required>
               <div class="option-content">
-                <span class="option-emoji">⚖️</span>
+                <i data-feather="slash" class="option-emoji" aria-hidden="true"></i>
                 <span class="option-text">No</span>
                 <span class="option-desc">Oiliness is even across my face</span>
               </div>
@@ -190,7 +191,7 @@
             <label class="option-card">
               <input type="radio" name="tzone" value="yes" required>
               <div class="option-content">
-                <span class="option-emoji">🎪</span>
+                <i data-feather="zap" class="option-emoji" aria-hidden="true"></i>
                 <span class="option-text">Yes</span>
                 <span class="option-desc">T-zone gets noticeably oilier</span>
               </div>
@@ -201,14 +202,14 @@
         <!-- 6) Redness -->
         <div class="question-card" data-question="6">
           <div class="question-header">
-            <span class="question-icon">🌹</span>
+            <span class="question-icon"><i data-feather="heart"></i></span>
             <h3>Do you get redness or itching easily?</h3>
           </div>
           <div class="options-container">
             <label class="option-card">
               <input type="radio" name="redness" value="no" required>
               <div class="option-content">
-                <span class="option-emoji">🕊️</span>
+                <i data-feather="heart" class="option-emoji" aria-hidden="true"></i>
                 <span class="option-text">No</span>
                 <span class="option-desc">My skin is calm and doesn't react easily</span>
               </div>
@@ -216,7 +217,7 @@
             <label class="option-card">
               <input type="radio" name="redness" value="yes" required>
               <div class="option-content">
-                <span class="option-emoji">🌶️</span>
+                <i data-feather="thermometer" class="option-emoji" aria-hidden="true"></i>
                 <span class="option-text">Yes</span>
                 <span class="option-desc">My skin is sensitive and reacts easily</span>
               </div>
@@ -227,14 +228,14 @@
         <!-- 7) Fragrance Sensitivity -->
         <div class="question-card" data-question="7">
           <div class="question-header">
-            <span class="question-icon">🌸</span>
+            <span class="question-icon"><i data-feather="flower"></i></span>
             <h3>Are you sensitive to fragrance in skincare products?</h3>
           </div>
           <div class="options-container">
             <label class="option-card">
               <input type="radio" name="fragrance" value="no" required>
               <div class="option-content">
-                <span class="option-emoji">🌺</span>
+                <i data-feather="smile" class="option-emoji" aria-hidden="true"></i>
                 <span class="option-text">No</span>
                 <span class="option-desc">I enjoy scented products without issues</span>
               </div>
@@ -242,7 +243,7 @@
             <label class="option-card">
               <input type="radio" name="fragrance" value="yes" required>
               <div class="option-content">
-                <span class="option-emoji">🤧</span>
+                <i data-feather="slash" class="option-emoji" aria-hidden="true"></i>
                 <span class="option-text">Yes</span>
                 <span class="option-desc">Fragrances irritate my skin</span>
               </div>
@@ -253,14 +254,14 @@
         <!-- 8) Pores -->
         <div class="question-card" data-question="8">
           <div class="question-header">
-            <span class="question-icon">🔍</span>
+            <span class="question-icon"><i data-feather="eye"></i></span>
             <h3>How would you describe your pore size?</h3>
           </div>
           <div class="options-container">
             <label class="option-card">
               <input type="radio" name="pores" value="small" required>
               <div class="option-content">
-                <span class="option-emoji">✨</span>
+                <i data-feather="star" class="option-emoji" aria-hidden="true"></i>
                 <span class="option-text">Small</span>
                 <span class="option-desc">Hardly visible, smooth texture</span>
               </div>
@@ -268,7 +269,7 @@
             <label class="option-card">
               <input type="radio" name="pores" value="medium" required>
               <div class="option-content">
-                <span class="option-emoji">🔸</span>
+                <i data-feather="minus" class="option-emoji" aria-hidden="true"></i>
                 <span class="option-text">Medium</span>
                 <span class="option-desc">Noticeable but not prominent</span>
               </div>
@@ -276,7 +277,7 @@
             <label class="option-card">
               <input type="radio" name="pores" value="large" required>
               <div class="option-content">
-                <span class="option-emoji">🔹</span>
+                <i data-feather="plus" class="option-emoji" aria-hidden="true"></i>
                 <span class="option-text">Large</span>
                 <span class="option-desc">Clearly visible and prominent</span>
               </div>
@@ -287,14 +288,14 @@
         <!-- 9) Flaking -->
         <div class="question-card" data-question="9">
           <div class="question-header">
-            <span class="question-icon">❄️</span>
+            <span class="question-icon"><i data-feather="snowflake"></i></span>
             <h3>Do you experience flaking or peeling skin?</h3>
           </div>
           <div class="options-container">
             <label class="option-card">
               <input type="radio" name="flaking" value="no" required>
               <div class="option-content">
-                <span class="option-emoji">🌊</span>
+                <i data-feather="check" class="option-emoji" aria-hidden="true"></i>
                 <span class="option-text">No</span>
                 <span class="option-desc">My skin stays smooth without flaking</span>
               </div>
@@ -302,7 +303,7 @@
             <label class="option-card">
               <input type="radio" name="flaking" value="yes" required>
               <div class="option-content">
-                <span class="option-emoji">🍂</span>
+                <i data-feather="feather" class="option-emoji" aria-hidden="true"></i>
                 <span class="option-text">Yes</span>
                 <span class="option-desc">I notice flaking, especially in dry areas</span>
               </div>
@@ -313,14 +314,14 @@
         <!-- 10) Routine -->
         <div class="question-card" data-question="10">
           <div class="question-header">
-            <span class="question-icon">🎨</span>
+            <span class="question-icon"><i data-feather="paint-brush"></i></span>
             <h3>What's your current skincare routine level?</h3>
           </div>
           <div class="options-container">
             <label class="option-card">
               <input type="radio" name="routine" value="none" required>
               <div class="option-content">
-                <span class="option-emoji">🌱</span>
+                <i data-feather="seed" class="option-emoji" aria-hidden="true"></i>
                 <span class="option-text">None</span>
                 <span class="option-desc">Just starting my skincare journey</span>
               </div>
@@ -328,7 +329,7 @@
             <label class="option-card">
               <input type="radio" name="routine" value="basic" required>
               <div class="option-content">
-                <span class="option-emoji">🏗️</span>
+                <i data-feather="tool" class="option-emoji" aria-hidden="true"></i>
                 <span class="option-text">Basic</span>
                 <span class="option-desc">Cleanser + moisturizer + sunscreen</span>
               </div>
@@ -336,7 +337,7 @@
             <label class="option-card">
               <input type="radio" name="routine" value="advanced" required>
               <div class="option-content">
-                <span class="option-emoji">🧪</span>
+                <i data-feather="flask" class="option-emoji" aria-hidden="true"></i>
                 <span class="option-text">Advanced</span>
                 <span class="option-desc">I use actives, serums, and targeted treatments</span>
               </div>
@@ -348,7 +349,7 @@
       <div class="survey-navigation">
         <button type="button" id="prevBtn" class="nav-btn prev-btn" style="display: none;">← Previous</button>
         <button type="button" id="nextBtn" class="nav-btn next-btn">Next →</button>
-        <button type="submit" id="submitBtn" class="submit-btn" style="display: none;">✨ Get My Skincare Plan ✨</button>
+        <button type="submit" id="submitBtn" class="submit-btn" style="display: none;"><i data-feather="star" class="icon-inline"></i> Get My Skincare Plan</button>
       </div>
     </form>
   </div>
@@ -363,6 +364,7 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+  if (window.feather) feather.replace();
   // Animate cards
   const cards = document.querySelectorAll('.card');
   const observer = new IntersectionObserver(entries => {
