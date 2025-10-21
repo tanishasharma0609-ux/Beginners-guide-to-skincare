@@ -404,12 +404,13 @@ button:hover {
   border-radius: 20px;
   overflow: hidden;
   margin-bottom: 30px;
+  max-height: 450px; /* Constrain the vertical size */
   padding: 0; /* Remove padding to let image fill the card */
 }
 
 .hero-image {
   width: 100%;
-  height: auto; /* Let the image height be automatic */
+  height: 100%; /* Make the image fill the container's height */
   object-fit: cover;
   display: block; /* Remove any extra space below the image */
   transition: transform 0.6s ease;
