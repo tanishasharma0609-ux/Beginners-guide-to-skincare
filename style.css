@@ -1,88 +1,263 @@
-/* style.css - cleaned and consolidated
-   Restores original layout, hero, and responsive rules.
-   Kept minimal, focused on the sections used by the project.
-*/
-
+/* Modern, professional font */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 :root{
-  --pink: #FFD1DC;
-  --pink-light: #FFB6C1;
-  --pink-lighter: #FFF0F5;
-  --lavender: #E6E6FA;
-  --lavender-light: #F8F8FF;
-  --text: #111827;
-  --text-light: #6b7280;
+  /* Pastel, professional palette - using the second block's structure but a lightened aesthetic */
+  --pink: #ff69b4; /* primary: Deep Pink (softened for this theme) */
+  --pink-light: #ffc0cb; /* light pink */
+  --pink-lighter: #ffe4e1; /* lightest pink/blush */
+  --lavender: #b19cd9; /* secondary: Soft Lavender */
+  --lavender-light: #e6e6fa; /* lightest lavender */
+  --lavender-lighter: #f0f8ff; /* very light blue/lavender background */
+  --text: #111827; /* Dark text */
+  --text-light: #6b7280; /* Gray text */
   --white: #ffffff;
   --shadow: rgba(2,6,23,0.08);
 }
 
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif}
-
-body{background:var(--lavender-lighter);color:var(--text);line-height:1.6;min-height:100vh}
-
-header{background:var(--white);padding:20px;text-align:center;box-shadow:0 1px 0 rgba(2,6,23,0.06)}
-header h1{font-size:2rem;font-weight:800;margin-bottom:8px}
-nav{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;padding:10px}
-nav a{padding:8px 14px;border-radius:16px;text-decoration:none;color:var(--text);font-weight:600}
-nav a.active, nav a:hover{background:var(--pink);color:var(--white)}
-
-main{max-width:1000px;margin:28px auto;padding:0 20px}
-
-/* HERO */
-.hero-section{
-  width:100%;
-  height:48vh;
-  min-height:260px;
-  background-image:url('images/skincare.jpeg');
-  background-size:cover;
-  background-position:center center;
-  border-radius:18px;
-  box-shadow:0 10px 30px rgba(2,6,23,0.12);
-  position:relative;
-  overflow:hidden;
-  margin-bottom:-110px; /* content will overlap */
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  /* Retained transition rule from the first block for smoothness, though not explicitly in the second block's base rules */
+  transition: all 0.3s ease; 
 }
 
-.hero-content-section{position:relative;z-index:5;display:flex;justify-content:center;margin-bottom:40px}
-.hero-content{width:100%;max-width:1000px;background:rgba(255,255,255,0.95);padding:28px;border-radius:16px;box-shadow:0 12px 30px rgba(2,6,23,0.08);display:flex;gap:20px;align-items:center}
-.hero-text{flex:1 1 60%}
-.hero-visual{flex:0 0 36%;display:flex;align-items:center;justify-content:center}
-.hero-title{font-size:1.8rem;line-height:1.1;margin-bottom:8px}
-.hero-description{color:var(--text-light);margin-bottom:12px}
-.hero-buttons{display:flex;gap:12px;flex-wrap:wrap}
+body{
+  background: var(--lavender-lighter);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
 
-.cta-button{display:inline-flex;align-items:center;gap:10px;padding:12px 20px;border-radius:24px;border:none;cursor:pointer}
-.cta-button.primary{background:linear-gradient(135deg,var(--pink),var(--lavender));color:var(--white)}
-.cta-button.secondary{background:var(--white);color:var(--text);border:2px solid var(--lavender-light)}
-.cta-button.profile{background:var(--white);color:var(--text);border:2px solid var(--pink)}
+header{
+  background: var(--white);
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 1px 0 rgba(2,6,23,0.06);
+}
+
+header h1{
+  /* Matched the second block's size/margin, but applied the font/weight emphasis from the first block */
+  font-size: 2.6rem; 
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px; /* Used 8px from second block */
+}
+
+nav{
+  display: flex;
+  gap: 15px; /* Used 15px from first block */
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 15px; /* Used 15px from first block */
+  background: var(--white); /* Added background from first block to match style */
+  border-radius: 15px; /* Used 15px from first block */
+  box-shadow: 0 2px 8px var(--shadow); /* Added shadow from first block to match style */
+}
+
+nav a{
+  padding: 8px 16px; /* Used 16px from first block */
+  border-radius: 20px; /* Used 20px from first block */
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 500; /* Used 500 from first block */
+  transition: all 0.3s ease; /* Added transition from first block */
+}
+
+nav a.active, nav a:hover{
+  background: var(--pink);
+  color: var(--white);
+}
+
+main{
+  max-width: 1000px;
+  margin: 30px auto; /* Used 30px from first block */
+  padding: 0 20px;
+}
+
+/* HERO - Structural rules retained from the second block */
+.hero-section{
+  width: 100%;
+  height: 48vh;
+  min-height: 260px;
+  /* Placeholder for the image. Use the original path from the second block's structure. */
+  background-image: url('images/skincare.jpeg'); 
+  background-size: cover;
+  background-position: center center;
+  border-radius: 20px; /* Adjusted to 20px from first block */
+  box-shadow: 0 10px 30px rgba(2,6,23,0.12);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: -110px; /* content will overlap - Crucial layout rule retained */
+}
+
+.hero-content-section{
+  position: relative;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.hero-content{
+  width: 100%;
+  max-width: 1000px;
+  background: rgba(255,255,255,0.95);
+  padding: 35px; /* Adjusted to 35px for better card feel from first block */
+  border-radius: 20px; /* Adjusted to 20px from first block */
+  box-shadow: 0 12px 30px rgba(2,6,23,0.08);
+  display: flex;
+  gap: 30px; /* Adjusted to 30px for better spacing from first block */
+  align-items: center;
+}
+
+.hero-text{
+  flex: 1 1 60%;
+}
+
+.hero-visual{
+  flex: 0 0 36%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-title{
+  font-size: 2.2rem; /* Adjusted to 2.2rem for first block style */
+  line-height: 1.1;
+  font-weight: 700; /* Ensured font weight matches headings from first block */
+  margin-bottom: 15px; /* Adjusted for better spacing from first block */
+}
+
+.hero-description{
+  color: var(--text-light);
+  font-size: 1.1rem; /* Adjusted to 1.1rem from first block */
+  margin-bottom: 20px; /* Adjusted to 20px from first block */
+}
+
+.hero-buttons{
+  display: flex;
+  gap: 20px; /* Used 20px from first block */
+  flex-wrap: wrap;
+}
+
+.cta-button{
+  display: inline-flex;
+  align-items: center;
+  gap: 12px; /* Used 12px from first block */
+  padding: 18px 30px; /* Used 18px 30px from first block */
+  border-radius: 30px; /* Used 30px from first block */
+  border: none;
+  cursor: pointer;
+  font-weight: 600; /* Used 600 from first block */
+  font-size: 1.1rem; /* Used 1.1rem from first block */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Used cubic-bezier transition from first block */
+}
+
+.cta-button.primary{
+  background: linear-gradient(135deg, var(--pink), var(--lavender));
+  color: var(--white);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15); /* Added shadow from first block */
+}
+
+.cta-button.primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+}
+
+.cta-button.secondary{
+  background: var(--white);
+  color: var(--text);
+  border: 2px solid var(--lavender-light);
+}
+
+.cta-button.secondary:hover {
+  background: var(--lavender-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.cta-button.profile{
+  background: var(--white);
+  color: var(--text);
+  border: 2px solid var(--pink);
+}
+
+.cta-button.profile:hover {
+  background: var(--pink);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
 
 /* Floating visual cards (simple positions) */
-.floating-card{position:absolute;background:var(--white);border-radius:16px;padding:12px;box-shadow:0 8px 20px rgba(0,0,0,0.08);display:flex;flex-direction:column;align-items:center;gap:6px}
+.floating-card{
+  position: absolute;
+  background: var(--white);
+  border-radius: 20px; /* Adjusted to 20px from first block */
+  padding: 20px; /* Adjusted to 20px from first block */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* Adjusted shadow from first block */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px; /* Adjusted to 10px from first block */
+}
+
+/* Retained positioning rules from the second block */
 .floating-card.card-1{top:18%;left:6%}
 .floating-card.card-2{top:8%;right:14%}
 .floating-card.card-3{bottom:28%;left:18%}
 .floating-card.card-4{bottom:8%;right:8%}
 
-/* Final CTA */
-.final-cta{background:var(--white);border-radius:20px;padding:40px;text-align:center;box-shadow:0 12px 30px rgba(0,0,0,0.08);margin-bottom:30px}
-
-/* Footer */
-footer{background:var(--pink-light);padding:18px;text-align:center;margin-top:30px;color:var(--text);font-weight:500}
-
-/* Small screens */
-@media (max-width:900px){
-  .hero-content{flex-direction:column;padding:20px}
-  .hero-visual{display:none}
-  .hero-section{height:36vh;margin-bottom:-72px;border-radius:12px}
-  .hero-title{font-size:1.4rem}
+/* Final CTA - Style retained from the first block for consistency */
+.final-cta{
+  background: var(--white);
+  border-radius: 30px; /* Used 30px from first block */
+  padding: 60px 40px; /* Used 60px 40px from first block */
+  text-align: center;
+  box-shadow: 0 15px 50px rgba(0,0,0,0.1); /* Adjusted shadow from first block */
+  margin-bottom: 40px; /* Used 40px from first block */
 }
+
+/* Footer - Style retained from the first block for consistency */
+footer{
+  background: var(--pink-light);
+  padding: 20px; /* Used 20px from first block */
+  text-align: center;
+  margin-top: 30px;
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* Small screens - Rules retained from the second block with first block styling adjustments */
+@media (max-width:900px){
+  .hero-content{
+    flex-direction: column;
+    padding: 40px 20px; /* Used 40px 20px from first block */
+  }
+  .hero-visual{display:none}
+  .hero-section{
+    height:36vh;
+    margin-bottom:-72px;
+    border-radius: 20px; /* Adjusted to 20px from first block */
+  }
+  .hero-title{
+    font-size: 2.5rem; /* Used 2.5rem from first block */
+    font-weight: 700; /* Ensured font weight matches headings from first block */
+  }
+}
+
 @media (max-width:480px){
   main{padding:0 12px}
   .hero-section{height:28vh;margin-bottom:-56px}
-  header h1{font-size:1.4rem}
+  header h1{
+    font-size: 1.6rem; /* Used 1.6rem from first block */
+    font-weight: 700; /* Ensured font weight matches headings from first block */
+  }
 }
 
-/* Small utility */
+/* Small utility - Retained animations */
 .visible{animation:fadeInUp 0.6s ease forwards}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
