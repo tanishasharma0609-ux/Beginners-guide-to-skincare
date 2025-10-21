@@ -400,6 +400,7 @@ button:hover {
 
 /* ---------------- HERO SECTION ---------------- */
 .hero-section {
+  display: block; /* Change from flex to block to allow pseudo-element overlay */
   align-items: center; /* Center the image vertically */
   justify-content: center; /* Center the image horizontally */
   position: relative;
@@ -2906,7 +2907,7 @@ body {
 /* Cute animations for saved profile card */
 .profile-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  animation: popCard 800ms ease 120ms both, subtleFloat 3s ease-in-out infinite 920ms; /* Add subtle continuous float */
+  animation: popCard 800ms ease 120ms both;
 }
 
 .profile-card:hover {
@@ -2939,9 +2940,4 @@ body {
   0% { opacity: 0; transform: translateY(12px) scale(0.98); }
   60% { opacity: 1; transform: translateY(0) scale(1.02); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-@keyframes subtleFloat {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-3px); } /* More subtle movement for the card */
 }
