@@ -10,6 +10,16 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+// Fallback image mapping based on product category (uses local images folder)
+function getFallbackImage(category) {
+  const cat = (category || '').toLowerCase();
+  if (cat.includes('cleanser')) return 'images/cleanser.jpg';
+  if (cat.includes('moistur')) return 'images/moisturizer.jpg';
+  if (cat.includes('sunscreen')) return 'images/sunscreen.jpg';
+  if (cat.includes('serum') || cat.includes('treatment') || cat.includes('toner') || cat.includes('exfol') || cat.includes('eye') || cat.includes('mask') || cat.includes('oil')) return 'images/serum.jpg';
+  return 'images/skincare.jpeg';
+}
+
 /* ---------------- PROFILE ---------------- */
 function showProfile(profileData) {
   const dispName = document.getElementById('dispName');
@@ -136,7 +146,7 @@ async function submitSurvey(e) {
 /* ---------------- RESULTS PAGE ---------------- */
 const skinTypeData = {
   dry: {
-    icon: '🏜️',
+    icon: 'sun',
     name: 'Dry Skin',
     description: 'Your skin needs extra hydration and gentle care to maintain its moisture barrier.',
     morning: [
@@ -161,7 +171,7 @@ const skinTypeData = {
     products: ['Gentle Cleanser', 'Hydrating Moisturizer', 'Broad Spectrum Sunscreen SPF 50', 'Soothing Serum']
   },
   oily: {
-    icon: '✨',
+    icon: 'droplet',
     name: 'Oily Skin',
     description: 'Your skin produces excess oil, so focus on gentle cleansing and oil control.',
     morning: [
@@ -186,7 +196,7 @@ const skinTypeData = {
     products: ['BHA Toner (Salicylic)', 'Broad Spectrum Sunscreen SPF 50']
   },
   normal: {
-    icon: '🌟',
+    icon: 'smile',
     name: 'Normal Skin',
     description: 'You have well-balanced skin! Maintain it with a consistent routine.',
     morning: [
@@ -209,7 +219,7 @@ const skinTypeData = {
     products: ['Gentle Cleanser', 'Hydrating Moisturizer', 'Broad Spectrum Sunscreen SPF 50', 'Soothing Serum']
   },
   sensitive: {
-    icon: '🌹',
+    icon: 'heart',
     name: 'Sensitive Skin',
     description: 'Your skin reacts easily, so gentle, fragrance-free products are essential.',
     morning: [
@@ -232,7 +242,7 @@ const skinTypeData = {
     products: ['Gentle Cleanser', 'Soothing Serum', 'Broad Spectrum Sunscreen SPF 50']
   },
   'acne-prone': {
-    icon: '🌋',
+    icon: 'alert-circle',
     name: 'Acne-Prone Skin',
     description: 'Focus on gentle acne treatment and maintaining a healthy skin barrier.',
     morning: [
@@ -256,7 +266,7 @@ const skinTypeData = {
     products: ['BHA Toner (Salicylic)', 'Broad Spectrum Sunscreen SPF 50']
   },
   combination: {
-    icon: '🎭',
+    icon: 'columns',
     name: 'Combination Skin',
     description: 'You have both oily and dry areas, so target each zone appropriately.',
     morning: [
@@ -299,7 +309,7 @@ function renderResults() {
 
   if (whoEl) whoEl.textContent = profile.name || 'Guest';
   if (skinEl) skinEl.textContent = skinData.name;
-  if (skinIconEl) skinIconEl.textContent = skinData.icon;
+  if (skinIconEl) skinIconEl.innerHTML = `<i data-feather="${skinData.icon}"></i>`;
   if (skinDescEl) skinDescEl.textContent = skinData.description;
 
   // Update morning routine
@@ -319,7 +329,7 @@ function renderResults() {
   if (tipsEl) {
     tipsEl.innerHTML = skinData.tips.map(tip => `
       <div class="tip-card">
-        <span class="tip-icon">💡</span>
+        <i data-feather="info" class="tip-icon"></i>
         <p>${tip}</p>
       </div>
     `).join('');
@@ -332,7 +342,7 @@ function renderResults() {
       <div class="product-recommendations">
         ${skinData.products.map(product => `
           <div class="product-recommendation">
-            <span class="product-icon">✨</span>
+            <i data-feather="star" class="product-icon"></i>
             <span class="product-name">${product}</span>
           </div>
         `).join('')}
@@ -340,6 +350,9 @@ function renderResults() {
       <p class="product-note">These products are specifically recommended for ${skinData.name.toLowerCase()} skin.</p>
     `;
   }
+
+  // Activate feather icons for injected HTML
+  if (window.feather) feather.replace();
 }
 
 /* ---------------- DEFAULT PRODUCTS ---------------- */
@@ -439,19 +452,28 @@ async function loadProducts() {
       }
     });
 
-    uniqueProducts.forEach(p => {
+    // Business rule: keep only 15 products under ₹1000, sorted by price (no brand restriction)
+    const selectedForRender = uniqueProducts
+      .filter(p => Number(p.price || 0) < 1000)
+      .sort((a,b) => Number(a.price||0) - Number(b.price||0))
+      .slice(0,15);
+
+    // Render only the selected products
+    selectedForRender.forEach(p => {
       const card = document.createElement("div");
       card.classList.add("product-card", "visible");
-      card.dataset.types = p.types.join(",");
+      card.dataset.types = (p.types || []).join(",");
       card.dataset.category = p.category || "general";
       card.dataset.brand = p.brand || "Unknown";
+      card.dataset.price = String(p.price || 0);
       
       const categoryBadge = p.category ? `<span class="category-badge">${p.category}</span>` : '';
       const brandInfo = p.brand ? `<p class="brand">${p.brand}</p>` : '';
+      const fallbackSrc = getFallbackImage(p.category);
       
       card.innerHTML = `
         <div class="product-image-container">
-          <img src="images/${p.image}" alt="${p.name}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBmMGYwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg=='">
+          <img src="images/${p.image}" alt="${p.name}" onerror="this.onerror=null;this.src='${fallbackSrc}';">
           ${categoryBadge}
         </div>
         <div class="product-info">

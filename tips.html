@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tips & Info - Beginner's Guide to Skin Care</title>
   <link rel="stylesheet" href="style.css"/>
+  <script src="https://unpkg.com/feather-icons"></script>
 </head>
 <body class="tips-page">
   <header>
@@ -22,14 +23,14 @@
   <main>
     <!-- Hero Section -->
     <div class="tips-hero">
-      <h2>✨ Your Complete Skincare Guide ✨</h2>
+  <h2><i data-feather="star" class="icon-inline" aria-hidden="true"></i> Your Complete Skincare Guide <i data-feather="star" class="icon-inline" aria-hidden="true"></i></h2>
       <p>Discover expert tips, routines, and secrets for healthy, glowing skin</p>
     </div>
 
     <!-- Search/Filter Section -->
     <div class="card search-card">
       <div class="search-container">
-        <input type="text" id="tipSearch" placeholder="🔍 Search for tips..." class="search-input">
+        <input type="text" id="tipSearch" placeholder="Search for tips..." class="search-input">
         <select id="categoryFilter" class="category-filter">
           <option value="all">All Categories</option>
           <option value="basics">Basics</option>
@@ -45,14 +46,14 @@
     <!-- Skin Care Basics Section -->
     <div class="tips-section" data-category="basics">
       <div class="section-header">
-        <h3>🌱 Skincare Basics</h3>
+        <h3><i data-feather="leaf" class="icon-inline"></i> Skincare Basics</h3>
         <p>Essential knowledge every skincare beginner needs</p>
       </div>
       <div class="tips-grid">
         <div class="tip-card animated-card">
           <div class="tip-image">
             <img src="images/skin-types.jpg" alt="Skin Types" onerror="this.style.display='none'">
-            <div class="tip-overlay">💡</div>
+            <div class="tip-overlay"><i data-feather="info"></i></div>
           </div>
           <div class="tip-content">
             <h4>Know Your Skin Type</h4>
@@ -67,7 +68,7 @@
         <div class="tip-card animated-card">
           <div class="tip-image">
             <img src="images/cleansing.jpg" alt="Proper Cleansing" onerror="this.style.display='none'">
-            <div class="tip-overlay">🧼</div>
+            <div class="tip-overlay"><i data-feather="droplet"></i></div>
           </div>
           <div class="tip-content">
             <h4>Gentle Cleansing</h4>
@@ -82,7 +83,7 @@
         <div class="tip-card animated-card">
           <div class="tip-image">
             <img src="images/moisturizing.jpg" alt="Moisturizing" onerror="this.style.display='none'">
-            <div class="tip-overlay">💧</div>
+            <div class="tip-overlay"><i data-feather="droplet"></i></div>
           </div>
           <div class="tip-content">
             <h4>Always Moisturize</h4>
@@ -97,7 +98,7 @@
         <div class="tip-card animated-card">
           <div class="tip-image">
             <img src="images/sunscreen.jpg" alt="Sunscreen Protection" onerror="this.style.display='none'">
-            <div class="tip-overlay">☀️</div>
+            <div class="tip-overlay"><i data-feather="sun"></i></div>
           </div>
           <div class="tip-content">
             <h4>Sunscreen is Non-Negotiable</h4>
@@ -114,13 +115,13 @@
     <!-- Daily Routine Section -->
     <div class="tips-section" data-category="routine">
       <div class="section-header">
-        <h3>🌅 Daily Skincare Routine</h3>
+        <h3><i data-feather="sunrise" class="icon-inline" aria-hidden="true"></i> Daily Skincare Routine</h3>
         <p>Step-by-step routines for morning and evening</p>
       </div>
       <div class="routine-container">
         <div class="routine-card morning-routine">
           <div class="routine-header">
-            <h4>🌅 Morning Routine</h4>
+            <h4><i data-feather="sun" class="icon-inline" aria-hidden="true"></i> Morning Routine</h4>
             <span class="routine-time">5-10 minutes</span>
           </div>
           <div class="routine-steps">
@@ -157,7 +158,7 @@
 
         <div class="routine-card evening-routine">
           <div class="routine-header">
-            <h4>🌙 Evening Routine</h4>
+            <h4><i data-feather="moon" class="icon-inline" aria-hidden="true"></i> Evening Routine</h4>
             <span class="routine-time">10-15 minutes</span>
           </div>
           <div class="routine-steps">
@@ -197,12 +198,12 @@
     <!-- Ingredients Section -->
     <div class="tips-section" data-category="ingredients">
       <div class="section-header">
-        <h3>🧪 Key Skincare Ingredients</h3>
+        <h3><i data-feather="flask" class="icon-inline" aria-hidden="true"></i> Key Skincare Ingredients</h3>
         <p>Understanding what's in your products</p>
       </div>
       <div class="ingredients-grid">
         <div class="ingredient-card">
-          <div class="ingredient-icon">🌿</div>
+          <div class="ingredient-icon"><i data-feather="leaf" aria-hidden="true"></i></div>
           <h4>Hyaluronic Acid</h4>
           <p>Holds 1000x its weight in water, perfect for hydration</p>
           <div class="ingredient-benefits">
@@ -212,7 +213,7 @@
         </div>
 
         <div class="ingredient-card">
-          <div class="ingredient-icon">🍊</div>
+          <div class="ingredient-icon"><i data-feather="sun" aria-hidden="true"></i></div>
           <h4>Vitamin C</h4>
           <p>Powerful antioxidant that brightens and protects</p>
           <div class="ingredient-benefits">
@@ -222,7 +223,7 @@
         </div>
 
         <div class="ingredient-card">
-          <div class="ingredient-icon">🌋</div>
+          <div class="ingredient-icon"><i data-feather="zap" aria-hidden="true"></i></div>
           <h4>Salicylic Acid</h4>
           <p>BHA that penetrates pores to clear acne</p>
           <div class="ingredient-benefits">
@@ -232,7 +233,7 @@
         </div>
 
         <div class="ingredient-card">
-          <div class="ingredient-icon">🌙</div>
+          <div class="ingredient-icon"><i data-feather="moon" aria-hidden="true"></i></div>
           <h4>Retinol</h4>
           <p>Gold standard for anti-aging and skin renewal</p>
           <div class="ingredient-benefits">
@@ -242,7 +243,7 @@
         </div>
 
         <div class="ingredient-card">
-          <div class="ingredient-icon">🌱</div>
+          <div class="ingredient-icon"><i data-feather="sunrise" aria-hidden="true"></i></div>
           <h4>Niacinamide</h4>
           <p>Reduces oil production and minimizes pores</p>
           <div class="ingredient-benefits">
@@ -252,7 +253,7 @@
         </div>
 
         <div class="ingredient-card">
-          <div class="ingredient-icon">🌿</div>
+          <div class="ingredient-icon"><i data-feather="shield" aria-hidden="true"></i></div>
           <h4>Ceramides</h4>
           <p>Strengthen skin barrier and lock in moisture</p>
           <div class="ingredient-benefits">
@@ -266,12 +267,12 @@
     <!-- Problem Solving Section -->
     <div class="tips-section" data-category="problems">
       <div class="section-header">
-        <h3>🎯 Common Skin Problems & Solutions</h3>
+        <h3><i data-feather="target" class="icon-inline" aria-hidden="true"></i> Common Skin Problems & Solutions</h3>
         <p>Targeted solutions for specific skin concerns</p>
       </div>
       <div class="problems-grid">
         <div class="problem-card">
-          <div class="problem-icon">🌋</div>
+          <div class="problem-icon"><i data-feather="zap" aria-hidden="true"></i></div>
           <h4>Acne & Breakouts</h4>
           <ul class="solution-list">
             <li>Use salicylic acid cleanser</li>
@@ -282,7 +283,7 @@
         </div>
 
         <div class="problem-card">
-          <div class="problem-icon">🏜️</div>
+          <div class="problem-icon"><i data-feather="airplay" aria-hidden="true"></i></div>
           <h4>Dry, Flaky Skin</h4>
           <ul class="solution-list">
             <li>Use gentle, hydrating cleanser</li>
@@ -293,7 +294,7 @@
         </div>
 
         <div class="problem-card">
-          <div class="problem-icon">✨</div>
+          <div class="problem-icon"><i data-feather="shine" aria-hidden="true"></i></div>
           <h4>Oily, Shiny Skin</h4>
           <ul class="solution-list">
             <li>Don't skip moisturizer</li>
@@ -304,7 +305,7 @@
         </div>
 
         <div class="problem-card">
-          <div class="problem-icon">🌹</div>
+          <div class="problem-icon"><i data-feather="heart" aria-hidden="true"></i></div>
           <h4>Sensitive, Irritated Skin</h4>
           <ul class="solution-list">
             <li>Use fragrance-free products</li>
@@ -319,14 +320,14 @@
     <!-- Lifestyle Tips Section -->
     <div class="tips-section" data-category="lifestyle">
       <div class="section-header">
-        <h3>💫 Lifestyle Tips for Better Skin</h3>
+        <h3><i data-feather="layers" class="icon-inline" aria-hidden="true"></i> Lifestyle Tips for Better Skin</h3>
         <p>Beyond skincare products - lifestyle factors that affect your skin</p>
       </div>
       <div class="lifestyle-tips">
         <div class="lifestyle-card">
           <div class="lifestyle-image">
             <img src="images/water.jpg" alt="Stay Hydrated" onerror="this.style.display='none'">
-            <div class="lifestyle-overlay">💧</div>
+            <div class="lifestyle-overlay"><i data-feather="droplet" aria-hidden="true"></i></div>
           </div>
           <div class="lifestyle-content">
             <h4>Stay Hydrated</h4>
@@ -337,7 +338,7 @@
         <div class="lifestyle-card">
           <div class="lifestyle-image">
             <img src="images/sleep.jpg" alt="Get Enough Sleep" onerror="this.style.display='none'">
-            <div class="lifestyle-overlay">😴</div>
+            <div class="lifestyle-overlay"><i data-feather="moon" aria-hidden="true"></i></div>
           </div>
           <div class="lifestyle-content">
             <h4>Get Quality Sleep</h4>
@@ -348,7 +349,7 @@
         <div class="lifestyle-card">
           <div class="lifestyle-image">
             <img src="images/diet.jpg" alt="Healthy Diet" onerror="this.style.display='none'">
-            <div class="lifestyle-overlay">🥗</div>
+            <div class="lifestyle-overlay"><i data-feather="heart" aria-hidden="true"></i></div>
           </div>
           <div class="lifestyle-content">
             <h4>Eat Skin-Healthy Foods</h4>
@@ -359,7 +360,7 @@
         <div class="lifestyle-card">
           <div class="lifestyle-image">
             <img src="images/stress.jpg" alt="Manage Stress" onerror="this.style.display='none'">
-            <div class="lifestyle-overlay">🧘</div>
+            <div class="lifestyle-overlay"><i data-feather="smile" aria-hidden="true"></i></div>
           </div>
           <div class="lifestyle-content">
             <h4>Manage Stress</h4>
@@ -372,30 +373,30 @@
     <!-- Seasonal Care Section -->
     <div class="tips-section" data-category="seasonal">
       <div class="section-header">
-        <h3>🌸 Seasonal Skincare Adjustments</h3>
+        <h3><i data-feather="calendar" class="icon-inline" aria-hidden="true"></i> Seasonal Skincare Adjustments</h3>
         <p>Adapt your routine to changing weather conditions</p>
       </div>
       <div class="seasonal-grid">
         <div class="season-card spring">
-          <div class="season-icon">🌸</div>
+          <div class="season-icon"><i data-feather="cloud-drizzle" aria-hidden="true"></i></div>
           <h4>Spring</h4>
           <p>Lighten up your routine, add gentle exfoliation, and prepare for increased sun exposure.</p>
         </div>
 
         <div class="season-card summer">
-          <div class="season-icon">☀️</div>
+          <div class="season-icon"><i data-feather="sun" aria-hidden="true"></i></div>
           <h4>Summer</h4>
           <p>Focus on sun protection, oil control, and lightweight, water-based products.</p>
         </div>
 
         <div class="season-card autumn">
-          <div class="season-icon">🍂</div>
+          <div class="season-icon"><i data-feather="feather" aria-hidden="true"></i></div>
           <h4>Autumn</h4>
           <p>Transition to richer moisturizers and repair summer sun damage.</p>
         </div>
 
         <div class="season-card winter">
-          <div class="season-icon">❄️</div>
+          <div class="season-icon"><i data-feather="cloud-snow" aria-hidden="true"></i></div>
           <h4>Winter</h4>
           <p>Intensify hydration, use gentle cleansers, and protect against harsh weather.</p>
         </div>
@@ -429,6 +430,7 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      if (window.feather) feather.replace();
       // Improved scroll animations with better timing
       const animatedElements = document.querySelectorAll('.tip-card, .ingredient-card, .problem-card, .lifestyle-card, .season-card, .quote-card, .routine-card');
       

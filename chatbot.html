@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Beginner's Guide to Skincare</title>
 
+  <script src="https://unpkg.com/feather-icons"></script>
+
   <!-- CSS inside HTML -->
   <style>
     body {
@@ -200,19 +202,21 @@
       let result = document.getElementById("result");
 
       if (!q1 || !q2) {
-        result.innerHTML = "⚠ Please answer all questions!";
+        result.innerHTML = '<i data-feather="alert-triangle" aria-hidden="true"></i> Please answer all questions!';
+        if (window.feather) feather.replace();
         result.style.color = "red";
         return;
       }
 
       if (q1.value === "Dry") {
-        result.innerHTML = "💧 Your skin type seems to be: <b>Dry</b>. Use hydrating products.";
+        result.innerHTML = '<i data-feather="droplet" aria-hidden="true"></i> Your skin type seems to be: <b>Dry</b>. Use hydrating products.';
       } else if (q1.value === "Oily" || q2.value === "Yes") {
-        result.innerHTML = "✨ Your skin type seems to be: <b>Oily/Acne-prone</b>. Use oil-free products.";
+        result.innerHTML = '<i data-feather="zap" aria-hidden="true"></i> Your skin type seems to be: <b>Oily/Acne-prone</b>. Use oil-free products.';
       } else {
-        result.innerHTML = "😊 Your skin type seems to be: <b>Normal</b>. Maintain a balanced routine.";
+        result.innerHTML = '<i data-feather="smile" aria-hidden="true"></i> Your skin type seems to be: <b>Normal</b>. Maintain a balanced routine.';
       }
 
+      if (window.feather) feather.replace();
       result.style.color = "green";
     }
 
@@ -225,15 +229,16 @@
       let result = document.getElementById("surveyResult");
 
       if (dryness === "often") {
-        result.innerHTML = "💧 Your skin seems <b>Dry</b>. Use a hydrating moisturizer.";
+        result.innerHTML = '<i data-feather="droplet" aria-hidden="true"></i> Your skin seems <b>Dry</b>. Use a hydrating moisturizer.';
       } else if (oiliness === "yes" || acne === "frequent") {
-        result.innerHTML = "✨ Your skin seems <b>Oily / Acne-prone</b>. Use oil-free products.";
+        result.innerHTML = '<i data-feather="zap" aria-hidden="true"></i> Your skin seems <b>Oily / Acne-prone</b>. Use oil-free products.';
       } else if (sun === "often") {
-        result.innerHTML = "☀ You spend time in the sun. Always use <b>sunscreen</b> daily!";
+        result.innerHTML = '<i data-feather="sun" aria-hidden="true"></i> You spend time in the sun. Always use <b>sunscreen</b> daily!';
       } else {
-        result.innerHTML = "😊 Your skin seems <b>Normal</b>. Maintain a balanced skincare routine.";
+        result.innerHTML = '<i data-feather="smile" aria-hidden="true"></i> Your skin seems <b>Normal</b>. Maintain a balanced skincare routine.';
       }
 
+      if (window.feather) feather.replace();
       result.style.color = "green";
     }
   </script>

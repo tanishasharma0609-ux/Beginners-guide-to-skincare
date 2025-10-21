@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Products | Beginner's Guide to Skin Care</title>
   <link rel="stylesheet" href="style.css"/>
+  <script src="https://unpkg.com/feather-icons"></script>
   
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -25,7 +26,7 @@
 
   <main>
     <div class="product-page-header card">
-      <h2>✨ Skincare Products Collection ✨</h2>
+  <h2><i data-feather="star" class="icon-inline" aria-hidden="true"></i> Skincare Products Collection <i data-feather="star" class="icon-inline" aria-hidden="true"></i></h2>
       <p class="header-subtitle">Discover professional-grade products for every skin type and concern</p>
       
       <div class="filter-controls">
@@ -92,6 +93,9 @@
   <script src="script.js"></script>
   
   <script>
+    // Initialize Feather icons
+    feather.replace();
+    
     // Animate cards on scroll
     const cards = document.querySelectorAll('.card');
     const observer = new IntersectionObserver(entries => {

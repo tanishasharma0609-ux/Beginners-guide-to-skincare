@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Survey Results - Beginner's Guide to Skin Care</title>
   <link rel="stylesheet" href="style.css"/>
+  <script src="https://unpkg.com/feather-icons"></script>
 </head>
 <body>
 <header>
@@ -23,7 +24,7 @@
   <!-- Results Header -->
   <div class="results-hero">
     <div class="results-header">
-      <h2>✨ Your Personalized Skincare Plan ✨</h2>
+  <h2><i data-feather="star" class="icon-inline" aria-hidden="true"></i> Your Personalized Skincare Plan <i data-feather="star" class="icon-inline" aria-hidden="true"></i></h2>
       <p class="results-subtitle">Hello, <span id="who">Guest</span>! Here's your custom skincare routine based on your skin analysis.</p>
     </div>
   </div>
@@ -31,7 +32,7 @@
   <!-- Skin Type Card -->
   <div class="card skin-type-card">
     <div class="skin-type-header">
-      <div class="skin-type-icon" id="skinTypeIcon">🌟</div>
+      <div class="skin-type-icon" id="skinTypeIcon"><i data-feather="star"></i></div>
       <div class="skin-type-info">
         <h3>Your Skin Type</h3>
         <h2 id="skinType">Unknown</h2>
@@ -42,14 +43,14 @@
 
   <!-- Personalized Recommendations -->
   <div class="card recommendations-card">
-    <h3>🎯 Your Personalized Recommendations</h3>
+    <h3><i data-feather="target" class="icon-inline"></i> Your Personalized Recommendations</h3>
     <div class="recommendations-grid">
       <div class="recommendation-section">
-        <h4>🌅 Morning Routine</h4>
+        <h4><i data-feather="sunrise" class="icon-inline"></i> Morning Routine</h4>
         <ul id="morningRoutine" class="routine-list"></ul>
       </div>
       <div class="recommendation-section">
-        <h4>🌙 Evening Routine</h4>
+        <h4><i data-feather="moon" class="icon-inline"></i> Evening Routine</h4>
         <ul id="eveningRoutine" class="routine-list"></ul>
       </div>
     </div>
@@ -57,13 +58,13 @@
 
   <!-- Key Tips -->
   <div class="card tips-card">
-    <h3>💡 Essential Tips for Your Skin</h3>
+    <h3><i data-feather="info" class="icon-inline"></i> Essential Tips for Your Skin</h3>
     <div class="tips-grid" id="keyTips"></div>
   </div>
 
   <!-- Product Recommendations -->
   <div class="card products-card">
-    <h3>🛍️ Recommended Products for You</h3>
+    <h3><i data-feather="shopping-bag" class="icon-inline"></i> Recommended Products for You</h3>
     <div class="recommended-products" id="recommendedProducts">
       <p>Loading your personalized product recommendations...</p>
     </div>
@@ -73,13 +74,13 @@
   <div class="card action-card">
     <div class="action-buttons">
       <button class="action-btn primary-btn" id="browseProductsBtn">
-        🛍️ Shop Recommended Products
+        <i data-feather="shopping-bag" class="button-icon"></i> Shop Recommended Products
       </button>
       <button class="action-btn secondary-btn" onclick="location.href='survey.html'">
-        🔄 Retake Survey
+        <i data-feather="refresh-ccw" class="button-icon"></i> Retake Survey
       </button>
       <button class="action-btn secondary-btn" onclick="location.href='tips.html'">
-        📚 Learn More Tips
+        <i data-feather="book-open" class="button-icon"></i> Learn More Tips
       </button>
     </div>
   </div>
@@ -92,6 +93,9 @@
 <script src="script.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
+    // Initialize Feather icons
+    if (window.feather) feather.replace();
+
     // Animate cards
     const cards = document.querySelectorAll('.card');
     const observer = new IntersectionObserver(entries => {
