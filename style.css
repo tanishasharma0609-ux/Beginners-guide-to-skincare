@@ -400,7 +400,6 @@ button:hover {
 
 /* ---------------- HERO SECTION ---------------- */
 .hero-section {
-  display: block; /* Change from flex to block to allow pseudo-element overlay */
   align-items: center; /* Center the image vertically */
   justify-content: center; /* Center the image horizontally */
   position: relative;
