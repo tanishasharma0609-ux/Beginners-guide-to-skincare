@@ -1,5 +1,6 @@
 /* Modern, professional font */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
 
 /* ---------------- BASE ---------------- */
 * {
@@ -12,12 +13,12 @@
 
 :root {
   /* Modernized, professional palette */
-  --pink: #6366f1; /* primary */
-  --pink-light: #eef2ff;
-  --pink-lighter: #f5f7ff;
-  --lavender: #8b5cf6; /* secondary */
-  --lavender-light: #ede9fe;
-  --lavender-lighter: #f5f3ff;
+  --pink: #ff69b4; /* primary */
+  --pink-light: #ffb6c1;
+  --pink-lighter: #fff0f5;
+  --lavender: #ffc0cb; /* secondary */
+  --lavender-light: #ffe4e1;
+  --lavender-lighter: #fff5f5;
   --text: #111827;
   --text-light: #6b7280;
   --white: #ffffff;
@@ -404,7 +405,10 @@ button:hover {
   border-radius: 20px;
   overflow: hidden;
   margin-bottom: 30px;
-  max-height: 400px;
+  height: 400px;
+  background-image: url('images/skincare.jpeg');
+  background-size: cover;
+  background-position: center;
 }
 
 .hero-image {
@@ -436,6 +440,35 @@ button:hover {
 .hero-section .hero-text p {
   font-size: 1.1rem;
   margin-bottom: 15px;
+}
+
+.hero-quote {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+  width: 80%;
+}
+
+.hero-quote p {
+  font-family: 'Dancing Script', cursive;
+  font-size: 3rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  animation: fadeInDown 1s ease-in-out;
+}
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ---------------- HERO TEXT SECTION ---------------- */
