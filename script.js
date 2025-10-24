@@ -310,6 +310,28 @@ async function getTipsForSkinType(skinType) {
   }
 }
 
+async function seedTips() {
+  const skinTypes = Object.keys(skinTypeData);
+  for (const skinType of skinTypes) {
+    const documentId = skinType === 'oily' ? 'oily' : skinType.toUpperCase();
+    const tips = skinTypeData[skinType].tips;
+
+    const docRef = db.collection('skin_tips').doc(documentId);
+    const docSnap = await docRef.get();
+
+    if (!docSnap.exists) {
+      if (tips && tips.length > 0) {
+        try {
+          await docRef.set({ tips: tips });
+          console.log(`Successfully seeded tips for ${documentId}`);
+        } catch (error) {
+          console.error(`Error seeding tips for ${documentId}:`, error);
+        }
+      }
+    }
+  }
+}
+
 async function renderResults() {
   const raw = localStorage.getItem('survey');
   if (!raw) return;
@@ -557,6 +579,7 @@ function applyFilter() {
 /* ---------------- INIT ---------------- */
 document.addEventListener('DOMContentLoaded', async () => {
   loadProfile();
+  await seedTips();
   renderResults();
 
   const saveButton = document.getElementById('savebutton');
