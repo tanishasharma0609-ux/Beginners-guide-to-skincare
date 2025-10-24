@@ -292,7 +292,25 @@ const skinTypeData = {
   }
 };
 
-function renderResults() {
+async function getTipsForSkinType(skinType) {
+  const documentId = skinType === 'oily' ? 'oily' : skinType.toUpperCase();
+
+  try {
+    const doc = await db.collection("skin_tips").doc(documentId).get();
+    if (doc.exists) {
+      const data = doc.data();
+      return data.tips || [];
+    } else {
+      console.error("No tips document found for skin type:", documentId);
+      return [];
+    }
+  } catch (err) {
+    console.error("Error fetching tips:", err);
+    return [];
+  }
+}
+
+async function renderResults() {
   const raw = localStorage.getItem('survey');
   if (!raw) return;
 
@@ -324,15 +342,20 @@ function renderResults() {
     eveningEl.innerHTML = skinData.evening.map(step => `<li>${step}</li>`).join('');
   }
 
-  // Update tips
+  // Update tips from Firebase
   const tipsEl = document.getElementById('keyTips');
   if (tipsEl) {
-    tipsEl.innerHTML = skinData.tips.map(tip => `
-      <div class="tip-card">
-        <i data-feather="info" class="tip-icon"></i>
-        <p>${tip}</p>
-      </div>
-    `).join('');
+    const tips = await getTipsForSkinType(skinType);
+    if (tips.length > 0) {
+        tipsEl.innerHTML = tips.map(tip => `
+          <div class="tip-card">
+            <i data-feather="info" class="tip-icon"></i>
+            <p>${tip}</p>
+          </div>
+        `).join('');
+    } else {
+        tipsEl.innerHTML = "<p>No tips available for your skin type at the moment.</p>";
+    }
   }
 
   // Update recommended products
@@ -354,6 +377,7 @@ function renderResults() {
   // Activate feather icons for injected HTML
   if (window.feather) feather.replace();
 }
+
 
 /* ---------------- DEFAULT PRODUCTS ---------------- */
 const defaultProducts = [
