@@ -1,6 +1,6 @@
 /* Modern, professional font */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
 /* ---------------- BASE ---------------- */
 * {
@@ -453,21 +453,21 @@ button:hover {
 }
 
 .hero-quote p {
-  font-family: 'Dancing Script', cursive;
+  font-family: 'Pacifico', cursive;
   font-size: 3rem;
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  animation: fadeInDown 1s ease-in-out;
+  animation: hero-quote-animation 1.5s ease-in-out;
 }
 
-@keyframes fadeInDown {
+@keyframes hero-quote-animation {
   0% {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateY(-50px) scale(0.8);
   }
   100% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
