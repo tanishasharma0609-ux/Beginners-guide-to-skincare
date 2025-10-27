@@ -293,6 +293,7 @@ const skinTypeData = {
 };
 
 async function getTipsForSkinType(skinType) {
+  console.log("getTipsForSkinType called with skinType:", skinType);
   let documentId = skinType.toUpperCase();
   if (skinType === 'acne-prone') {
     documentId = 'ACNE-PRONE';
@@ -301,11 +302,13 @@ async function getTipsForSkinType(skinType) {
   } else if (skinType === 'oily') {
     documentId = 'oily';
   }
+  console.log("Querying Firebase with documentId:", documentId);
 
   try {
     const doc = await db.collection("skin_tips").doc(documentId).get();
     if (doc.exists) {
       const data = doc.data();
+      console.log("Firebase document data:", data);
       return data.tips || [];
     } else {
       console.error("No tips document found for skin type:", documentId);
@@ -340,12 +343,17 @@ async function seedTips() {
 }
 
 async function renderResults() {
+  console.log("renderResults function called");
   const raw = localStorage.getItem('survey');
-  if (!raw) return;
+  if (!raw) {
+    console.log("No survey data found in localStorage");
+    return;
+  }
 
   const survey = JSON.parse(raw);
   const profile = JSON.parse(localStorage.getItem('profile') || "{}");
   const skinType = survey.skinType;
+  console.log("skinType from survey:", skinType);
   const skinData = skinTypeData[skinType] || skinTypeData.normal;
 
   // Update basic info
@@ -374,7 +382,9 @@ async function renderResults() {
   // Update tips from Firebase
   const tipsEl = document.getElementById('keyTips');
   if (tipsEl) {
+    console.log("'keyTips' element found");
     const tips = await getTipsForSkinType(skinType);
+    console.log("Tips received from getTipsForSkinType:", tips);
     if (tips.length > 0) {
         tipsEl.innerHTML = tips.map(tip => `
           <div class="tip-card">
@@ -382,13 +392,16 @@ async function renderResults() {
             <p>${tip}</p>
           </div>
         `).join('');
+        console.log("Tips HTML rendered");
     } else {
         tipsEl.innerHTML = "<p>No tips available for your skin type at the moment.</p>";
+        console.log("No tips available message rendered");
     }
     // Add the .visible class to the parent .tips-card element
     const tipsCard = document.querySelector('.tips-card');
     if (tipsCard) {
       tipsCard.classList.add('visible');
+      console.log("'.visible' class added to .tips-card");
     }
   }
 
