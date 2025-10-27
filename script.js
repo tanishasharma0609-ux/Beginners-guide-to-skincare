@@ -292,36 +292,48 @@ const skinTypeData = {
   }
 };
 
-import { query, where, getDocs, collection } from "firebase/firestore";
-
-async function loadTipsForSkinType(skinType) {
-  const tipsContainer = document.getElementById("tipsContainer");
-  tipsContainer.innerHTML = "Loading tips...";
+async function getTipsForSkinType(skinType) {
+  console.log("getTipsForSkinType called with skinType:", skinType);
+  let documentId;
+  switch (skinType) {
+    case 'acne-prone':
+      documentId = 'ACNE-PRONE';
+      break;
+    case 'combination':
+      documentId = 'COMBINATION';
+      break;
+    case 'dry':
+      documentId = 'DRY';
+      break;
+    case 'sensitive':
+      documentId = 'SENSITIVE';
+      break;
+    case 'normal':
+      documentId = 'NORMAL';
+      break;
+    case 'oily':
+      documentId = 'oily';
+      break;
+    default:
+      documentId = skinType.toUpperCase();
+  }
+  console.log("Querying Firebase with documentId:", documentId);
 
   try {
-    const q = query(collection(db, "tips"), where("skinType", "==", skinType));
-    const querySnapshot = await getDocs(q);
-
-    tipsContainer.innerHTML = "";
-
-    if (querySnapshot.empty) {
-      tipsContainer.innerHTML = "No tips for your skin type.";
-      return;
+    const doc = await db.collection("skin_tips").doc(documentId).get();
+    if (doc.exists) {
+      const data = doc.data();
+      console.log("Firebase document data:", data);
+      return data.tips || [];
+    } else {
+      console.error("No tips document found for skin type:", documentId);
+      return [];
     }
-
-    querySnapshot.forEach(doc => {
-      const tip = doc.data();
-      const card = document.createElement("div");
-      card.className = "tip-card";
-      card.innerHTML = `<h4>${tip.title}</h4><p>${tip.description}</p>`;
-      tipsContainer.appendChild(card);
-    });
   } catch (err) {
-    console.error(err);
-    tipsContainer.innerHTML = "Failed to load tips.";
+    console.error("Error fetching tips:", err);
+    return [];
   }
 }
-
 
 async function seedTips() {
   const skinTypes = Object.keys(skinTypeData);
