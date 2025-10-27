@@ -376,6 +376,8 @@ async function renderResults() {
   const skinEl = document.getElementById('skinType');
   const skinIconEl = document.getElementById('skinTypeIcon');
   const skinDescEl = document.getElementById('skinTypeDescription');
+  const skinTypeCard = document.querySelector('.skin-type-card');
+  console.log("skin-type-card element:", skinTypeCard);
 
   if (whoEl) whoEl.textContent = profile.name || 'Guest';
   if (skinEl) skinEl.textContent = skinData.name;
