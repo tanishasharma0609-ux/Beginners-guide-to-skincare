@@ -394,42 +394,7 @@ async function renderResults() {
     eveningEl.innerHTML = skinData.evening.map(step => `<li>${step}</li>`).join('');
   }
 
-  async function getTipsForSkinType(skinType) {
-  console.log("Requested skin type:", skinType);
 
-  const skinTypeMap = {
-    "oily": "oily",
-    "dry": "DRY",
-    "normal": "NORMAL",
-    "combination": "COMBINATION",
-    "sensitive": "SENSITIVE",
-    "acne-prone": "ACNE-PRONE",
-    "acne prone": "ACNE-PRONE",
-    "acne": "ACNE-PRONE"
-  };
-
-  const docId = skinTypeMap[skinType.toLowerCase()];
-  console.log("Mapped Firestore doc ID:", docId);
-
-  if (!docId) {
-    console.error("No Firestore mapping found for:", skinType);
-    return [];
-  }
-
-  try {
-    const doc = await db.collection("skin_tips").doc(docId).get();
-    if (!doc.exists) {
-      console.error("Document not found:", docId);
-      return [];
-    }
-    const data = doc.data();
-    console.log("Document data:", data);
-    return data.tips || [];
-  } catch (error) {
-    console.error("Error fetching tips:", error);
-    return [];
-  }
-}
 
 
   // Update recommended products
@@ -446,6 +411,27 @@ async function renderResults() {
       </div>
       <p class="product-note">These products are specifically recommended for ${skinData.name.toLowerCase()} skin.</p>
     `;
+  }
+
+  // Update key tips
+  const tipsEl = document.getElementById('keyTips');
+  if (tipsEl) {
+    const tips = await getTipsForSkinType(skinType);
+    if (tips.length > 0) {
+      tipsEl.innerHTML = tips.map(tip => `
+        <div class="tip-card visible">
+          <i data-feather="check-circle" class="tip-icon"></i>
+          <p>${tip}</p>
+        </div>
+      `).join('');
+    } else {
+      tipsEl.innerHTML = '<p>No tips available for your skin type.</p>';
+    }
+    // Make the parent card visible
+    const tipsCard = document.querySelector('.tips-card');
+    if (tipsCard) {
+      tipsCard.classList.add('visible');
+    }
   }
 
   // Activate feather icons for injected HTML
