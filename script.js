@@ -292,33 +292,33 @@ const skinTypeData = {
   }
 };
 
-async function getTipsForSkinType(skinType) {
-  if (!skinType) return [];
+import { query, where, getDocs, collection } from "firebase/firestore";
 
-  const normalizedType = skinType.trim().toUpperCase();
-  console.log("Fetching tips for:", normalizedType);
+async function loadTipsForSkinType(skinType) {
+  const tipsContainer = document.getElementById("tipsContainer");
+  tipsContainer.innerHTML = "Loading tips...";
 
   try {
-    const docRef = db.collection("skin_tips").doc(normalizedType);
-    const docSnap = await docRef.get();
+    const q = query(collection(db, "tips"), where("skinType", "==", skinType));
+    const querySnapshot = await getDocs(q);
 
-    if (docSnap.exists) {
-      const data = docSnap.data();
-      console.log("Firestore data:", data);
+    tipsContainer.innerHTML = "";
 
-      if (Array.isArray(data.tips)) {
-        return data.tips;
-      }
-      if (typeof data.tips === "string") {
-        return data.tips.split("\n").filter(t => t.trim() !== "");
-      }
+    if (querySnapshot.empty) {
+      tipsContainer.innerHTML = "No tips for your skin type.";
+      return;
     }
-    console.log("No tips found for:", normalizedType);
-    return [];
 
-  } catch (error) {
-    console.error("Error fetching skin tips:", error);
-    return [];
+    querySnapshot.forEach(doc => {
+      const tip = doc.data();
+      const card = document.createElement("div");
+      card.className = "tip-card";
+      card.innerHTML = `<h4>${tip.title}</h4><p>${tip.description}</p>`;
+      tipsContainer.appendChild(card);
+    });
+  } catch (err) {
+    console.error(err);
+    tipsContainer.innerHTML = "Failed to load tips.";
   }
 }
 
