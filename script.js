@@ -294,13 +294,28 @@ const skinTypeData = {
 
 async function getTipsForSkinType(skinType) {
   console.log("getTipsForSkinType called with skinType:", skinType);
-  let documentId = skinType.toUpperCase();
-  if (skinType === 'acne-prone') {
-    documentId = 'ACNE-PRONE';
-  } else if (skinType === 'combination') {
-    documentId = 'COMBINATION';
-  } else if (skinType === 'oily') {
-    documentId = 'oily';
+  let documentId;
+  switch (skinType) {
+    case 'acne-prone':
+      documentId = 'ACNE-PRONE';
+      break;
+    case 'combination':
+      documentId = 'COMBINATION';
+      break;
+    case 'dry':
+      documentId = 'DRY';
+      break;
+    case 'sensitive':
+      documentId = 'SENSITIVE';
+      break;
+    case 'normal':
+      documentId = 'NORMAL';
+      break;
+    case 'oily':
+      documentId = 'oily';
+      break;
+    default:
+      documentId = skinType.toUpperCase();
   }
   console.log("Querying Firebase with documentId:", documentId);
 
