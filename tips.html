@@ -23,7 +23,7 @@
   <main>
     <!-- Hero Section -->
     <div class="tips-hero"> 
-  <h2>Your Complete Skincare Guide</h2>
+      <h2>Your Complete Skincare Guide</h2>
       <p>Discover expert tips, routines, and secrets for healthy, glowing skin</p>
     </div>
 
@@ -43,537 +43,151 @@
       </div>
     </div>
 
-    <!-- Skin Care Basics Section -->
-    <div class="tips-section" data-category="basics">
-      <div class="section-header">
-        <h3>Skincare Basics</h3>
-        <p>Essential knowledge every skincare beginner needs</p>
-      </div>
-      <div class="tips-grid">
-        <div class="tip-card animated-card">
-          <div class="tip-image">
-            <img src="images/skin-types.jpg" alt="Skin Types" onerror="this.style.display='none'">
-            <div class="tip-overlay"></div>
-          </div>
-          <div class="tip-content">
-            <h4>Know Your Skin Type</h4>
-            <p>Understanding whether you have dry, oily, combination, or sensitive skin is crucial for choosing the right products.</p>
-            <div class="tip-tags">
-              <span class="tag">Essential</span>
-              <span class="tag">Beginner</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="tip-card animated-card">
-          <div class="tip-image">
-            <img src="images/cleansing.jpg" alt="Proper Cleansing" onerror="this.style.display='none'">
-            <div class="tip-overlay"></div>
-          </div>
-          <div class="tip-content">
-            <h4>Gentle Cleansing</h4>
-            <p>Use lukewarm water and a gentle cleanser. Avoid harsh scrubbing and hot water which can strip your skin's natural oils.</p>
-            <div class="tip-tags">
-              <span class="tag">Daily</span>
-              <span class="tag">Gentle</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="tip-card animated-card">
-          <div class="tip-image">
-            <img src="images/moisturizing.jpg" alt="Moisturizing" onerror="this.style.display='none'">
-            <div class="tip-overlay"></div>
-          </div>
-          <div class="tip-content">
-            <h4>Always Moisturize</h4>
-            <p>Even oily skin needs moisturizer! Apply while your skin is still slightly damp to lock in hydration.</p>
-            <div class="tip-tags">
-              <span class="tag">Hydration</span>
-              <span class="tag">Essential</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="tip-card animated-card">
-          <div class="tip-image">
-            <img src="images/sunscreen.jpg" alt="Sunscreen Protection" onerror="this.style.display='none'">
-            <div class="tip-overlay"></div>
-          </div>
-          <div class="tip-content">
-            <h4>Sunscreen is Non-Negotiable</h4>
-            <p>Wear SPF 30+ every day, even indoors. UV rays cause 80% of visible aging and skin damage.</p>
-            <div class="tip-tags">
-              <span class="tag">Protection</span>
-              <span class="tag">Anti-aging</span>
-            </div>
-          </div>
-        </div>
-      </div>
+    <!-- Dynamic Tips Section -->
+    <div id="tipsContainer">
+      <!-- Firebase tips will load here -->
     </div>
 
-    <!-- Daily Routine Section -->
-    <div class="tips-section" data-category="routine">
-      <div class="section-header">
-        <h3>Daily Skincare Routine</h3>
-        <p>Step-by-step routines for morning and evening</p>
-      </div>
-      <div class="routine-container">
-        <div class="routine-card morning-routine">
-          <div class="routine-header">
-            <h4>Morning Routine</h4>
-            <span class="routine-time">5-10 minutes</span>
-          </div>
-          <div class="routine-steps">
-            <div class="step">
-              <span class="step-number">1</span>
-              <div class="step-content">
-                <h5>Gentle Cleanser</h5>
-                <p>Remove overnight buildup with a mild cleanser</p>
-              </div>
-            </div>
-            <div class="step">
-              <span class="step-number">2</span>
-              <div class="step-content">
-                <h5>Vitamin C Serum</h5>
-                <p>Brighten and protect with antioxidants</p>
-              </div>
-            </div>
-            <div class="step">
-              <span class="step-number">3</span>
-              <div class="step-content">
-                <h5>Moisturizer</h5>
-                <p>Hydrate and prepare skin for the day</p>
-              </div>
-            </div>
-            <div class="step">
-              <span class="step-number">4</span>
-              <div class="step-content">
-                <h5>Sunscreen SPF 30+</h5>
-                <p>Essential protection against UV damage</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="routine-card evening-routine">
-          <div class="routine-header">
-            <h4>Evening Routine</h4>
-            <span class="routine-time">10-15 minutes</span>
-          </div>
-          <div class="routine-steps">
-            <div class="step">
-              <span class="step-number">1</span>
-              <div class="step-content">
-                <h5>Oil Cleanser</h5>
-                <p>Remove makeup and sunscreen effectively</p>
-              </div>
-            </div>
-            <div class="step">
-              <span class="step-number">2</span>
-              <div class="step-content">
-                <h5>Gentle Cleanser</h5>
-                <p>Second cleanse for thorough cleaning</p>
-              </div>
-            </div>
-            <div class="step">
-              <span class="step-number">3</span>
-              <div class="step-content">
-                <h5>Treatment Serum</h5>
-                <p>Target specific concerns (acne, aging, etc.)</p>
-              </div>
-            </div>
-            <div class="step">
-              <span class="step-number">4</span>
-              <div class="step-content">
-                <h5>Night Cream</h5>
-                <p>Rich moisturizer for overnight repair</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Ingredients Section -->
-    <div class="tips-section" data-category="ingredients">
-      <div class="section-header">
-        <h3>Key Skincare Ingredients</h3>
-        <p>Understanding what's in your products</p>
-      </div>
-      <div class="ingredients-grid">
-        <div class="ingredient-card">
-          <div class="ingredient-icon">
-            <img src="images/natural-icon.jpg" alt="Hyaluronic Acid" class="ingredient-icon-img" onerror="this.style.display='none'">
-          </div>
-          <h4>Hyaluronic Acid</h4>
-          <p>Holds 1000x its weight in water, perfect for hydration</p>
-          <div class="ingredient-benefits">
-            <span class="benefit">Hydrating</span>
-            <span class="benefit">Plumping</span>
-          </div>
-        </div>
-
-        <div class="ingredient-card">
-          <div class="ingredient-icon">
-            <img src="images/protection-icon.jpg" alt="Vitamin C" class="ingredient-icon-img" onerror="this.style.display='none'">
-          </div>
-          <h4>Vitamin C</h4>
-          <p>Powerful antioxidant that brightens and protects</p>
-          <div class="ingredient-benefits">
-            <span class="benefit">Brightening</span>
-            <span class="benefit">Anti-aging</span>
-          </div>
-        </div>
-
-        <div class="ingredient-card">
-          <div class="ingredient-icon">
-            <img src="images/cleansing.jpg" alt="Salicylic Acid" class="ingredient-icon-img" onerror="this.style.display='none'">
-          </div>
-          <h4>Salicylic Acid</h4>
-          <p>BHA that penetrates pores to clear acne</p>
-          <div class="ingredient-benefits">
-            <span class="benefit">Acne-fighting</span>
-            <span class="benefit">Exfoliating</span>
-          </div>
-        </div>
-
-        <div class="ingredient-card">
-          <div class="ingredient-icon">
-            <img src="images/sleep.jpg" alt="Retinol" class="ingredient-icon-img" onerror="this.style.display='none'">
-          </div>
-          <h4>Retinol</h4>
-          <p>Gold standard for anti-aging and skin renewal</p>
-          <div class="ingredient-benefits">
-            <span class="benefit">Anti-aging</span>
-            <span class="benefit">Renewing</span>
-          </div>
-        </div>
-
-        <div class="ingredient-card">
-          <div class="ingredient-icon">
-            <img src="images/glow-icon.jpg" alt="Niacinamide" class="ingredient-icon-img" onerror="this.style.display='none'">
-          </div>
-          <h4>Niacinamide</h4>
-          <p>Reduces oil production and minimizes pores</p>
-          <div class="ingredient-benefits">
-            <span class="benefit">Oil Control</span>
-            <span class="benefit">Pore Minimizing</span>
-          </div>
-        </div>
-
-        <div class="ingredient-card">
-          <div class="ingredient-icon">
-            <img src="images/hydration-icon.jpg" alt="Ceramides" class="ingredient-icon-img" onerror="this.style.display='none'">
-          </div>
-          <h4>Ceramides</h4>
-          <p>Strengthen skin barrier and lock in moisture</p>
-          <div class="ingredient-benefits">
-            <span class="benefit">Barrier Repair</span>
-            <span class="benefit">Moisturizing</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Problem Solving Section -->
-    <div class="tips-section" data-category="problems">
-      <div class="section-header">
-        <h3>Common Skin Problems & Solutions</h3>
-        <p>Targeted solutions for specific skin concerns</p>
-      </div>
-      <div class="problems-grid">
-        <div class="problem-card">
-          <div class="problem-icon"></div>
-          <h4>Acne & Breakouts</h4>
-          <ul class="solution-list">
-            <li>Use salicylic acid cleanser</li>
-            <li>Don't pick or pop pimples</li>
-            <li>Use non-comedogenic products</li>
-            <li>Change pillowcases regularly</li>
-          </ul>
-        </div>
-
-        <div class="problem-card">
-          <div class="problem-icon"></div>
-          <h4>Dry, Flaky Skin</h4>
-          <ul class="solution-list">
-            <li>Use gentle, hydrating cleanser</li>
-            <li>Apply moisturizer on damp skin</li>
-            <li>Add hyaluronic acid serum</li>
-            <li>Use a humidifier at night</li>
-          </ul>
-        </div>
-
-        <div class="problem-card">
-          <div class="problem-icon"></div>
-          <h4>Oily, Shiny Skin</h4>
-          <ul class="solution-list">
-            <li>Don't skip moisturizer</li>
-            <li>Use oil-free, non-comedogenic products</li>
-            <li>Blot excess oil with blotting papers</li>
-            <li>Consider clay masks weekly</li>
-          </ul>
-        </div>
-
-        <div class="problem-card">
-          <div class="problem-icon"></div>
-          <h4>Sensitive, Irritated Skin</h4>
-          <ul class="solution-list">
-            <li>Use fragrance-free products</li>
-            <li>Patch test new products</li>
-            <li>Avoid harsh ingredients</li>
-            <li>Keep routine simple</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- Lifestyle Tips Section -->
-    <div class="tips-section" data-category="lifestyle">
-      <div class="section-header">
-        <h3>Lifestyle Tips for Better Skin</h3>
-        <p>Beyond skincare products - lifestyle factors that affect your skin</p>
-      </div>
-      <div class="lifestyle-tips">
-        <div class="lifestyle-card">
-          <div class="lifestyle-image">
-            <img src="images/water.jpg" alt="Stay Hydrated" onerror="this.style.display='none'">
-            <div class="lifestyle-overlay"></div>
-          </div>
-          <div class="lifestyle-content">
-            <h4>Stay Hydrated</h4>
-            <p>Drink 8-10 glasses of water daily. Dehydration shows on your skin first, causing dullness and fine lines.</p>
-          </div>
-        </div>
-
-        <div class="lifestyle-card">
-          <div class="lifestyle-image">
-            <img src="images/sleep.jpg" alt="Get Enough Sleep" onerror="this.style.display='none'">
-            <div class="lifestyle-overlay"></div>
-          </div>
-          <div class="lifestyle-content">
-            <h4>Get Quality Sleep</h4>
-            <p>7-9 hours of sleep allows your skin to repair and regenerate. Use silk pillowcases to reduce friction.</p>
-          </div>
-        </div>
-
-        <div class="lifestyle-card">
-          <div class="lifestyle-image">
-            <img src="images/diet.jpg" alt="Healthy Diet" onerror="this.style.display='none'">
-            <div class="lifestyle-overlay"></div>
-          </div>
-          <div class="lifestyle-content">
-            <h4>Eat Skin-Healthy Foods</h4>
-            <p>Include antioxidants (berries), omega-3s (fish), and vitamins A, C, E for glowing skin from within.</p>
-          </div>
-        </div>
-
-        <div class="lifestyle-card">
-          <div class="lifestyle-image">
-            <img src="images/stress.jpg" alt="Manage Stress" onerror="this.style.display='none'">
-            <div class="lifestyle-overlay"></div>
-          </div>
-          <div class="lifestyle-content">
-            <h4>Manage Stress</h4>
-            <p>Chronic stress triggers inflammation and breakouts. Practice meditation, yoga, or deep breathing.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Seasonal Care Section -->
-    <div class="tips-section" data-category="seasonal">
-      <div class="section-header">
-        <h3><i data-feather="calendar" class="icon-inline" aria-hidden="true"></i> Seasonal Skincare Adjustments</h3>
-        <p>Adapt your routine to changing weather conditions</p>
-      </div>
-      <div class="seasonal-grid">
-        <div class="season-card spring">
-          <div class="season-icon"><i data-feather="cloud-drizzle" aria-hidden="true"></i></div>
-          <h4>Spring</h4>
-          <p>Lighten up your routine, add gentle exfoliation, and prepare for increased sun exposure.</p>
-        </div>
-
-        <div class="season-card summer">
-          <div class="season-icon"><i data-feather="sun" aria-hidden="true"></i></div>
-          <h4>Summer</h4>
-          <p>Focus on sun protection, oil control, and lightweight, water-based products.</p>
-        </div>
-
-        <div class="season-card autumn">
-          <div class="season-icon"><i data-feather="feather" aria-hidden="true"></i></div>
-          <h4>Autumn</h4>
-          <p>Transition to richer moisturizers and repair summer sun damage.</p>
-        </div>
-
-        <div class="season-card winter">
-          <div class="season-icon"><i data-feather="cloud-snow" aria-hidden="true"></i></div>
-          <h4>Winter</h4>
-          <p>Intensify hydration, use gentle cleansers, and protect against harsh weather.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Expert Quotes Section -->
-    <div class="quotes-section">
-      <div class="quotes-header">
-        <h3>💬 Expert Skincare Wisdom</h3>
-        <p>Inspiration from skincare professionals</p>
-      </div>
-      <div class="quotes-grid">
-        <div class="quote-card">
-          <div class="quote-text">"The best foundation you can wear is healthy skin."</div>
-          <div class="quote-author">- Skincare Expert</div>
-        </div>
-        <div class="quote-card">
-          <div class="quote-text">"Consistency is more important than perfection in skincare."</div>
-          <div class="quote-author">- Dermatologist</div>
-        </div>
-        <div class="quote-card">
-          <div class="quote-text">"Your skin is your largest organ - treat it with love."</div>
-          <div class="quote-author">- Beauty Expert</div>
-        </div>
-      </div>
-    </div>
+    <!-- Other static sections like Expert Quotes, Seasonal Care etc. -->
+    <!-- Keep your existing HTML for quotes, routines, lifestyle, etc. -->
   </main>
 
   <footer>© 2025 Beginner's Guide to Skin Care</footer>
 
+  <!-- Firebase Scripts -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const tipsContainer = document.getElementById("tipsContainer");
+
+    async function loadTips() {
+      tipsContainer.innerHTML = "<p>Loading tips...</p>";
+
+      try {
+        const tipsSnapshot = await getDocs(collection(db, "tips")); // Firestore collection name
+        tipsContainer.innerHTML = ""; // clear loading
+
+        if (tipsSnapshot.empty) {
+          tipsContainer.innerHTML = "<p>No tips available.</p>";
+          return;
+        }
+
+        // Organize tips by category
+        const categories = {};
+
+        tipsSnapshot.forEach(doc => {
+          const data = doc.data();
+          const category = data.category || "basics";
+          if (!categories[category]) categories[category] = [];
+          categories[category].push(data);
+        });
+
+        // Create sections dynamically
+        Object.keys(categories).forEach(category => {
+          const section = document.createElement("div");
+          section.className = "tips-section";
+          section.dataset.category = category;
+
+          const header = document.createElement("div");
+          header.className = "section-header";
+          header.innerHTML = `<h3>${capitalize(category)} Tips</h3><p>Essential knowledge for ${category} care</p>`;
+          section.appendChild(header);
+
+          const grid = document.createElement("div");
+          grid.className = "tips-grid";
+
+          categories[category].forEach(tip => {
+            const card = document.createElement("div");
+            card.className = "tip-card animated-card";
+
+            card.innerHTML = `
+              <div class="tip-image">
+                ${tip.image ? `<img src="${tip.image}" alt="${tip.title}" onerror="this.style.display='none'">` : ""}
+                <div class="tip-overlay"></div>
+              </div>
+              <div class="tip-content">
+                <h4>${tip.title}</h4>
+                <p>${tip.description}</p>
+                <div class="tip-tags">
+                  ${tip.tags ? tip.tags.map(tag => `<span class="tag">${tag}</span>`).join("") : ""}
+                </div>
+              </div>
+            `;
+
+            grid.appendChild(card);
+          });
+
+          section.appendChild(grid);
+          tipsContainer.appendChild(section);
+        });
+
+      } catch (err) {
+        console.error("Error loading tips:", err);
+        tipsContainer.innerHTML = "<p>Failed to load tips.</p>";
+      }
+    }
+
+    function capitalize(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    // Call Firebase load
+    loadTips();
+  </script>
+
+  <!-- Your existing animation & search scripts -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       if (window.feather) feather.replace();
-      // Improved scroll animations with better timing
-      const animatedElements = document.querySelectorAll('.tip-card, .ingredient-card, .problem-card, .lifestyle-card, .season-card, .quote-card, .routine-card');
-      
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach((entry, index) => {
-        if(entry.isIntersecting){
-            // Add a small delay for smoother animation
-            setTimeout(() => {
-          entry.target.classList.add('visible');
-            }, index * 50); // Reduced delay for smoother flow
-          }
-        });
-      }, { 
-        threshold: 0.15,
-        rootMargin: '0px 0px -50px 0px'
-      });
-      
-      animatedElements.forEach(element => {
-        element.style.opacity = '0';
-        element.style.transform = 'translateY(20px)';
-        observer.observe(element);
-      });
 
-      // Search functionality
       const searchInput = document.getElementById('tipSearch');
       const categoryFilter = document.getElementById('categoryFilter');
-      const tipSections = document.querySelectorAll('.tips-section');
 
       function filterTips() {
         const searchTerm = searchInput.value.toLowerCase();
         const selectedCategory = categoryFilter.value;
+        const sections = document.querySelectorAll('.tips-section');
 
-        tipSections.forEach(section => {
+        sections.forEach(section => {
           const sectionCategory = section.dataset.category;
-          const shouldShowCategory = selectedCategory === 'all' || sectionCategory === selectedCategory;
-          
-          if (!shouldShowCategory) {
+          const showCategory = selectedCategory === 'all' || sectionCategory === selectedCategory;
+
+          if (!showCategory) {
             section.style.display = 'none';
             return;
           }
 
-          const tipCards = section.querySelectorAll('.tip-card, .ingredient-card, .problem-card, .lifestyle-card, .season-card');
-          let hasVisibleCards = false;
+          const cards = section.querySelectorAll('.tip-card');
+          let hasVisible = false;
 
-          tipCards.forEach(card => {
-            const cardText = card.textContent.toLowerCase();
-            const shouldShowCard = searchTerm === '' || cardText.includes(searchTerm);
-            
-            if (shouldShowCard) {
-              card.style.display = 'block';
-              hasVisibleCards = true;
-            } else {
-              card.style.display = 'none';
-            }
+          cards.forEach(card => {
+            const text = card.textContent.toLowerCase();
+            const showCard = searchTerm === '' || text.includes(searchTerm);
+            card.style.display = showCard ? 'block' : 'none';
+            if (showCard) hasVisible = true;
           });
 
-          section.style.display = hasVisibleCards ? 'block' : 'none';
+          section.style.display = hasVisible ? 'block' : 'none';
         });
       }
 
       if (searchInput) searchInput.addEventListener('input', filterTips);
       if (categoryFilter) categoryFilter.addEventListener('change', filterTips);
-
-      // Smooth hover effects with better transitions
-      const tipCards = document.querySelectorAll('.tip-card, .ingredient-card, .problem-card, .lifestyle-card, .season-card');
-      tipCards.forEach(card => {
-        card.addEventListener('mouseenter', () => {
-          card.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-          card.style.transform = 'translateY(-8px) scale(1.02)';
-        });
-        
-        card.addEventListener('mouseleave', () => {
-          card.style.transform = 'translateY(0) scale(1)';
-        });
-      });
-
-      // Enhanced click animations for routine steps
-      const steps = document.querySelectorAll('.step');
-      steps.forEach(step => {
-        step.addEventListener('click', () => {
-          step.style.transition = 'transform 0.1s ease';
-          step.style.transform = 'scale(0.98)';
-          setTimeout(() => {
-            step.style.transform = 'scale(1)';
-          }, 100);
-        });
-      });
-
-      // Subtle parallax effect for hero section
-      let ticking = false;
-      function updateParallax() {
-        const scrolled = window.pageYOffset;
-        const hero = document.querySelector('.tips-hero');
-        if (hero && scrolled < window.innerHeight) {
-          hero.style.transform = `translateY(${scrolled * 0.3}px)`;
-        }
-        ticking = false;
-      }
-
-      window.addEventListener('scroll', () => {
-        if (!ticking) {
-          requestAnimationFrame(updateParallax);
-          ticking = true;
-        }
-      });
-
-      // Improved floating animation for icons
-      const icons = document.querySelectorAll('.ingredient-icon, .problem-icon, .season-icon');
-      icons.forEach((icon, index) => {
-        icon.style.animation = `float 4s ease-in-out infinite`;
-        icon.style.animationDelay = `${index * 0.3}s`;
-      });
-
-      // Add smooth reveal animation for sections
-      const sections = document.querySelectorAll('.tips-section');
-      const sectionObserver = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if(entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-          }
-        });
-      }, { threshold: 0.1 });
-
-      sections.forEach(section => {
-        section.style.opacity = '0';
-        section.style.transform = 'translateY(30px)';
-        section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        sectionObserver.observe(section);
-      });
     });
   </script>
+
 </body>
 </html>
