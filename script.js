@@ -293,47 +293,35 @@ const skinTypeData = {
 };
 
 async function getTipsForSkinType(skinType) {
-  console.log("getTipsForSkinType called with skinType:", skinType);
-  let documentId;
-  switch (skinType) {
-    case 'acne-prone':
-      documentId = 'ACNE-PRONE';
-      break;
-    case 'combination':
-      documentId = 'COMBINATION';
-      break;
-    case 'dry':
-      documentId = 'DRY';
-      break;
-    case 'sensitive':
-      documentId = 'SENSITIVE';
-      break;
-    case 'normal':
-      documentId = 'NORMAL';
-      break;
-    case 'oily':
-      documentId = 'oily';
-      break;
-    default:
-      documentId = skinType.toUpperCase();
-  }
-  console.log("Querying Firebase with documentId:", documentId);
+  if (!skinType) return [];
+
+  const normalizedType = skinType.trim().toUpperCase();
+  console.log("Fetching tips for:", normalizedType);
 
   try {
-    const doc = await db.collection("skin_tips").doc(documentId).get();
-    if (doc.exists) {
-      const data = doc.data();
-      console.log("Firebase document data:", data);
-      return data.tips || [];
-    } else {
-      console.error("No tips document found for skin type:", documentId);
-      return [];
+    const docRef = db.collection("skin_tips").doc(normalizedType);
+    const docSnap = await docRef.get();
+
+    if (docSnap.exists) {
+      const data = docSnap.data();
+      console.log("Firestore data:", data);
+
+      if (Array.isArray(data.tips)) {
+        return data.tips;
+      }
+      if (typeof data.tips === "string") {
+        return data.tips.split("\n").filter(t => t.trim() !== "");
+      }
     }
-  } catch (err) {
-    console.error("Error fetching tips:", err);
+    console.log("No tips found for:", normalizedType);
+    return [];
+
+  } catch (error) {
+    console.error("Error fetching skin tips:", error);
     return [];
   }
 }
+
 
 async function seedTips() {
   const skinTypes = Object.keys(skinTypeData);
