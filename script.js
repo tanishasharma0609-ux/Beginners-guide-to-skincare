@@ -400,6 +400,42 @@ async function renderResults() {
   if (window.feather) feather.replace();
 }
 
+async function loadEssentialTips() {
+  const container = document.getElementById('essential-tips');
+  if (!container) return;
+
+  container.innerHTML = "<p>Loading tips...</p>";
+
+  try {
+    const snapshot = await db.collection("skin_tips").get();
+    container.innerHTML = "";
+    snapshot.forEach(doc => {
+      const skinType = doc.id;
+      const tips = doc.data().tips;
+      if (tips && tips.length > 0) {
+        const section = document.createElement('div');
+        section.classList.add('tip-section');
+        section.innerHTML = `
+          <h4>${skinType.charAt(0).toUpperCase() + skinType.slice(1).toLowerCase()} Skin</h4>
+          <div class="tips-grid">
+            ${tips.map(tip => `
+              <div class="tip-card">
+                <i data-feather="info" class="tip-icon"></i>
+                <p>${tip}</p>
+              </div>
+            `).join('')}
+          </div>
+        `;
+        container.appendChild(section);
+      }
+    });
+    if (window.feather) feather.replace();
+  } catch (err) {
+    console.error("Error loading essential tips:", err);
+    container.innerHTML = `<p style="color:red;">Error loading tips.</p>`;
+  }
+}
+
 
 /* ---------------- DEFAULT PRODUCTS ---------------- */
 const defaultProducts = [
@@ -581,6 +617,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   loadProfile();
   await seedTips();
   renderResults();
+  if (window.location.pathname.includes('tips.html')) {
+    loadEssentialTips();
+  }
 
   const saveButton = document.getElementById('savebutton');
   if (saveButton) saveButton.addEventListener('click', () => {
