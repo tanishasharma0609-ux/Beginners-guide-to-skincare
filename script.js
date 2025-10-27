@@ -385,6 +385,11 @@ async function renderResults() {
     } else {
         tipsEl.innerHTML = "<p>No tips available for your skin type at the moment.</p>";
     }
+    // Add the .visible class to the parent .tips-card element
+    const tipsCard = document.querySelector('.tips-card');
+    if (tipsCard) {
+      tipsCard.classList.add('visible');
+    }
   }
 
   // Update recommended products
