@@ -451,22 +451,7 @@ async function renderResults() {
 async function initProducts() {
   const snapshot = await db.collection("Products").get();
   if (snapshot.empty) {
-    for (const p of defaultProducts) {
-      await db.collection("Products").add(p);
-    }
-  } else {
-    // Check if we have all default products, add missing ones
-    const existingNames = new Set();
-    snapshot.forEach(doc => {
-      const data = doc.data();
-      existingNames.add(data.name);
-    });
-    
-    for (const p of defaultProducts) {
-      if (!existingNames.has(p.name)) {
-        await db.collection("Products").add(p);
-      }
-    }
+    // The collection is empty, so we can't do anything.
   }
 }
 
