@@ -381,7 +381,7 @@ async function renderResults() {
       <div class="skin-type-summary">
         <div class="skin-type-icon"><i data-feather="${skinData.icon}"></i></div>
         <div class="skin-type-details">
-          <h4>${skinData.name}</h4>
+          <h2>${skinData.name}</h2>
           <p>${skinData.description}</p>
         </div>
       </div>
