@@ -620,7 +620,7 @@ function applyFilter() {
 document.addEventListener('DOMContentLoaded', async () => {
   loadProfile();
   await seedTips();
-  renderResults();
+
 
   const saveButton = document.getElementById('savebutton');
   if (saveButton) saveButton.addEventListener('click', () => {
