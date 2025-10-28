@@ -1,3 +1,4 @@
+Google One subscription will be canceled … Update your payment method by Nov 2, 2025 to renew your storage subscription
 /* Modern, professional font */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
@@ -1138,6 +1139,44 @@ footer {
   z-index: 1;
 }
 
+/* ---------------- TIP CARD IMAGE FIXES ---------------- */
+/* Ensure tip images render consistently as a vertical image strip
+   (covering the area, keeping aspect ratio and not overflowing). */
+.tip-image {
+  width: 68px; /* narrow vertical strip like the design */
+  height: 140px; /* default visual height for the image strip */
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+}
+
+.tip-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* preserve aspect ratio and fill container */
+  display: block;
+}
+
+.tip-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.02), rgba(0,0,0,0.06));
+}
+
+/* Slightly larger image on larger screens */
+@media (min-width: 1000px) {
+  .tip-image { width: 84px; height: 160px; }
+}
+
+/* Stack image above content on very narrow screens for better flow */
+@media (max-width: 480px) {
+  .tip-card { flex-direction: column; align-items: stretch; }
+  .tip-image { width: 100%; height: 180px; border-radius: 12px; }
+}
+
 /* Search and Filter */
 .search-card {
   margin-bottom: 40px;
@@ -1252,19 +1291,10 @@ footer {
 
 .tip-overlay {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 3rem;
-  background: rgba(255,255,255,0.9);
-  border-radius: 50%;
-  width: 80px;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.02), rgba(0,0,0,0.08));
   opacity: 0;
-  transition: all 0.3s ease;
+  transition: opacity 0.3s ease;
 }
 
 .tip-card:hover .tip-overlay {
@@ -1300,6 +1330,54 @@ footer {
   border-radius: 15px;
   font-size: 0.9rem;
   font-weight: 500;
+}
+
+/* ---------------- SKINCARE BASICS: square image above text ---------------- */
+/* Scoped rules so only the 'basics' tips section is affected */
+.tips-section[data-category="basics"] .tip-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 24px 20px;
+  gap: 6px;
+}
+
+.tips-section[data-category="basics"] .tip-image {
+  /* Larger, more prominent square using clamp: min 110px, preferred relative size, max 220px */
+  width: clamp(110px, 18vw, 220px) !important;
+  height: clamp(110px, 18vw, 220px) !important;
+  margin: 12px auto 20px auto;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 14px 36px rgba(2,6,23,0.08);
+  background: var(--lavender-lighter);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.tips-section[data-category="basics"] .tip-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.tips-section[data-category="basics"] .tip-content {
+  padding: 8px 6px 16px 6px;
+}
+
+/* Hover effect: gentle scale on the photo box to add polish */
+.tips-section[data-category="basics"] .tip-card:hover .tip-image {
+  transform: translateY(-6px) scale(1.04);
+  box-shadow: 0 22px 50px rgba(2,6,23,0.11);
+}
+
+@media (max-width: 900px) {
+  .tips-section[data-category="basics"] .tip-card { padding: 18px 14px; }
+}
+
+@media (max-width: 600px) {
+  .tips-section[data-category="basics"] .tip-image { width: 96px !important; height: 96px !important; border-radius: 12px; }
 }
 
 /* Routine Cards */
@@ -1423,8 +1501,21 @@ footer {
 }
 
 .ingredient-icon {
-  font-size: 3rem;
+  /* image container for ingredient cards */
+  width: 100%;
+  height: 160px;
   margin-bottom: 15px;
+  display: block;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.04);
+  background: var(--lavender-lighter);
+}
+
+.ingredient-icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* fill container while preserving aspect ratio */
   display: block;
 }
 
@@ -1531,6 +1622,11 @@ footer {
   overflow: hidden;
   box-shadow: 0 8px 30px rgba(0,0,0,0.1);
   transition: all 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 24px 20px;
 }
 
 .lifestyle-card:hover {
@@ -1540,15 +1636,21 @@ footer {
 
 .lifestyle-image {
   position: relative;
-  height: 200px;
+  width: clamp(110px, 18vw, 220px);
+  height: clamp(110px, 18vw, 220px);
+  margin: 12px auto 20px auto;
+  border-radius: 16px;
   overflow: hidden;
+  box-shadow: 0 14px 36px rgba(2,6,23,0.08);
+  background: var(--lavender-lighter);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
 .lifestyle-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s ease;
+  display: block;
 }
 
 .lifestyle-card:hover .lifestyle-image img {
@@ -1557,19 +1659,10 @@ footer {
 
 .lifestyle-overlay {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 3rem;
-  background: rgba(255,255,255,0.9);
-  border-radius: 50%;
-  width: 80px;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.02), rgba(0,0,0,0.08));
   opacity: 0;
-  transition: all 0.3s ease;
+  transition: opacity 0.3s ease;
 }
 
 .lifestyle-card:hover .lifestyle-overlay {
@@ -1577,7 +1670,7 @@ footer {
 }
 
 .lifestyle-content {
-  padding: 25px;
+  padding: 8px 6px 16px 6px;
 }
 
 .lifestyle-content h4 {
@@ -1589,6 +1682,11 @@ footer {
 .lifestyle-content p {
   color: var(--text-light);
   line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .lifestyle-card { padding: 18px 14px; }
+  .lifestyle-image { width: 96px; height: 96px; border-radius: 12px; }
 }
 
 /* Seasonal Grid */
