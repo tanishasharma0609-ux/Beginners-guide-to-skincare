@@ -380,7 +380,7 @@ async function renderResults() {
   console.log("skin-type-card element:", skinTypeCard);
 
   if (whoEl) whoEl.textContent = profile.name || 'Guest';
-  if (skinEl) skinEl.textContent = skinData.name;
+  if (skinEl) skinEl.textContent = `Your skin type is ${skinData.name}`;
   if (skinIconEl) skinIconEl.innerHTML = `<i data-feather="${skinData.icon}"></i>`;
   if (skinDescEl) skinDescEl.textContent = skinData.description;
 
