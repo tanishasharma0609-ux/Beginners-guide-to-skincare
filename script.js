@@ -465,9 +465,9 @@ const defaultProducts = [
   { name: "Supergoop! Unseen Sunscreen SPF 40", description: "Invisible, weightless sunscreen", price: 3499, types: ["all","oily","combination","normal"], image: "supergoop-unseen.jpg", brand: "Supergoop!", category: "sunscreen" },
 
   // SERUMS & TREATMENTS
-  { name: "The Ordinary Hyaluronic Acid 2% + B5", description: "Hydrating serum with hyaluronic acid", price: 699, types: ["all","dry","normal","sensitive"], image: "ordinary-ha-serum.jpg", brand: "The Ordinary", category: "serum" },
-  { name: "The Ordinary Niacinamide 10% + Zinc 1%", description: "Oil control and pore-minimizing serum", price: 699, types: ["oily","acne-prone","combination"], image: "ordinary-niacinamide.jpg", brand: "The Ordinary", category: "serum" },
-  { name: "The Ordinary Vitamin C Suspension 23% + HA Spheres 2%", description: "High-potency vitamin C serum", price: 899, types: ["all","normal","dry","combination"], image: "ordinary-vitamin-c.jpg", brand: "The Ordinary", category: "serum" },
+  { name: "The Ordinary Hyaluronic Acid 2% + B5", description: "Hydrating serum with hyaluronic acid", price: 699, types: ["all","dry","normal","sensitive"], image: "Natural Moisturizing Factors + HA - The Ordinary _ Sephora.jpeg", brand: "The Ordinary", category: "serum" },
+  { name: "The Ordinary Niacinamide 10% + Zinc 1%", description: "Oil control and pore-minimizing serum", price: 699, types: ["oily","acne-prone","combination"], image: "The Ordinary Niacinamide 10% + Zinc 1%.jpeg", brand: "The Ordinary", category: "serum" },
+  { name: "The Ordinary Vitamin C Suspension 23% + HA Spheres 2%", description: "High-potency vitamin C serum", price: 899, types: ["all","normal","dry","combination"], image: "The Ordinary Vitamin C Suspension 23% + HA Spheres 2% available at #Nordstrom.jpeg", brand: "The Ordinary", category: "serum" },
   { name: "Paula's Choice 10% Azelaic Acid Booster", description: "Anti-inflammatory treatment for acne and rosacea", price: 3299, types: ["acne-prone","sensitive","combination"], image: "paula-choice-azelaic.jpg", brand: "Paula's Choice", category: "treatment" },
   { name: "The Ordinary Retinol 0.5% in Squalane", description: "Anti-aging retinol treatment", price: 999, types: ["all","normal","dry","combination"], image: "ordinary-retinol.jpg", brand: "The Ordinary", category: "treatment" },
 
@@ -479,7 +479,7 @@ const defaultProducts = [
 
   // EYE CARE
   { name: "CeraVe Eye Repair Cream", description: "Hydrating eye cream with ceramides", price: 1899, types: ["all","dry","normal","sensitive"], image: "cerave-eye-cream.jpg", brand: "CeraVe", category: "eye-care" },
-  { name: "The Ordinary Caffeine Solution 5% + EGCG", description: "Eye serum for puffiness and dark circles", price: 699, types: ["all","normal","dry","sensitive"], image: "ordinary-caffeine-serum.jpg", brand: "The Ordinary", category: "eye-care" },
+  { name: "The Ordinary Caffeine Solution 5% + EGCG", description: "Eye serum for puffiness and dark circles", price: 699, types: ["all","normal","dry","sensitive"], image: "The Ordinary Caffeine Solution 5% + EGCG Depuffing Eye Serum _ Nordstrom.jpeg", brand: "The Ordinary", category: "eye-care" },
 
   // MASKS & TREATMENTS
   { name: "The Ordinary AHA 30% + BHA 2% Peeling Solution", description: "Weekly exfoliating mask", price: 999, types: ["all","normal","oily","combination"], image: "ordinary-peeling-mask.jpg", brand: "The Ordinary", category: "mask" },
