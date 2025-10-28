@@ -373,16 +373,20 @@ async function renderResults() {
 
   // Update basic info
   const whoEl = document.getElementById('who');
-  const skinEl = document.getElementById('skinType');
-  const skinIconEl = document.getElementById('skinTypeIcon');
-  const skinDescEl = document.getElementById('skinTypeDescription');
-  const skinTypeCard = document.querySelector('.skin-type-card');
-  console.log("skin-type-card element:", skinTypeCard);
+  const skinTypeResultsEl = document.getElementById('skinTypeResults');
 
   if (whoEl) whoEl.textContent = profile.name || 'Guest';
-  if (skinEl) skinEl.textContent = `Your skin type is ${skinData.name}`;
-  if (skinIconEl) skinIconEl.innerHTML = `<i data-feather="${skinData.icon}"></i>`;
-  if (skinDescEl) skinDescEl.textContent = skinData.description;
+  if (skinTypeResultsEl) {
+    skinTypeResultsEl.innerHTML = `
+      <div class="skin-type-summary">
+        <div class="skin-type-icon"><i data-feather="${skinData.icon}"></i></div>
+        <div class="skin-type-details">
+          <h4>${skinData.name}</h4>
+          <p>${skinData.description}</p>
+        </div>
+      </div>
+    `;
+  }
 
   // Update morning routine
   const morningEl = document.getElementById('morningRoutine');
